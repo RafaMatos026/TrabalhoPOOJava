@@ -19,5 +19,5 @@ The `JAVA PROJECTS` view allows you to manage your dependencies. More details ca
 
 
 //TODO
-Adaptar os menus iniciais para estar de acordo com o novo tema;
-Implementar todas as funcionalidades do gestor;
+Adaptar os menus iniciais para estar de acordo com o novo tema; // FEITO
+Implementar todas as funcionalidades do gestor; // FEITO
