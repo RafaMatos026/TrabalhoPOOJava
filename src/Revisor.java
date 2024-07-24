@@ -2,28 +2,34 @@ public class Revisor extends Utilizador{
     private String Telefone;
     private String NIF;
     private String Morada;
+    private String formacaoAcademica;
 
-    public Revisor(String _Login, String _Email, String _Nome, String _Password, Boolean _Estado, TipoUtilizador _TipoUtilizador, String _Telefone, String _NIF, String _Morada) {
-        super(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
+    public Revisor(String _Login, String _Email, String _Nome, String _Password, TipoUtilizador _TipoUtilizador, int _Estado, String _Telefone, String _NIF, String _Morada, String _formacaoAcademica) {
+        super(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado);
         this.Telefone = _Telefone;
         this.NIF = _NIF;
         this.Morada = _Morada;
+        this.formacaoAcademica = _formacaoAcademica;
+    }
+
+    public String getFormacaoAcademica() {
+        return this.formacaoAcademica;
     }
 
     public String getTelefone() {
-        return Telefone;
+        return this.Telefone;
     }
 
     public String getNIF() {
-        return NIF;
+        return this.NIF;
     }
 
     public String getMorada() {
-        return Morada;
+        return this.Morada;
     }
 
     public void setTelefone(String telefone) {
-        Telefone = telefone;
+        this.Telefone = telefone;
     }
 
     public void setNIF(String NIF) {
@@ -31,6 +37,6 @@ public class Revisor extends Utilizador{
     }
 
     public void setMorada(String morada) {
-        Morada = morada;
+        this.Morada = morada;
     }
 }

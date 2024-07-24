@@ -5,10 +5,10 @@ import java.util.Scanner;
 public class App {
     public Utilizador UtilizadorAtual = null;
     public TipoUtilizador tipoUtilizadorAtual = null;
-    public Integer Opcao;
+    public int Opcao;
     public Boolean Running = true;
     public Scanner sc = new Scanner(System.in);
-    public ArrayList<Utilizador> Utilizadores = new ArrayList<Utilizador>();
+    public GereUtilizador Utilizadores = new GereUtilizador();
     public ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
 
     public App(){
@@ -19,17 +19,26 @@ public class App {
         String _Email;
         String _Password;
 
-        System.out.println("Pagina de Login");
+        this.sc.nextLine();
         System.out.println("Email:");
         _Email = sc.nextLine();
         System.out.println("Password:");
         _Password = sc.nextLine();
         
         if (AtualizarUtilizadorAtual(_Email, _Password)){
-            if(UtilizadorAtual == null || !UtilizadorAtual.getEstado()) {
-                System.out.println("A sua conta ainda não foi aceite!");
+            if(UtilizadorAtual.getEstado() == -2) {
+                System.out.println("A sua conta foi recusada!");
                 this.MenuInicial();
             }
+            if(UtilizadorAtual.getEstado() == -1) {
+                System.out.println("A sua conta encontra-se inactiva!");
+                this.MenuInicial();
+            }
+            if(UtilizadorAtual.getEstado() == 0) {
+                System.out.println("A sua conta ainda nao foi aceite!");
+                this.MenuInicial();
+            }
+            
             System.out.println("Login efetuado com sucesso!");
             switch(this.tipoUtilizadorAtual.getID()) {
                 case 1: 
@@ -50,7 +59,7 @@ public class App {
                 System.out.println("Deseja tentar novamente?");
                 System.out.println("1 - Sim");
                 System.out.println("2 - Nao");
-                this.Opcao = Integer.parseInt(this.sc.nextLine());
+                this.Opcao = sc.nextInt();
             }while (this.Opcao < 1 || this.Opcao > 2);
 
             switch (this.Opcao){
@@ -74,40 +83,76 @@ public class App {
     }
 
     public boolean AtualizarUtilizadorAtual(String _Email, String _Password){
-        Iterator<Utilizador> listaUtilizadores = this.Utilizadores.iterator();
-    while (listaUtilizadores.hasNext()) {
-        Utilizador utilizador = (Utilizador) listaUtilizadores.next();
-        if (utilizador.getEmail().equals(_Email) && utilizador.getPassword().equals(_Password)) {
-            this.UtilizadorAtual = utilizador;
-            this.tipoUtilizadorAtual = utilizador.getTipoUtilizador();
+        this.UtilizadorAtual = Utilizadores.AtualizarUtilizadorAtual(_Email, _Password);
+        if (this.UtilizadorAtual != null) {
+            AtualizarTipoUtilizadorAtual(this.UtilizadorAtual);
             return true;
         }
-    }
         return false;
     }
 
-    public void RegistoOutroUtilizador(Integer TipoUtilizador){
+    public void AtualizarTipoUtilizadorAtual(Utilizador utilizador) {
+        this.tipoUtilizadorAtual = utilizador.getTipoUtilizador();
+    }
+
+    public void AceitarRecusarUtilizar() {
+        Utilizadores.listaUtilizadoresPendentes();
+        Utilizador utilizador = null;
+
+        do{
+            System.out.println("Introduza o login do utilizador que pretende mudar: ");
+            String userLogin = sc.nextLine();
+            
+            utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
+
+            if(utilizador == null) {
+                System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
+            }
+
+        }while(utilizador == null);
+
+        int opcao = -1 ;
+        do {
+            System.out.println("1 - Aceitar pedido");
+            System.out.println("2 - Recusar pedido");
+            opcao = sc.nextInt();
+
+            if(opcao < 1 && opcao > 2) {
+                System.out.println("Por favor introduza uma opcao valida!");
+            }
+
+        } while (opcao < 1 && opcao > 2);
+    
+        if(opcao == 2) {
+            utilizador.setEstado(-2);
+        }else{
+            utilizador.setEstado(1);
+        }
+        
+    }
+
+    public void RegistoOutroUtilizador(int TipoUtilizador){
         String _Login;
         String _Email;
         String _Nome;
         String _Password;
         String ConfPassword;
-        Boolean _Estado = false;
+        int _Estado = 0;
         String _NIF = "";
         String _Telefone = "";
         String _Morada = "";
+        String _estiloLiterario = "";
+        String _formacaoAcademica = "";
         TipoUtilizador _TipoUtilizador = null;
 
         Iterator<TipoUtilizador> tiposUtilizadores = this.TiposUtilizadores.iterator();
         while (tiposUtilizadores.hasNext()) {
             TipoUtilizador tipoUtilizador = (TipoUtilizador) tiposUtilizadores.next();
-            if (tipoUtilizador.getID().equals(TipoUtilizador)) {
+            if (tipoUtilizador.getID() == TipoUtilizador) {
                 _TipoUtilizador = tipoUtilizador;
                 break;
             }
         }
-
-        boolean unico = true;
 
         System.out.println("Nome: ");
         _Nome = this.sc.nextLine();
@@ -116,96 +161,85 @@ public class App {
         _Login = this.sc.nextLine();
 
 
-        if (_TipoUtilizador.getID().equals(1) || _TipoUtilizador.getID().equals(2)){
-            System.out.println("NIF: ");
+        if (_TipoUtilizador.getID() == 1 || _TipoUtilizador.getID() == 2){
+            if(_TipoUtilizador.getID() == 1) {
+                System.out.println("Estilo literario: \n");
+                _estiloLiterario = this.sc.nextLine();
+            } else {
+                System.out.println("Formacao academica: \n");
+                _formacaoAcademica = this.sc.nextLine();
+            }
+            System.out.println("NIF: \n");
             _NIF = this.sc.nextLine();
 
-            System.out.println();
-
-            System.out.println("Telemovel: ");
+            System.out.println("Telemovel: \n");
             _Telefone = this.sc.nextLine();
 
-            System.out.println();
-
-            System.out.println("Morada: ");
+            System.out.println("Morada: \n");
             _Morada = this.sc.nextLine();
-
-            System.out.println();
         }
 
-        System.out.println("Email: ");
+        System.out.println("Email: \n");
         _Email = this.sc.nextLine();
 
-        System.out.println();
-
         do {
-            System.out.println("Password: ");
+            System.out.println("Password: \n");
             _Password = this.sc.nextLine();
 
-            System.out.println();
-
-            System.out.println("Confirmar Password: ");
+            System.out.println("Confirmar Password: \n");
             ConfPassword = this.sc.nextLine();
 
-            System.out.println();
-
             if (!_Password.equals(ConfPassword)){
-                System.out.println("Password nao sao iguais!");
+                System.out.println("Password nao sao iguais!\n");
             }
 
         } while(!_Password.equals(ConfPassword));
 
-        if (_TipoUtilizador.getID().equals(1)){
-            Autor NovoAutor = new Autor(_Login, _Email, _Nome, _Password, _Estado,
-                    _TipoUtilizador, _NIF, _Morada, _Telefone);
+        if (_TipoUtilizador.getID() == 1){
+            Autor NovoAutor = new Autor(_Login, _Email, _Nome, _Password,
+                    _TipoUtilizador, 0,  _NIF, _Morada, _Telefone, _estiloLiterario);
 
-            this.Utilizadores.add(NovoAutor);
+            this.Utilizadores.adicionar(NovoAutor);
         }
 
-        if (_TipoUtilizador.getID().equals(2)){
-            Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador, _NIF, _Morada, _Telefone);
+        if (_TipoUtilizador.getID() == 2){
+            Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador,0, _NIF, _Morada, _Telefone, _formacaoAcademica);
 
-            this.Utilizadores.add(NovoRevisor);
+            this.Utilizadores.adicionar(NovoRevisor);
         }
 
-        if (_TipoUtilizador.getID().equals(3)){
-            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
+        if (_TipoUtilizador.getID() == 3){
+            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, 0 , _TipoUtilizador);
 
-            this.Utilizadores.add(NovoGestor);
+            this.Utilizadores.adicionar(NovoGestor);
         }
     }
 
     public void Registo(){
-        if (this.Utilizadores.isEmpty()){
+        if (this.Utilizadores.isListaEmpty()){
             String _Login;
             String _Email;
             String _Nome;
             String _Password;
             String ConfPassword;
-            Boolean _Estado = true;
+            int _Estado = 1;
             TipoUtilizador _TipoUtilizador = this.TiposUtilizadores.get(2);
 
             System.out.println("Nao existe nenhum utilizador criado... Sera necessario criar um gestor agora.");
-
+            
+            this.sc.nextLine();
             System.out.println("Nome: ");
             _Nome = this.sc.nextLine();
-
-            System.out.println();
 
             System.out.println("Login: ");
             _Login = this.sc.nextLine();
 
-            System.out.println();
-
             System.out.println("Email: ");
             _Email = this.sc.nextLine();
-
 
             do {
                 System.out.println("Password: ");
                 _Password = this.sc.nextLine();
-
-                System.out.println();
 
                 System.out.println("Confirmar Password: ");
                 ConfPassword = this.sc.nextLine();
@@ -215,9 +249,9 @@ public class App {
                 }
             } while(!_Password.equals(ConfPassword));
 
-            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
+            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado , _TipoUtilizador);
 
-            this.Utilizadores.add(NovoGestor);
+            this.Utilizadores.adicionar(NovoGestor);
 
             this.MenuInicial();
 
@@ -227,7 +261,7 @@ public class App {
                 System.out.println("1 - Autor");
                 System.out.println("2 - Revisor");
                 System.out.println("3 - Gestor");
-                this.Opcao = Integer.parseInt(sc.nextLine());
+                this.Opcao = sc.nextInt();
 
                 if (this.Opcao < 1 | this.Opcao > 3){
                     System.out.println("Opcao Invalida!");
@@ -238,7 +272,6 @@ public class App {
                 case 1:
                     this.RegistoOutroUtilizador(1);
                     break;
-
 
                 case 2:
                     this.RegistoOutroUtilizador(2);
@@ -261,18 +294,21 @@ public class App {
     }
 
     public void EditarDados(){
-        if (this.UtilizadorAtual.getTipoUtilizador().getID().equals(1) || this.UtilizadorAtual.getTipoUtilizador().getID().equals(2)){
+
+        if (this.UtilizadorAtual.getTipoUtilizador().getID() == 1 || this.UtilizadorAtual.getTipoUtilizador().getID() == 2){
             System.out.println("Nome: " + this.UtilizadorAtual.getNome());
             System.out.println("_Login: " + this.UtilizadorAtual.getLogin());
             System.out.println("Email: " + this.UtilizadorAtual.getEmail());
-            System.out.println("Estado da Conta: " + (this.UtilizadorAtual.getEstado() ? "Activo" : "Inactivo"));
+            System.out.println("Estado da Conta: Ativo");
             if (this.UtilizadorAtual instanceof Revisor) {
                 Revisor revisor = (Revisor) this.UtilizadorAtual;
+                System.out.println("Formacao academica: " + revisor.getFormacaoAcademica());
                 System.out.println("NIF: " + revisor.getNIF());
                 System.out.println("Morada: " + revisor.getMorada());
                 System.out.println("Telefone: " + revisor.getTelefone());
             } else if (this.UtilizadorAtual instanceof Autor) {
                 Autor autor = (Autor) this.UtilizadorAtual;
+                System.out.println("Estilo literario: " + autor.getEstiloLiterario());
                 System.out.println("NIF: " + autor.getNIF());
                 System.out.println("Morada: " + autor.getMorada());
                 System.out.println("Telefone: " + autor.getTelefone());
@@ -290,14 +326,14 @@ public class App {
                 System.out.println("7 - Telefone");
                 System.out.println("8 - Cancelar");
 
-                this.Opcao = Integer.parseInt(sc.nextLine());
+                this.Opcao = sc.nextInt();
             }while (this.Opcao < 1 || this.Opcao > 8);
 
             switch (this.Opcao){
                 case 1 ->{
                     String _Nome = "";
                     System.out.println("Novo nome: ");
-                    _Nome = sc.nextLine();
+                    _Nome = this.sc.nextLine();
 
                     this.UtilizadorAtual.setNome(_Nome);
                     System.out.println("Operacao realizada com sucesso!");
@@ -311,6 +347,7 @@ public class App {
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 3 -> {
@@ -320,6 +357,7 @@ public class App {
 
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 4 ->{
@@ -329,6 +367,7 @@ public class App {
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 5 -> {
@@ -345,6 +384,7 @@ public class App {
                         autor.setNIF(_NIF);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 6 ->{
@@ -361,6 +401,7 @@ public class App {
                         autor.setMorada(_Morada);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 7 ->{
@@ -377,6 +418,7 @@ public class App {
                         autor.setTelefone(_Telefone);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 8 ->{
@@ -405,9 +447,9 @@ public class App {
             }
         } else {
             System.out.println("Nome: " + this.UtilizadorAtual.getNome());
-            System.out.println("_Login: " + this.UtilizadorAtual.getNome());
-            System.out.println("Email: " + this.UtilizadorAtual.getNome());
-            System.out.println("Estado da Conta" + (this.UtilizadorAtual.getEstado() ? "Activo" : "Inactivo"));
+            System.out.println("Login: " + this.UtilizadorAtual.getLogin());
+            System.out.println("Email: " + this.UtilizadorAtual.getEmail());
+            System.out.println("Estado da Conta: Ativo");
             System.out.println("Tipo de Utilizador: " + this.UtilizadorAtual.getTipoUtilizador().getTipo());
 
             do{
@@ -418,7 +460,7 @@ public class App {
                 System.out.println("4 - Password");
                 System.out.println("5 - Cancelar");
 
-                this.Opcao = Integer.parseInt(sc.nextLine());
+                this.Opcao = sc.nextInt();
             }while (this.Opcao < 1 || this.Opcao > 5);
 
             switch (this.Opcao){
@@ -491,7 +533,7 @@ public class App {
             System.out.println("15 - Consultar o log de acoes");
             System.out.println("16 - Editar dados pessoais");
             System.out.println("17 - Terminar Sessao");
-            this.Opcao = Integer.parseInt(sc.nextLine());
+            this.Opcao = sc.nextInt();
 
             switch (Opcao) {
                 case 1:
@@ -598,7 +640,7 @@ public class App {
             System.out.println("8  - Pesquisar as minhas obras");
             System.out.println("9  - Terminar Sessao");
 
-            this.Opcao = Integer.parseInt(sc.nextLine());
+            this.Opcao = sc.nextInt();
 
             switch(this.Opcao)
             {
@@ -677,7 +719,7 @@ public class App {
             System.out.println("6  - Pesquisar as minhas revisoes");
             System.out.println("7  - Terminar sessao");
             
-            this.Opcao = Integer.parseInt(sc.nextLine());
+            this.Opcao = sc.nextInt();
 
             switch (this.Opcao) {
                 case 1:
@@ -724,11 +766,11 @@ public class App {
         this.Running = _Running;
     }
 
-    public Integer getOpcao() {
+    public int getOpcao() {
         return this.Opcao;
     }
 
-    public void setOpcao(Integer _Opcao) {
+    public void setOpcao(int _Opcao) {
         this.Opcao = _Opcao;
     }
 
@@ -750,7 +792,7 @@ public class App {
             System.out.println("1 - Login");
             System.out.println("2 - Registar Novo Utilizador");
             System.out.println("3 - Terminar");
-            this.Opcao = Integer.parseInt(sc.nextLine());
+            this.Opcao = sc.nextInt();
 
             switch (Opcao){
                 case 1:

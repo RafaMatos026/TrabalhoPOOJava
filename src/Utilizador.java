@@ -3,11 +3,11 @@ public class Utilizador {
     protected String Email; // único
     protected String Nome;
     protected String Password;
-    protected Boolean Estado;
+    protected int Estado; // -2 -> recusado | -1 -> Inativo | 0 -> Pendente | 1 -> Aceite
     protected TipoUtilizador TipoUtilizador;
 
     public Utilizador(String aLogin, String aEmail, String aNome,
-                      String aPassword, Boolean aEstado, TipoUtilizador aTipoUtilizador){
+                      String aPassword, TipoUtilizador aTipoUtilizador, int aEstado){
         this.Login = aLogin;
         this.Nome = aNome;
         this.Email = aEmail;
@@ -20,7 +20,7 @@ public class Utilizador {
         return this.Email;
     }
 
-    public Boolean getEstado() {
+    public int getEstado() {
         return this.Estado;
     }
 
@@ -44,7 +44,7 @@ public class Utilizador {
         Email = email;
     }
 
-    public void setEstado(Boolean estado) {
+    public void setEstado(int estado) {
         Estado = estado;
     }
 
@@ -63,5 +63,9 @@ public class Utilizador {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String toString() {
+        return this.Nome  ;
     }
 }

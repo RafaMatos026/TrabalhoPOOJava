@@ -2,12 +2,18 @@ public class Autor extends Utilizador{
     private String Telefone;
     private String NIF;
     private String Morada;
+    private String estiloLiterario;
 
-    public Autor(String _Login, String _Email, String _Nome, String _Password, Boolean _Estado, TipoUtilizador _TipoUtilizador, String _Telefone, String _NIF, String _Morada) {
-        super(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
+    public Autor(String _Login, String _Email, String _Nome, String _Password, TipoUtilizador _TipoUtilizador, int _Estado, String _Telefone, String _NIF, String _Morada, String _estiloLiterario) {
+        super(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado);
         this.Telefone = _Telefone;
         this.NIF = _NIF;
         this.Morada = _Morada;
+        this.estiloLiterario = _estiloLiterario;
+    }
+
+    public String getEstiloLiterario() {
+        return estiloLiterario;
     }
 
     public String getTelefone() {
@@ -20,6 +26,10 @@ public class Autor extends Utilizador{
 
     public String getMorada() {
         return Morada;
+    }
+
+    public void setEstiloLiterario(String estiloLiterario) {
+        this.estiloLiterario = estiloLiterario;
     }
 
     public void setTelefone(String telefone) {
