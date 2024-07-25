@@ -39,12 +39,8 @@ public class GereUtilizador {
                     frase += utilizador + "\n";
                 }
             }
-
-
             return frase;
-            
         }
-
         return null;
     }
 

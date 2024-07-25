@@ -492,7 +492,6 @@ public class App {
                     System.out.println("Novo email: ");
                     _Email = sc.nextLine();
                     
-
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
                     this.EditarDados();
@@ -511,7 +510,6 @@ public class App {
 
                 case 5 -> {
                         this.MenuInicialGestor();
-                        break;
                 }
 
                 default -> {
@@ -545,7 +543,7 @@ public class App {
 
             switch (Opcao) {
                 case 1:
-                    System.out.println("Notificacoes");
+                    System.out.println(">> Notificacoes <<");
                     // Notificações
                     break;
 
