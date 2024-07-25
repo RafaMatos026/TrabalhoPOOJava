@@ -11,6 +11,7 @@ public class App {
     public GereUtilizador Utilizadores = new GereUtilizador();
     public ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
     public ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
+    public int auxNotificacoesGestor = 0;
 
     public App(){
 
@@ -236,6 +237,7 @@ public class App {
         }
 
         if(!resultadoFinal.isEmpty()) {
+            auxNotificacoesGestor = listaNotificacoesGestor.size();
             return resultadoFinal;
         }
         return "De momento nao ha notificacoes!";
@@ -582,11 +584,11 @@ public class App {
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
-            if(listaNotificacoesGestor.size() == 0) {
+            if(listaNotificacoesGestor.size() - auxNotificacoesGestor == 0) {
                 System.out.println("1  - Notificacoes");
             }
             else {
-                System.out.println("1  - Notificacoes (" + listaNotificacoesGestor.size() + ")");
+                System.out.println("1  - Notificacoes (" + (listaNotificacoesGestor.size() - auxNotificacoesGestor) + ")");
             }
             System.out.println("2  - Criar utilizador");
             System.out.println("3  - Ver pedidos de registo");
