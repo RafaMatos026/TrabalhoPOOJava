@@ -253,7 +253,6 @@ public class App {
 
             System.out.println("Nao existe nenhum utilizador criado... Sera necessario criar um gestor agora.");
             
-            this.sc.nextLine();
             System.out.println("Nome: ");
             _Nome = this.sc.nextLine();
 
@@ -868,6 +867,9 @@ public class App {
     }
 
     public void MenuInicial(){
+        if(this.Utilizadores.isListaEmpty()) {
+            Registo();
+        }
         do{
             System.out.println("Bem-Vindo!!!");
             System.out.println("Selecione uma das seguintes opcoes:");
