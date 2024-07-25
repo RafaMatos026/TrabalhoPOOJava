@@ -84,4 +84,20 @@ public class GereUtilizador {
         return this.listaUtilizadores.isEmpty();
     }
 
+    public String listarTodosUtilizadores() {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+            String listaUtilizadores = "";
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if (utilizador.getEstado() == 1 || utilizador.getEstado() == -1) {
+                    listaUtilizadores += utilizador + "\n";
+                }
+            }
+            return listaUtilizadores;
+        }
+        return null;
+    }
 }

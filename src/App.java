@@ -28,7 +28,7 @@ public class App {
                 this.MenuInicial();
             }
             if(UtilizadorAtual.getEstado() == -1) {
-                System.out.println("A sua conta encontra-se inactiva!");
+                System.out.println("A sua conta encontra-se inativa!");
                 this.MenuInicial();
             }
             if(UtilizadorAtual.getEstado() == 0) {
@@ -98,7 +98,7 @@ public class App {
 
         do{
             sc.nextLine();
-            System.out.println("Introduza o login do utilizador que pretende alterar: ");
+            System.out.println("Introduza o login do utilizador que pretende aceitar/recusar: ");
             String userLogin = sc.nextLine();
             
             utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
@@ -617,6 +617,41 @@ public class App {
         }
     }
 
+    public void ativarInativar(Utilizador aUtilizador) {
+        do {
+            System.out.println("1 - Ativar conta");
+            System.out.println("2 - Inativar conta");
+            this.Opcao = sc.nextInt();
+
+            if(this.Opcao < 1 && this.Opcao > 2) {
+                System.out.println("Por favor introduza uma opcao valida!");
+            }
+
+        } while (this.Opcao < 1 && this.Opcao > 2);
+
+        switch(this.Opcao) {
+            case 1:
+                if(aUtilizador.getEstado() == 1) {
+                    System.out.println("Esta conta já se encontra ativa!");
+                }
+                else if(aUtilizador.getEstado() == -1) {
+                    aUtilizador.setEstado(1);
+                }
+                System.out.println("Operacao realizada com sucesso!");
+                break;
+
+            case 2:
+                if(aUtilizador.getEstado() == -1) {
+                    System.out.println("Esta conta já se encontra inativa!");
+                }
+                else if(aUtilizador.getEstado() == 1) {
+                    aUtilizador.setEstado(-1);
+                }
+                System.out.println("Operacao realizada com sucesso!");
+                break;
+        }
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -641,8 +676,9 @@ public class App {
             System.out.println("14 - Gravar dados num ficheiro");
             System.out.println("15 - Consultar o log de acoes");
             System.out.println("16 - Editar dados pessoais");
-            System.out.println("17 - Solicitar remocao de conta");
-            System.out.println("18 - Terminar Sessao");
+            System.out.println("17 - Ativar/Inativar uma conta");
+            System.out.println("18 - Solicitar remocao de conta");
+            System.out.println("19 - Terminar Sessao");
             this.Opcao = sc.nextInt();
 
             switch (Opcao) {
@@ -738,6 +774,28 @@ public class App {
                     break;
 
                 case 17:
+                    Utilizador utilizador = null;
+
+                    do{
+                        System.out.println(Utilizadores.listarTodosUtilizadores()); 
+                        sc.nextLine();
+                        System.out.println("Introduza o login do utilizador que pretende ativar/inativar: ");
+                        String userLogin = sc.nextLine();
+                        
+                        utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
+            
+                        if(utilizador == null) {
+                            System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
+                        }
+            
+                    }while(utilizador == null);
+
+                    ativarInativar(utilizador);
+                    this.MenuInicialGestor();
+                    // Ativar/Inativar uma conta
+                    break;
+
+                case 18:
                     System.out.println("Solicitar remocao de conta");
                     this.UtilizadorAtual.setEstado(-3);
                     listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
@@ -750,7 +808,7 @@ public class App {
                     // Solicitar remoção de conta
                     break;
 
-                case 18:
+                case 19:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
                     break;
@@ -758,33 +816,39 @@ public class App {
                 default:
                     System.out.println("Opcao invalida");
             }
-        } while (Opcao < 1 || Opcao > 5);
+        } while (Opcao < 1 || Opcao > 19);
     }
 
     public void MenuInicialAutor(){
         System.out.println("Bem-Vindo Autor " + this.UtilizadorAtual.getNome());
         do{
-            System.out.println("1  - Editar dados pessoais");
-            System.out.println("2  - Solicitar remocao de conta");
-            System.out.println("3  - Submeter obra para revisao");
-            System.out.println("4  - Consultar estado de uma revisao");
-            System.out.println("5  - Listar as minhas revisoes");
-            System.out.println("6  - Pesquisar as minhas revisoes");
-            System.out.println("7  - Listar as minhas obras");
-            System.out.println("8  - Pesquisar as minhas obras");
-            System.out.println("9  - Terminar Sessao");
+            System.out.println("1  - Notificacoes");
+            System.out.println("2  - Editar dados pessoais");
+            System.out.println("3  - Solicitar remocao de conta");
+            System.out.println("4  - Submeter obra para revisao");
+            System.out.println("5  - Consultar estado de uma revisao");
+            System.out.println("6  - Listar as minhas revisoes");
+            System.out.println("7  - Pesquisar as minhas revisoes");
+            System.out.println("8  - Listar as minhas obras");
+            System.out.println("9  - Pesquisar as minhas obras");
+            System.out.println("10 - Terminar Sessao");
 
             this.Opcao = sc.nextInt();
 
             switch(this.Opcao)
             {
-                case 1:
-                    this.EditarDados();
-                    /* System.out.println("Editar dados pessoais"); */
-                    // Editar dados pessoais
+                case 1: 
+                    System.out.println("Notificacoes Autor");
+                    MenuInicialAutor();
+                    //Notificacoes
                     break;
 
                 case 2:
+                    this.EditarDados();
+                    // Editar dados pessoais
+                    break;
+
+                case 3:
                     System.out.println("Solicitar remocao de conta");
                     this.UtilizadorAtual.setEstado(-3);
                     listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
@@ -797,37 +861,37 @@ public class App {
                     // Solicitar remoção de conta
                     break;
 
-                case 3:
+                case 4:
                     System.out.println("Submeter obra para revisao");
                     // Submeter obra para revisão
                     break;
 
-                case 4:
+                case 5:
                     System.out.println("Consultar estado de uma revisao");
                     // Consultar estado de uma revisão
                     break;
 
-                case 5:
+                case 6:
                     System.out.println("Listar as minhas revisoes");
                     // Listar as minhas revisões
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Pesquisar as minhas revisoes");
                     // Pesquisar as minhas revisões
                     break;
 
-                case 7:
+                case 8:
                     System.out.println("Listar as minhas obras");
                     // Listar as minhas obras
                     break;
 
-                case 8:
+                case 9:
                     System.out.println("Pesquisar as minhas obras");
                     // Pesquisar as minhas obras
                     break;
 
-                case 9:
+                case 10:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     MenuInicial();
                     break;
@@ -837,13 +901,13 @@ public class App {
                     break;
             }
 
-            if(this.Opcao < 1 || this.Opcao > 6)
+            if(this.Opcao < 1 || this.Opcao > 10)
             {
                 System.out.println("Opcao invalida!");
                 System.out.println("Por favor introduza uma opcao valida!");
             }
 
-            if(this.Opcao >= 1 && this.Opcao <= 6)
+            if(this.Opcao >= 1 && this.Opcao <= 10)
             {
                 break;
             }
@@ -907,7 +971,7 @@ public class App {
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
             }
-        } while (Opcao < 1 || Opcao > 3);
+        } while (Opcao < 1 || Opcao > 7);
     }
 
     public Utilizador getUtilizadorAtual(){
@@ -961,7 +1025,7 @@ public class App {
                         sc.close();
                         System.exit(0);
                     } catch (InterruptedException e){
-                        System.err.println("Nao foi possivel pausar o programa...");
+                        System.err.println("Nao foi possivel encerrar o programa...");
                         sc.close();
                         System.exit(1);
                     }
@@ -971,5 +1035,4 @@ public class App {
             }
         }while(Opcao < 1 || Opcao > 3);
     }
-
 }
