@@ -66,6 +66,6 @@ public class Utilizador {
     }
 
     public String toString() {
-        return this.Nome;
+        return "Nome: " + this.Nome + ", Login: " + this.Login;
     }
 }

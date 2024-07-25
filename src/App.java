@@ -100,6 +100,7 @@ public class App {
         Utilizador utilizador = null;
 
         do{
+            sc.nextLine();
             System.out.println("Introduza o login do utilizador que pretende mudar: ");
             String userLogin = sc.nextLine();
             
@@ -128,7 +129,8 @@ public class App {
         }else{
             utilizador.setEstado(1);
         }
-        
+
+        MenuInicialGestor();
     }
 
     public void RegistoOutroUtilizador(int TipoUtilizador){
@@ -154,6 +156,7 @@ public class App {
             }
         }
 
+        this.sc.nextLine();
         System.out.println("Nome: ");
         _Nome = this.sc.nextLine();
 
@@ -197,19 +200,19 @@ public class App {
 
         if (_TipoUtilizador.getID() == 1){
             Autor NovoAutor = new Autor(_Login, _Email, _Nome, _Password,
-                    _TipoUtilizador, 0,  _NIF, _Morada, _Telefone, _estiloLiterario);
+                    _TipoUtilizador, _Estado,  _NIF, _Morada, _Telefone, _estiloLiterario);
 
             this.Utilizadores.adicionar(NovoAutor);
         }
 
         if (_TipoUtilizador.getID() == 2){
-            Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador,0, _NIF, _Morada, _Telefone, _formacaoAcademica);
+            Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado, _NIF, _Morada, _Telefone, _formacaoAcademica);
 
             this.Utilizadores.adicionar(NovoRevisor);
         }
 
         if (_TipoUtilizador.getID() == 3){
-            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, 0 , _TipoUtilizador);
+            Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
 
             this.Utilizadores.adicionar(NovoGestor);
         }
@@ -552,8 +555,13 @@ public class App {
                     // criar utilizador
                     break;
                 case 3:
-                    System.out.println(">> Ver pedidos de registo <<");
-                    // Ver pedidos de registo
+                    System.out.println(Utilizadores.listaUtilizadoresPendentes());
+
+                    if(Utilizadores.listaUtilizadoresPendentes() != "De momento nao ha pedidos de registo!")
+                    {
+                        AceitarRecusarUtilizar();
+                    }
+                    //falta implementar codigo para aceitar e rejeitar
                     break;
 
                 case 4:

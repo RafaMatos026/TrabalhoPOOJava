@@ -30,18 +30,20 @@ public class GereUtilizador {
     public String listaUtilizadoresPendentes() {
         if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
             Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
-            String frase = "";
+            String listaPedidos = "";
 
             while (lista_utilizadores.hasNext()) {
                 Utilizador utilizador = (Utilizador) lista_utilizadores.next();
                 
                 if (utilizador.getEstado() == 0) {
-                    frase += utilizador + "\n";
+                    listaPedidos += utilizador + "\n";
                 }
             }
-            return frase;
+            if (!listaPedidos.isEmpty()) {
+                return listaPedidos;
+            }
         }
-        return null;
+        return "De momento nao ha pedidos de registo!";
     }
 
     public Utilizador PesquisarUtilizadorPorLogin(String aLogin) {
