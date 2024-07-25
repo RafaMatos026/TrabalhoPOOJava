@@ -329,14 +329,21 @@ public class App {
                 System.out.println("5 - NIF");
                 System.out.println("6 - Morada");
                 System.out.println("7 - Telefone");
-                System.out.println("8 - Cancelar");
-
+                if(this.UtilizadorAtual instanceof Autor) {
+                    System.out.println("8 - Estilo literario");
+                }
+                else if(this.UtilizadorAtual instanceof Revisor) {
+                    System.out.println("8 - Formacao academica");
+                }
+                System.out.println("9 - Cancelar");
+            
                 this.Opcao = sc.nextInt();
-            }while (this.Opcao < 1 || this.Opcao > 8);
+            }while (this.Opcao < 1 || this.Opcao > 9);
 
             switch (this.Opcao){
                 case 1 ->{
                     String _Nome = "";
+                    this.sc.nextLine();
                     System.out.println("Novo nome: ");
                     _Nome = this.sc.nextLine();
 
@@ -347,6 +354,7 @@ public class App {
 
                 case 2 -> {
                     String _Login = "";
+                    this.sc.nextLine();
                     System.out.println("Novo login: ");
                     _Login = sc.nextLine();
 
@@ -357,6 +365,7 @@ public class App {
 
                 case 3 -> {
                     String _Email = "";
+                    this.sc.nextLine();
                     System.out.println("Novo email: ");
                     _Email = sc.nextLine();
 
@@ -367,6 +376,7 @@ public class App {
 
                 case 4 ->{
                     String _Password = "";
+                    this.sc.nextLine();
                     System.out.println("Nova password: ");
                     _Password = sc.nextLine();
 
@@ -377,6 +387,7 @@ public class App {
 
                 case 5 -> {
                     String _NIF = "";
+                    this.sc.nextLine();
                     System.out.println("Novo NIF: ");
                     _NIF = sc.nextLine();
 
@@ -394,6 +405,7 @@ public class App {
 
                 case 6 ->{
                     String _Morada = "";
+                    this.sc.nextLine();
                     System.out.println("Nova morada: ");
                     _Morada = sc.nextLine();
 
@@ -411,6 +423,7 @@ public class App {
 
                 case 7 ->{
                     String _Telefone = "";
+                    this.sc.nextLine();
                     System.out.println("Novo contacto: ");
                     _Telefone = sc.nextLine();
 
@@ -427,6 +440,28 @@ public class App {
                 }
 
                 case 8 ->{
+                    if(this.UtilizadorAtual instanceof Autor) {
+                        String _EstiloLiterario = "";
+                        this.sc.nextLine();
+                        System.out.println("Novo estilo literario: ");
+                        _EstiloLiterario = this.sc.nextLine();
+
+                        Autor autor = (Autor) this.UtilizadorAtual;
+                        autor.setEstiloLiterario(_EstiloLiterario);
+                    }
+                    else if(this.UtilizadorAtual instanceof Revisor) {
+                        String _FormacaoAcademica = "";
+                        this.sc.nextLine();
+                        System.out.println("Nova formacao academica: ");
+                        _FormacaoAcademica = this.sc.nextLine();
+
+                        Revisor revisor = (Revisor) this.UtilizadorAtual;
+                        revisor.setFormacaoAcademica(_FormacaoAcademica);
+                    }
+                    this.EditarDados();
+                }
+
+                case 9 ->{
                     switch(this.UtilizadorAtual.getTipoUtilizador().getID()) {
                         case 1: 
                             this.MenuInicialAutor();
@@ -563,6 +598,8 @@ public class App {
                     {
                         AceitarRecusarUtilizar();
                     }
+
+                    this.MenuInicialGestor();
                     //falta implementar codigo para aceitar e rejeitar
                     break;
 
@@ -661,7 +698,8 @@ public class App {
             switch(this.Opcao)
             {
                 case 1:
-                    System.out.println("Editar dados pessoais");
+                    this.EditarDados();
+                    /* System.out.println("Editar dados pessoais"); */
                     // Editar dados pessoais
                     break;
 
@@ -744,7 +782,8 @@ public class App {
                     break;
 
                 case 2:
-                    System.out.println(">> Editar dados pessoais <<");
+                    this.EditarDados();
+                    /* System.out.println(">> Editar dados pessoais <<"); */
                     // Editar dados pessoais
                     break;
 

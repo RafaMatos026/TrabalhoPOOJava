@@ -39,4 +39,8 @@ public class Revisor extends Utilizador{
     public void setMorada(String morada) {
         this.Morada = morada;
     }
+
+    public void setFormacaoAcademica(String aFormacaoAcademica) {
+        this.formacaoAcademica = aFormacaoAcademica;
+    }
 }
