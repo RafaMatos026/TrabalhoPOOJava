@@ -10,6 +10,7 @@ public class App {
     public Scanner sc = new Scanner(System.in);
     public GereUtilizador Utilizadores = new GereUtilizador();
     public ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
+    public ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
 
     public App(){
 
@@ -130,6 +131,7 @@ public class App {
             utilizador.setEstado(-2);
         }else{
             utilizador.setEstado(1);
+            listaNotificacoesGestor.add(0, "O utilizador com o login " + utilizador.getLogin() + " foi registado no sistema!");
         }
 
         MenuInicialGestor();
@@ -205,12 +207,14 @@ public class App {
                     _TipoUtilizador, _Estado,  _NIF, _Morada, _Telefone, _estiloLiterario);
 
             this.Utilizadores.adicionar(NovoAutor);
+            listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
 
         if (_TipoUtilizador.getID() == 2){
             Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado, _NIF, _Morada, _Telefone, _formacaoAcademica);
 
             this.Utilizadores.adicionar(NovoRevisor);
+            listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
 
         if (_TipoUtilizador.getID() == 3){
@@ -218,6 +222,22 @@ public class App {
 
             this.Utilizadores.adicionar(NovoGestor);
         }
+    }
+
+    public String notificacoesGestor() {
+        Iterator<String> listaNotificacoes = listaNotificacoesGestor.iterator();
+        String resultadoFinal = "";
+
+        while(listaNotificacoes.hasNext()) {
+            String notificacao = (String) listaNotificacoes.next();
+
+            resultadoFinal += notificacao + "\n";
+        }
+
+        if(!resultadoFinal.isEmpty()) {
+            return resultadoFinal;
+        }
+        return "De momento nao ha notificacoes!";
     }
 
     public void Registo(){
@@ -583,7 +603,8 @@ public class App {
 
             switch (Opcao) {
                 case 1:
-                    System.out.println(">> Notificacoes <<");
+                    System.out.println(this.notificacoesGestor());
+                    this.MenuInicialGestor();
                     // Notificações
                     break;
 
