@@ -936,7 +936,6 @@ public class App {
 
                 case 2:
                     this.EditarDados();
-                    /* System.out.println(">> Editar dados pessoais <<"); */
                     // Editar dados pessoais
                     break;
 
