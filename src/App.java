@@ -100,7 +100,9 @@ public class App {
         Utilizador utilizador = null;
 
         do{
-            sc.nextLine();
+            if(utilizador != null) {
+                sc.nextLine();
+            }
             System.out.println("Introduza o login do utilizador que pretende mudar: ");
             String userLogin = sc.nextLine();
             
