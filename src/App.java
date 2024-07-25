@@ -3,19 +3,14 @@ import java.util.Iterator;
 import java.util.Scanner;
 
 public class App {
-    public Utilizador UtilizadorAtual = null;
-    public TipoUtilizador tipoUtilizadorAtual = null;
-    public int Opcao;
-    public Boolean Running = true;
-    public Scanner sc = new Scanner(System.in);
-    public GereUtilizador Utilizadores = new GereUtilizador();
-    public ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
-    public ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
-    public int auxNotificacoesGestor = 0;
-
-    public App(){
-
-    }
+    private Utilizador UtilizadorAtual = null;
+    private TipoUtilizador tipoUtilizadorAtual = null;
+    private int Opcao;
+    private Scanner sc = new Scanner(System.in);
+    private GereUtilizador Utilizadores = new GereUtilizador();
+    private ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
+    private ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
+    private int auxNotificacoesGestor = 0;
 
     public void Login(){
         String _Email;
@@ -97,15 +92,13 @@ public class App {
         this.tipoUtilizadorAtual = utilizador.getTipoUtilizador();
     }
 
-    public void AceitarRecusarUtilizar() {
-        Utilizadores.listaUtilizadoresPendentes();
+    public void AceitarRecusarPedidoRegisto() {
+        Utilizadores.listarPedidosRegistoPendentes();
         Utilizador utilizador = null;
 
         do{
-            if(utilizador != null) {
-                sc.nextLine();
-            }
-            System.out.println("Introduza o login do utilizador que pretende mudar: ");
+            sc.nextLine();
+            System.out.println("Introduza o login do utilizador que pretende alterar: ");
             String userLogin = sc.nextLine();
             
             utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
@@ -116,19 +109,19 @@ public class App {
 
         }while(utilizador == null);
 
-        int opcao = -1 ;
+        
         do {
             System.out.println("1 - Aceitar pedido");
             System.out.println("2 - Recusar pedido");
-            opcao = sc.nextInt();
+            this.Opcao = sc.nextInt();
 
-            if(opcao < 1 && opcao > 2) {
+            if(this.Opcao < 1 && this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
             }
 
-        } while (opcao < 1 && opcao > 2);
+        } while (this.Opcao < 1 && this.Opcao > 2);
     
-        if(opcao == 2) {
+        if(this.Opcao == 2) {
             utilizador.setEstado(-2);
         }else{
             utilizador.setEstado(1);
@@ -137,6 +130,49 @@ public class App {
 
         MenuInicialGestor();
     }
+
+    public void AceitarRecusarPedidoRemocao() {
+        Utilizadores.listarPedidosRemocaoPendentes();
+        Utilizador utilizador = null;
+
+        do{
+            sc.nextLine();
+            System.out.println("Introduza o login do utilizador a que pretende aceitar/recusar: ");
+            String userLogin = sc.nextLine();
+            
+            utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
+
+            if(utilizador == null) {
+                System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
+            }
+
+        }while(utilizador == null);
+
+        
+        do {
+            System.out.println("1 - Aceitar pedido");
+            System.out.println("2 - Recusar pedido");
+            this.Opcao = sc.nextInt();
+
+            if(this.Opcao < 1 && this.Opcao > 2) {
+                System.out.println("Por favor introduza uma opcao valida!");
+            }
+
+        } while (this.Opcao < 1 && this.Opcao > 2);
+    
+        if(this.Opcao == 1) {
+            utilizador.setEstado(-4);
+            this.Utilizadores.listaUtilizadores.remove(utilizador);
+            listaNotificacoesGestor.add("O utilizador com o login " + utilizador.getLogin() + " foi removido do sistema!");
+        }
+        else {
+            utilizador.setEstado(1);
+        }
+
+        MenuInicialGestor();
+    }
+
+
 
     public void RegistoOutroUtilizador(int TipoUtilizador){
         String _Login;
@@ -605,7 +641,8 @@ public class App {
             System.out.println("14 - Gravar dados num ficheiro");
             System.out.println("15 - Consultar o log de acoes");
             System.out.println("16 - Editar dados pessoais");
-            System.out.println("17 - Terminar Sessao");
+            System.out.println("17 - Solicitar remocao de conta");
+            System.out.println("18 - Terminar Sessao");
             this.Opcao = sc.nextInt();
 
             switch (Opcao) {
@@ -620,20 +657,23 @@ public class App {
                     // criar utilizador
                     break;
                 case 3:
-                    System.out.println(Utilizadores.listaUtilizadoresPendentes());
+                    System.out.println(Utilizadores.listarPedidosRegistoPendentes());
 
-                    if(Utilizadores.listaUtilizadoresPendentes() != "De momento nao ha pedidos de registo!")
-                    {
-                        AceitarRecusarUtilizar();
+                    if(Utilizadores.listarPedidosRegistoPendentes() != "De momento nao ha pedidos de registo!") {
+                        AceitarRecusarPedidoRegisto();
                     }
 
                     this.MenuInicialGestor();
-                    //falta implementar codigo para aceitar e rejeitar
+                    // Pedidos de registo
                     break;
 
                 case 4:
-                    System.out.println(">> Ver pedidos de remocao de conta <<");
-                    // Ver pedidos de remoção de conta
+                    System.out.println(Utilizadores.listarPedidosRemocaoPendentes());
+
+                    if(Utilizadores.listarPedidosRemocaoPendentes() != "De momento nao ha pedidos de remocao!") {
+                        AceitarRecusarPedidoRemocao();
+                    }
+                    // Pedidos de remoção
                     break;
 
                 case 5:
@@ -698,6 +738,19 @@ public class App {
                     break;
 
                 case 17:
+                    System.out.println("Solicitar remocao de conta");
+                    this.UtilizadorAtual.setEstado(-3);
+                    listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
+                    if(this.UtilizadorAtual.getEstado() == -3) {
+                        System.out.println("O seu pedido foi realizado com sucesso!");
+                        this.MenuInicialGestor();
+                    }
+                    System.out.println("Nao foi possivel realizar o seu pedido!");                    
+                    this.MenuInicialGestor();
+                    // Solicitar remoção de conta
+                    break;
+
+                case 18:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
                     break;
@@ -733,6 +786,14 @@ public class App {
 
                 case 2:
                     System.out.println("Solicitar remocao de conta");
+                    this.UtilizadorAtual.setEstado(-3);
+                    listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
+                    if(this.UtilizadorAtual.getEstado() == -3) {
+                        System.out.println("O seu pedido foi realizado com sucesso!");
+                        this.MenuInicialAutor();
+                    }
+                    System.out.println("Nao foi possivel realizar o seu pedido!");                    
+                    this.MenuInicialAutor();
                     // Solicitar remoção de conta
                     break;
 
@@ -817,6 +878,14 @@ public class App {
 
                 case 3:
                     System.out.println("Solicitar remocao de conta");
+                    this.UtilizadorAtual.setEstado(-3);
+                    listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
+                    if(this.UtilizadorAtual.getEstado() == -3) {
+                        System.out.println("O seu pedido foi realizado com sucesso!");
+                        this.MenuInicialRevisor();
+                    }
+                    System.out.println("Nao foi possivel realizar o seu pedido!");                    
+                    this.MenuInicialRevisor();
                     // Solicitar remoção de conta
                     break;
 
@@ -843,10 +912,6 @@ public class App {
 
     public Utilizador getUtilizadorAtual(){
         return this.UtilizadorAtual;
-    }
-
-    public void setRunning(Boolean _Running){
-        this.Running = _Running;
     }
 
     public int getOpcao() {

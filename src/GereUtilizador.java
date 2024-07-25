@@ -27,7 +27,7 @@ public class GereUtilizador {
         return null;
     }
 
-    public String listaUtilizadoresPendentes() {
+    public String listarPedidosRegistoPendentes() {
         if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
             Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
             String listaPedidos = "";
@@ -46,6 +46,25 @@ public class GereUtilizador {
         return "De momento nao ha pedidos de registo!";
     }
 
+    public String listarPedidosRemocaoPendentes() {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+            String listaPedidos = "";
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if (utilizador.getEstado() == -3) {
+                    listaPedidos += utilizador + "\n";
+                }
+            }
+            if (!listaPedidos.isEmpty()) {
+                return listaPedidos;
+            }
+        }
+        return "De momento nao ha pedidos de remocao!";
+    }
+
     public Utilizador PesquisarUtilizadorPorLogin(String aLogin) {
         if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
             Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
@@ -56,11 +75,8 @@ public class GereUtilizador {
                     return utilizador;
                 }
             }
-
             return null;
-            
         }
-
         return null;
     }
 

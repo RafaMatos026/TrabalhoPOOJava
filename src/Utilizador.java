@@ -3,7 +3,7 @@ public class Utilizador {
     protected String Email; // único
     protected String Nome;
     protected String Password;
-    protected int Estado; // -2 -> recusado | -1 -> Inativo | 0 -> Pendente | 1 -> Aceite
+    protected int Estado; // -4 -> conta removida | -3 -> à espera de remocao | -2 -> Registo recusado | -1 -> Inativo | 0 -> Pendente | 1 -> Registado
     protected TipoUtilizador TipoUtilizador;
 
     public Utilizador(String aLogin, String aEmail, String aNome,
