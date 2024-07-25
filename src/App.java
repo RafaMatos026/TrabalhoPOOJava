@@ -221,6 +221,7 @@ public class App {
             Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
 
             this.Utilizadores.adicionar(NovoGestor);
+            listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
     }
 
@@ -582,7 +583,12 @@ public class App {
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
-            System.out.println("1  - Notificacoes");
+            if(listaNotificacoesGestor.size() == 0) {
+                System.out.println("1  - Notificacoes");
+            }
+            else {
+                System.out.println("1  - Notificacoes (" + listaNotificacoesGestor.size() + ")");
+            }
             System.out.println("2  - Criar utilizador");
             System.out.println("3  - Ver pedidos de registo");
             System.out.println("4  - Ver pedidos de remocao de conta");
