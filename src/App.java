@@ -163,34 +163,34 @@ public class App {
 
         if (_TipoUtilizador.getID() == 1 || _TipoUtilizador.getID() == 2){
             if(_TipoUtilizador.getID() == 1) {
-                System.out.println("Estilo literario: \n");
+                System.out.println("Estilo literario: ");
                 _estiloLiterario = this.sc.nextLine();
             } else {
-                System.out.println("Formacao academica: \n");
+                System.out.println("Formacao academica: ");
                 _formacaoAcademica = this.sc.nextLine();
             }
-            System.out.println("NIF: \n");
+            System.out.println("NIF: ");
             _NIF = this.sc.nextLine();
 
-            System.out.println("Telemovel: \n");
+            System.out.println("Telemovel: ");
             _Telefone = this.sc.nextLine();
 
-            System.out.println("Morada: \n");
+            System.out.println("Morada: ");
             _Morada = this.sc.nextLine();
         }
 
-        System.out.println("Email: \n");
+        System.out.println("Email: ");
         _Email = this.sc.nextLine();
 
         do {
-            System.out.println("Password: \n");
+            System.out.println("Password: ");
             _Password = this.sc.nextLine();
 
-            System.out.println("Confirmar Password: \n");
+            System.out.println("Confirmar Password: ");
             ConfPassword = this.sc.nextLine();
 
             if (!_Password.equals(ConfPassword)){
-                System.out.println("Password nao sao iguais!\n");
+                System.out.println("Password nao sao iguais!");
             }
 
         } while(!_Password.equals(ConfPassword));
@@ -466,6 +466,7 @@ public class App {
             switch (this.Opcao){
                 case 1 ->{
                     String _Nome = "";
+                    sc.nextLine();
                     System.out.println("Novo Nome: ");
                     _Nome = sc.nextLine();
 
@@ -476,29 +477,36 @@ public class App {
 
                 case 2 -> {
                     String _Login = "";
+                    sc.nextLine();
                     System.out.println("Novo login: ");
                     _Login = sc.nextLine();
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 3 -> {
                     String _Email = "";
+                    sc.nextLine();
                     System.out.println("Novo email: ");
                     _Email = sc.nextLine();
+                    
 
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 4 ->{
                     String _Password = "";
+                    sc.nextLine();
                     System.out.println("Nova password: ");
                     _Password = sc.nextLine();
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
+                    this.EditarDados();
                 }
 
                 case 5 -> {
