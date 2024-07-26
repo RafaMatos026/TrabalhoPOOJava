@@ -5,12 +5,14 @@ import java.util.Scanner;
 public class App {
     private Utilizador UtilizadorAtual = null;
     private TipoUtilizador tipoUtilizadorAtual = null;
-    private int Opcao;
-    private Scanner sc = new Scanner(System.in);
     private GereUtilizador Utilizadores = new GereUtilizador();
+    private GereObras gereObras = new GereObras();
+    private Scanner sc = new Scanner(System.in);
     private ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
     private ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
+    private int Opcao;
     private int auxNotificacoesGestor = 0;
+
 
     public void Login(){
         String _Email;
@@ -854,19 +856,87 @@ public class App {
         } while (Opcao < 1 || Opcao > 19);
     }
 
+    public void criarObra() {
+        String _Titulo;
+        String _EstiloLiterario;
+        String _TipoPublicacao;
+        int _NumeroPaginas;
+        int _ISBN;
+        int _NumeroEdicao;
+        String _DataSubmissao;
+
+        sc.nextLine();
+        System.out.println("Introduza o titulo da sua obra: ");
+        _Titulo = sc.nextLine();
+        
+        System.out.println("Introduza o estilo literario da sua obra: ");
+        _EstiloLiterario = sc.nextLine();
+
+        System.out.println("Introduza o tipo de publicacao da sua obra: ");
+        _TipoPublicacao = sc.nextLine();
+
+        System.out.println("Introduza o numero de paginas da sua obra: ");
+        _NumeroPaginas = sc.nextInt();
+
+        System.out.println("Introduza o codigo ISBN da sua obra: ");
+        _ISBN = sc.nextInt();
+
+        System.out.println("Introduza o numero de edicao da sua obra: ");
+        _NumeroEdicao = sc.nextInt();
+
+        sc.nextLine();
+        System.out.println("Introduza a data de submissao da sua obra: ");
+        _DataSubmissao = sc.nextLine();
+
+        Obra NovaObra = new Obra((Autor) this.UtilizadorAtual, _Titulo, _EstiloLiterario, _TipoPublicacao, _NumeroPaginas, _ISBN, _NumeroEdicao, _DataSubmissao, _DataSubmissao, -1);
+        this.gereObras.adicionarObra(NovaObra);
+    }
+
+    public void solicitarRemocaoConta() {
+        System.out.println("Solicitar remocao de conta");
+        this.UtilizadorAtual.setEstado(-3);
+        listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
+        if(this.UtilizadorAtual.getEstado() == -3) {
+            System.out.println("O seu pedido foi realizado com sucesso!");
+            this.MenuInicialAutor();
+        }
+        System.out.println("Nao foi possivel realizar o seu pedido!");                    
+        this.MenuInicialAutor();
+    }
+
+    public void submeterObraParaRevisao() {
+        int ISBN;
+        System.out.println("As suas obras");
+        System.out.println(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual));
+
+        do {
+            System.out.println("Introduza o codigo ISBN da obra que pretende submeter para revisao: ");
+            ISBN = sc.nextInt();
+
+            if(gereObras.pesquiarObraPorISBN(ISBN) == null) {
+                System.out.println("Nenhuma obra encontrada com o codigo " + ISBN);
+            }
+        } while (gereObras.pesquiarObraPorISBN(ISBN) == null);
+
+        gereObras.pesquiarObraPorISBN(ISBN).setEstado(0);
+        System.out.println("Operacao realizada com sucesso");
+        System.out.println("A sua obra foi submetida para revisao!");
+    }
+
     public void MenuInicialAutor(){
         System.out.println("Bem-Vindo Autor " + this.UtilizadorAtual.getNome());
         do{
             System.out.println("1  - Notificacoes");
             System.out.println("2  - Editar dados pessoais");
             System.out.println("3  - Solicitar remocao de conta");
-            System.out.println("4  - Submeter obra para revisao");
-            System.out.println("5  - Consultar estado de uma revisao");
-            System.out.println("6  - Listar as minhas revisoes");
-            System.out.println("7  - Pesquisar as minhas revisoes");
-            System.out.println("8  - Listar as minhas obras");
-            System.out.println("9  - Pesquisar as minhas obras");
-            System.out.println("10 - Terminar Sessao");
+            System.out.println("4  - Criar obra");
+            System.out.println("5  - Submeter obra para revisao");
+            System.out.println("6  - Consultar estado de uma revisao");
+            System.out.println("7  - Listar as minhas revisoes");
+            System.out.println("8  - Pesquisar as minhas revisoes");
+            System.out.println("9  - Listar as minhas obras");
+            System.out.println("10  - Pesquisar as minhas obras");
+            System.out.println("11 - Terminar Sessao");
 
             this.Opcao = sc.nextInt();
 
@@ -875,7 +945,7 @@ public class App {
                 case 1: 
                     System.out.println("Notificacoes Autor");
                     MenuInicialAutor();
-                    //Notificacoes
+                    //Notificações
                     break;
 
                 case 2:
@@ -884,49 +954,49 @@ public class App {
                     break;
 
                 case 3:
-                    System.out.println("Solicitar remocao de conta");
-                    this.UtilizadorAtual.setEstado(-3);
-                    listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
-                    if(this.UtilizadorAtual.getEstado() == -3) {
-                        System.out.println("O seu pedido foi realizado com sucesso!");
-                        this.MenuInicialAutor();
-                    }
-                    System.out.println("Nao foi possivel realizar o seu pedido!");                    
-                    this.MenuInicialAutor();
+                    solicitarRemocaoConta();
                     // Solicitar remoção de conta
                     break;
 
                 case 4:
-                    System.out.println("Submeter obra para revisao");
-                    // Submeter obra para revisão
+                    criarObra();
+                    this.MenuInicialAutor();
+                    // Criar obra
                     break;
 
                 case 5:
+                    submeterObraParaRevisao();
+                    this.MenuInicialAutor();
+                    // Submeter obra para revisão
+                    break;
+
+                case 6:
                     System.out.println("Consultar estado de uma revisao");
                     // Consultar estado de uma revisão
                     break;
 
-                case 6:
+                case 7:
                     System.out.println("Listar as minhas revisoes");
                     // Listar as minhas revisões
                     break;
 
-                case 7:
+                case 8:
                     System.out.println("Pesquisar as minhas revisoes");
                     // Pesquisar as minhas revisões
                     break;
 
-                case 8:
-                    System.out.println("Listar as minhas obras");
+                case 9:
+                    System.out.println(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual));
+                    this.MenuInicialAutor();
                     // Listar as minhas obras
                     break;
 
-                case 9:
-                    System.out.println("Pesquisar as minhas obras");
+                case 10:
+                    gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual);
                     // Pesquisar as minhas obras
                     break;
 
-                case 10:
+                case 11:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     MenuInicial();
                     break;
@@ -936,18 +1006,18 @@ public class App {
                     break;
             }
 
-            if(this.Opcao < 1 || this.Opcao > 10)
+            if(this.Opcao < 1 || this.Opcao > 11)
             {
                 System.out.println("Opcao invalida!");
                 System.out.println("Por favor introduza uma opcao valida!");
             }
 
-            if(this.Opcao >= 1 && this.Opcao <= 10)
+            if(this.Opcao >= 1 && this.Opcao <= 11)
             {
                 break;
             }
 
-        } while(this.Opcao != 0);
+        } while(this.Opcao != 11);
     }
 
     public void MenuInicialRevisor(){

@@ -1,116 +1,123 @@
 public class Obra {
+    private Autor Autor;
     private String Titulo;
     private String EstiloLiterario;
-    private String TipoPub;
-    private int NumEd;
-    private Autor Autor;
-    private int NumPaginas;
-    private int numeroEdicao;
-    private Anotacao anotacoes;
+    private String TipoPublicacao;
+    private int NumeroPaginas;
     private int ISBN; // único
+    private int NumeroEdicao;
+    private Anotacao anotacao;
     private String DataSubmissao;
-    private String DataAceitacao;
+    private String DataAprovacao;
+    private int Estado; // -2 -> obra rejeitada para revisão | -1 -> obra apenas criada | 0 -> obra submetida para revisão | 1 -> obra aceite para revisão | 2-> obra com revisão concluída
 
-    public Obra(String _Titulo, String _EstiloLiterario, String _TipoPub, int _NumEd, Autor _Autor, int _NumPaginas, int _numeroEdicao, Anotacao _anotacoes, int _ISBN, String _DataSubmissao, String _DataAceitacao) {
-        this.Titulo = _Titulo;
-        this.EstiloLiterario = _EstiloLiterario;
-        this.TipoPub = _TipoPub;
-        this.NumEd = _NumEd;
-        this.Autor = _Autor;
-        this.NumPaginas = _NumPaginas;
-        this.numeroEdicao = _numeroEdicao;
-        this.anotacoes = _anotacoes;
-        this.ISBN = _ISBN;
-        this.DataSubmissao = _DataSubmissao;
-        this.DataAceitacao = _DataAceitacao;
+    public Obra(Autor aAutor, String aTitulo, String aEstiloLiterario, String aTipoPublicacao, int aNumeroPaginas, int aISBN, int aNumeroEdicao, String aDataSubmissao, String aDataAprovacao, int aEstado) {
+        this.Autor = aAutor;
+        this.Titulo = aTitulo;
+        this.EstiloLiterario = aEstiloLiterario;
+        this.TipoPublicacao = aTipoPublicacao;
+        this.NumeroPaginas = aNumeroPaginas;
+        this.ISBN = aISBN;
+        this.NumeroEdicao = aNumeroEdicao;
+        this.DataSubmissao = aDataSubmissao;
+        this.DataAprovacao = aDataAprovacao;
+        this.Estado = aEstado;
+
     }
 
     public String getTitulo() {
-        return Titulo;
+        return this.Titulo;
     }
 
     public String getEstiloLiterario() {
-        return EstiloLiterario;
+        return this.EstiloLiterario;
     }
 
-    public String getTipoPub() {
-        return TipoPub;
+    public String getTipoPublicacao() {
+        return this.TipoPublicacao;
     }
 
-    public int getNumEd() {
-        return NumEd;
+    public int getNumEdicao() {
+        return this.NumeroEdicao;
     }
 
     public Autor getAutor() {
-        return Autor;
+        return this.Autor;
     }
 
-    public int getNumPaginas() {
-        return NumPaginas;
+    public int getNumeroPaginas() {
+        return this.NumeroPaginas;
     }
 
     public int getNumeroEdicao() {
-        return numeroEdicao;
+        return this.NumeroEdicao;
     }
 
-    public Anotacao getAnotacoes() {
-        return anotacoes;
+    public Anotacao getAnotacao() {
+        return this.anotacao;
     }
 
     public int getISBN() {
-        return ISBN;
+        return this.ISBN;
     }
 
     public String getDataSubmissao() {
-        return DataSubmissao;
+        return this.DataSubmissao;
     }
 
-    public String getDataAceitacao() {
-        return DataAceitacao;
+    public String getDataAprovacao() {
+        return this.DataAprovacao;
     }
 
-    public void setTitulo(String titulo) {
-        Titulo = titulo;
+    public int getEstado() {
+        return this.Estado;
     }
 
-    public void setEstiloLiterario(String estiloLiterario) {
-        EstiloLiterario = estiloLiterario;
+    public void setTitulo(String aTitulo) {
+        this.Titulo = aTitulo;
     }
 
-    public void setTipoPub(String tipoPub) {
-        TipoPub = tipoPub;
+    public void setEstiloLiterario(String aEstiloLiterario) {
+        this.EstiloLiterario = aEstiloLiterario;
     }
 
-    public void setNumEd(int numEd) {
-        NumEd = numEd;
+    public void setTipoPublicacao(String aTipoPublicacao) {
+        this.TipoPublicacao = aTipoPublicacao;
     }
 
-    public void setAutor(Autor autor) {
-        Autor = autor;
+    public void setNumeroEdicao(int aNumeroEdicao) {
+        this.NumeroEdicao = aNumeroEdicao;
     }
 
-    public void setNumPaginas(int numPaginas) {
-        NumPaginas = numPaginas;
+    public void setAutor(Autor aAutor) {
+        this.Autor = aAutor;
     }
 
-    public void setNumeroEdicao(int numeroEdicao) {
-        this.numeroEdicao = numeroEdicao;
+    public void setNumeroPaginas(int aNumeroPaginas) {
+        this.NumeroPaginas = aNumeroPaginas;
     }
 
-    public void setAnotacoes(Anotacao anotacoes) {
-        this.anotacoes = anotacoes;
+    public void setAnotacao(Anotacao aAnotacao) {
+        this.anotacao = aAnotacao;
     }
 
-    public void setISBN(int ISBN) {
-        this.ISBN = ISBN;
+    public void setISBN(int aISBN) {
+        this.ISBN = aISBN;
     }
 
-    public void setDataSubmissao(String dataSubmissao) {
-        DataSubmissao = dataSubmissao;
+    public void setDataSubmissao(String aDataSubmissao) {
+        this.DataSubmissao = aDataSubmissao;
     }
 
-    public void setDataAceitacao(String dataAceitacao) {
-        DataAceitacao = dataAceitacao;
+    public void setDataAceitacao(String aDataAprovacao) {
+        this.DataAprovacao = aDataAprovacao;
     }
-    
+
+    public void setEstado(int aEstado) {
+        this.Estado = aEstado;
+    }
+
+    public String toString() {
+        return "Titulo: " + this.Titulo + ", ISBN: " + this.ISBN;
+    }
 }
