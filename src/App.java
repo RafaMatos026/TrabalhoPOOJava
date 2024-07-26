@@ -137,9 +137,12 @@ public class App {
     public void AceitarRecusarPedidoRemocao() {
         Utilizadores.listarPedidosRemocaoPendentes();
         Utilizador utilizador = null;
+        int contador = 0;
 
         do{
-            sc.nextLine();
+            if(!(contador > 0)) {
+                sc.nextLine();
+            }
             System.out.println("Introduza o login do utilizador a que pretende aceitar/recusar: ");
             String userLogin = sc.nextLine();
             
@@ -147,6 +150,7 @@ public class App {
 
             if(utilizador == null) {
                 System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
+                contador++;
             }
 
         }while(utilizador == null);
@@ -695,16 +699,15 @@ public class App {
         int ISBN;
         System.out.println(gereRevisoes.listarPedidosRevisaoMenuGestor());
 
-        do {
-            System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
-            ISBN = sc.nextInt();
+        if(gereRevisoes.listarPedidosRevisaoMenuGestor() == "De momento nao existem pedidos de revisao!") {
+            return;
+        }
+        
+        System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
+        ISBN = sc.nextInt();
 
-            revisao = gereRevisoes.pesquisarPorISBN(ISBN);
+        revisao = gereRevisoes.pesquisarPorISBN(ISBN);
 
-            if(revisao == null) {
-                System.out.println("Nao existe nenhuma obra por aceitar/recusar com o codigo " + ISBN);
-            }
-        } while (revisao == null);
 
         do {
             System.out.println("1 - Aceitar");
@@ -799,15 +802,28 @@ public class App {
                     break;
 
                 case 6:
-                    String Titulo;
+                   /*  Revisao revisaoAux;
+                    int numeroSerie;
                     System.out.println(gereRevisoes.listarRevisoes());
-                    System.out.println("Introduza o titulo da obra em revisao a que pretende atribuir o revisor: ");
-                    Titulo = sc.nextLine();
+                    System.out.println("Introduza o numero de serie da revisao a que pretende atribuir o revisor: ");
+                    numeroSerie = sc.nextInt();
 
-                    System.out.println("Introduza o login do revisor que pretende atribuir: ");
+                    revisaoAux = gereRevisoes.pesquisarPorNumeroSerie(numeroSerie);
+
+                    revisaoAux.getListaRevisoresIndisponiveis();
+
+                    gereRevisoes.getListaRevisoes();
+
+                    revisaoAux.listarRevisoresDisponiveis((Revisao)revisaoAux);
                     
 
-                    gereRevisoes.pesquisarPorTitulo()
+
+                    System.out.println();
+
+                    System.out.println("Introduza o login do revisor que pretende atribuir: ");
+                     */
+
+                    
                     // Atribui processo de revisão
                     break;
 
@@ -885,14 +901,7 @@ public class App {
                     break;
 
                 case 18:
-                    System.out.println("Solicitar remocao de conta");
-                    this.UtilizadorAtual.setEstado(-3);
-                    listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
-                    if(this.UtilizadorAtual.getEstado() == -3) {
-                        System.out.println("O seu pedido foi realizado com sucesso!");
-                        this.MenuInicialGestor();
-                    }
-                    System.out.println("Nao foi possivel realizar o seu pedido!");                    
+                    solicitarRemocaoConta();
                     this.MenuInicialGestor();
                     // Solicitar remoção de conta
                     break;
@@ -950,10 +959,10 @@ public class App {
         listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
         if(this.UtilizadorAtual.getEstado() == -3) {
             System.out.println("O seu pedido foi realizado com sucesso!");
-            this.MenuInicialAutor();
+            return;
         }
         System.out.println("Nao foi possivel realizar o seu pedido!");                    
-        this.MenuInicialAutor();
+        return;
     }
 
     public void submeterObraParaRevisao() {
@@ -978,6 +987,48 @@ public class App {
         gereRevisoes.adicionarRevisao(novaRevisao);
         System.out.println("Operacao realizada com sucesso");
         System.out.println("A sua obra foi submetida para revisao!");
+    }
+
+    public void consultarEstadodaRevisaoAutor(Autor aAutor) {
+        int numeroSerie;
+        System.out.println(gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual));
+
+        if(gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual).equals("De momento nao tem nenhuma revisao ativa!")) {
+            return;
+        }
+
+        System.out.println("Introduza o numero de serie da revisao que deseja consultar: ");
+        numeroSerie = sc.nextInt();
+
+        switch(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie).getEstado()) {            
+            case -1:
+                System.out.println("Esta revisao foi recusada pelo gestor");
+                break;
+
+            case 0:
+                System.out.println("Esta revisao encontra-se iniciada (ja submetida pelo autor, a aguardar autorizacao do gestor)");
+                break;
+
+            case 1:
+                System.out.println("Esta revisao encontra-se aceite pelo gestor, esta a aguardar autorizacao do revisor");
+                break;
+
+            case 2:
+                System.out.println("Esta revisao ja foi aceite pelo revisor e encontra-se em execucao");
+                break;
+
+            case 3:
+                System.out.println("Esta revisao encontra-se finalizada");
+                break;
+
+            case 4:
+                System.out.println("Esta revisao encontra-se arquivada");
+                break;
+
+            default:
+                System.out.println("Algo correu mal!");
+                break;
+        }
     }
 
     public void MenuInicialAutor(){
@@ -1012,6 +1063,7 @@ public class App {
 
                 case 3:
                     solicitarRemocaoConta();
+                    this.MenuInicialAutor();
                     // Solicitar remoção de conta
                     break;
 
@@ -1028,12 +1080,13 @@ public class App {
                     break;
 
                 case 6:
-                    System.out.println("Consultar estado de uma revisao");
+                    consultarEstadodaRevisaoAutor((Autor)this.UtilizadorAtual); 
+                    this.MenuInicialAutor();
                     // Consultar estado de uma revisão
                     break;
 
                 case 7:
-                    System.out.println("Listar as minhas revisoes");
+                    gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual);
                     // Listar as minhas revisões
                     break;
 
@@ -1113,20 +1166,12 @@ public class App {
                 break;
                 
             case 2: 
-                revisao.setEstado(-2);
+                revisao.setEstado(0);
+                revisao.adicionarRevisorIndisponivel((Revisor)this.UtilizadorAtual);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Revisao recusada!");
                 break;
         }                         
-    }
-
-    public void solicitacaoRemoverContaRevisor() {
-        this.UtilizadorAtual.setEstado(-3);
-        listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
-        if(this.UtilizadorAtual.getEstado() == -3) {
-            System.out.println("O seu pedido foi realizado com sucesso!");
-        }
-        System.out.println("Nao foi possivel realizar o seu pedido!"); 
     }
 
     public void revisorPesquisarRevisoes() {
@@ -1161,23 +1206,26 @@ public class App {
                     break;
 
                 case 3:
-                    solicitacaoRemoverContaRevisor();               
+                    solicitarRemocaoConta();              
                     this.MenuInicialRevisor();
                     // Solicitar remoção de conta
                     break;
 
                 case 4: 
                     revisorAceitarRecusarPedidoRevisao();
+                    this.MenuInicialRevisor();
                     // Gerir processos de revisão
                     break;
 
                 case 5:
                     System.out.println(gereRevisoes.listarRevisoesConsoanteRevisor((Revisor)this.UtilizadorAtual));
+                    this.MenuInicialRevisor();
                     // Listar as minhas revisões
                     break;
 
                 case 6:
                     revisorPesquisarRevisoes();
+                    this.MenuInicialRevisor();
                     // Pesquisar as minhas revisões
 
                 case 7:

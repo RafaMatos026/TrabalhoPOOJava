@@ -8,6 +8,10 @@ public class GereRevisoes {
         listaRevisoes = new ArrayList<Revisao>();
     }
 
+    public ArrayList<Revisao> getListaRevisoes() {
+        return this.listaRevisoes;
+    }
+
     public int ultimoNumeroSerie() {
        if(this.listaRevisoes != null && this.listaRevisoes.size() > 0) {
             Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
@@ -133,8 +137,34 @@ public class GereRevisoes {
         return "De momento, nao existem revisoes ativas";
     }
 
-    public void pesquisarPorTitulo(String aTitulo) {
-        
+    public Revisao pesquisarPorNumeroSerie(int aNumeroSerie) {
+        if (listaRevisoes != null && listaRevisoes.size() > 0) {
+            Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
+            while (lista_revisoes.hasNext()) {
+                Revisao revisao = (Revisao) lista_revisoes.next();
+                
+                if(revisao.getNumeroSerie() == revisao.getNumeroSerie()) {
+                    return revisao;
+                }
+            }
+            return null;
+        }
+        return null;
     }
 
+    public String listarRevisoesDesteAutor(Autor aAutor) {
+        if (listaRevisoes != null && listaRevisoes.size() > 0) {
+            Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
+            String listaRevisoesDesteAutor = "";
+            while (lista_revisoes.hasNext()) {
+                Revisao revisao = (Revisao) lista_revisoes.next();
+                
+                if(revisao.getObra().getAutor().equals(aAutor)) {
+                    listaRevisoesDesteAutor += revisao + "\n";
+                }
+            }
+            return listaRevisoesDesteAutor;
+        }
+        return "De momento nao tem nenhuma revisao ativa!";
+    }
 }

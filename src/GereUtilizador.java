@@ -100,19 +100,4 @@ public class GereUtilizador {
         }
         return null;
     }
-
-    public String listarRevisoresDisponiveis(ArrayList<Revisor> aTodosRevisores, ArrayList<Revisor> aRevisoresIndisponiveis) {
-        Iterator<Revisor> listaRevisores = aTodosRevisores.iterator();
-
-        while(listaRevisores.hasNext()) {
-            Revisor revisor = (Revisor) listaRevisores.next();
-            if(revisor instanceof Revisor){
-                if(!aRevisoresIndisponiveis.contains(revisor) && !aTodosRevisores.contains(revisor)) {
-                    revisoresDisponiveis
-                }
-            }
-        }
-
-        return "";
-    }
 }

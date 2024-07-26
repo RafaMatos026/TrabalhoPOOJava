@@ -87,23 +87,25 @@ public class Revisao {
         listaAnotacoes.remove(aAnotacao);
     }
 
+    public boolean adicionarRevisorIndisponivel(Revisor aRevisor) {
+        return listaRevisoresIndisponiveis.add(aRevisor);
+    } 
+
     public String toString() {
-        return "Titulo: " + this.obra.getTitulo() + ", ISBN: " + this.obra.getISBN();
-    }
-    
-    public void ListarRevisores(){
-        Iterator<Revisor> lista_revisores = listaRevisores.iterator();
-        while (lista_revisores.hasNext()) {
-            Utilizador revisor = lista_revisores.next();
-            System.out.println(revisor.getNome());
-        }
+        return "Titulo: " + this.obra.getTitulo() + ", ISBN: " + this.obra.getISBN() + ", Numero de serie: " + this.numeroSerie;
     }
 
-    public void ListarAnotacoes(){
-        Iterator<Anotacao> lista_anotacoes = listaAnotacoes.iterator();
-        while (lista_anotacoes.hasNext()) {
-            Anotacao anotacao = lista_anotacoes.next();
-            System.out.println(anotacao.getDescricao());
+    /* public String listarRevisoresDisponiveis(Revisao aRevisao, Revisao aListaTodos) {
+        Iterator<Revisor> listaRevisores = aListaTodos.iterator();
+        String listaRevisoresDisponiveis = "";
+
+        while(listaRevisores.hasNext()) {
+            Revisor revisor = (Revisor) listaRevisores.next();
+            if(!(listaRevisoresIndisponiveis.contains(revisor)) && !(aRevisao.getListaRevisores().contains(revisor))) {
+                listaRevisoresDisponiveis += revisor + "\n";
+            }
+            return listaRevisoresDisponiveis;
         }
-    }
+        return "De momento não existem revisores disponiveis!";
+    } */
 }
