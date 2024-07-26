@@ -348,6 +348,9 @@ public class App {
                 default:
                     System.out.println("Opcao Invalida!");
             }
+            if(this.UtilizadorAtual instanceof Gestor) {
+                this.MenuInicialGestor();
+            }
             this.MenuInicial();
         }
     }
@@ -652,6 +655,38 @@ public class App {
         }
     }
 
+    public void gestorCriaUtilizador() {
+        do{
+            System.out.println("Introduza o tipo de conta que pretende criar:");
+            System.out.println("1 - Autor");
+            System.out.println("2 - Revisor");
+            System.out.println("3 - Gestor");
+            this.Opcao = sc.nextInt();
+
+            if (this.Opcao < 1 | this.Opcao > 3){
+                System.out.println("Opcao Invalida!");
+            }
+        }while(this.Opcao < 1 || this.Opcao > 3);
+
+        switch (this.Opcao){
+            case 1:
+                this.RegistoOutroUtilizador(1);
+                break;
+
+            case 2:
+                this.RegistoOutroUtilizador(2);
+                break;
+
+
+            case 3:
+                this.RegistoOutroUtilizador(3);
+                break;
+
+            default:
+                System.out.println("Opcao Invalida!");
+        }
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -689,7 +724,7 @@ public class App {
                     break;
 
                 case 2:
-                    System.out.println(">> Criar Utilizador <<");
+                    gestorCriaUtilizador();
                     // criar utilizador
                     break;
                 case 3:
