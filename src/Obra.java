@@ -9,9 +9,8 @@ public class Obra {
     private Anotacao anotacao;
     private String DataSubmissao;
     private String DataAprovacao;
-    private int Estado; // -2 -> obra rejeitada para revisão | -1 -> obra apenas criada | 0 -> obra submetida para revisão | 1 -> obra aceite para revisão | 2-> obra com revisão concluída
 
-    public Obra(Autor aAutor, String aTitulo, String aEstiloLiterario, String aTipoPublicacao, int aNumeroPaginas, int aISBN, int aNumeroEdicao, String aDataSubmissao, String aDataAprovacao, int aEstado) {
+    public Obra(Autor aAutor, String aTitulo, String aEstiloLiterario, String aTipoPublicacao, int aNumeroPaginas, int aISBN, int aNumeroEdicao, String aDataSubmissao, String aDataAprovacao) {
         this.Autor = aAutor;
         this.Titulo = aTitulo;
         this.EstiloLiterario = aEstiloLiterario;
@@ -21,8 +20,6 @@ public class Obra {
         this.NumeroEdicao = aNumeroEdicao;
         this.DataSubmissao = aDataSubmissao;
         this.DataAprovacao = aDataAprovacao;
-        this.Estado = aEstado;
-
     }
 
     public String getTitulo() {
@@ -69,10 +66,6 @@ public class Obra {
         return this.DataAprovacao;
     }
 
-    public int getEstado() {
-        return this.Estado;
-    }
-
     public void setTitulo(String aTitulo) {
         this.Titulo = aTitulo;
     }
@@ -111,10 +104,6 @@ public class Obra {
 
     public void setDataAceitacao(String aDataAprovacao) {
         this.DataAprovacao = aDataAprovacao;
-    }
-
-    public void setEstado(int aEstado) {
-        this.Estado = aEstado;
     }
 
     public String toString() {
