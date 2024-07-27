@@ -144,4 +144,36 @@ public class GereUtilizador implements Serializable{
         }
         return false;
     }
+
+    public boolean verificaLogin(String aLogin) {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if(utilizador.getLogin().equals(aLogin)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
+
+    public boolean verificaEmail(String aEmail) {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if(utilizador.getEmail().equals(aEmail)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 }

@@ -83,6 +83,10 @@ public class Revisao {
         return listaAnotacoes.add(aAnotacao);
     }
 
+    public boolean AdicionarObservacaoGenerica(String aObservacaoGenerica) {
+        return this.observacoesGenericas.add(aObservacaoGenerica);
+    }
+
     public void RemoverAnotacao(Anotacao aAnotacao){
         listaAnotacoes.remove(aAnotacao);
     }

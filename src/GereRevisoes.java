@@ -101,7 +101,7 @@ public class GereRevisoes implements Serializable{
                 return listaPedidos;
             }
         }
-        return "Este autor nao tem obras criadas!";
+        return "De momento nao ha revisoes para criar!";
     }
 
     public String pesquisarRevisaoPorTituloObra(Revisor aRevisor, String aTitulo) {
@@ -177,6 +177,22 @@ public class GereRevisoes implements Serializable{
                 Revisao revisao = (Revisao) lista_revisoes.next();
                 
                 if(revisao.getEstado() == aEstado) {
+                    listaRevisoesDesteAutor += revisao + "\n";
+                }
+            }
+            return listaRevisoesDesteAutor;
+        }
+        return null;
+    }
+
+    public String pesquiarObraDesteAutorPorTitulo(String aTitulo, Autor aAutor) {
+        if (listaRevisoes != null && listaRevisoes.size() > 0) {
+            Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
+            String listaRevisoesDesteAutor = "";
+            while (lista_revisoes.hasNext()) {
+                Revisao revisao = (Revisao) lista_revisoes.next();
+                
+                if(revisao.getObra().getTitulo().equals(aTitulo) && revisao.getObra().getAutor().equals(aAutor)) {
                     listaRevisoesDesteAutor += revisao + "\n";
                 }
             }

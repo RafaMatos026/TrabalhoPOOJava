@@ -201,8 +201,6 @@ public class App {
         else {
             utilizador.setEstado(1);
         }
-
-        MenuInicialGestor();
     }
 
 
@@ -234,8 +232,14 @@ public class App {
         System.out.println("Nome: ");
         _Nome = this.sc.nextLine();
 
-        System.out.println("Login: ");
-        _Login = this.sc.nextLine();
+        do {
+            System.out.println("Login: ");
+            _Login = this.sc.nextLine();
+
+            if(Utilizadores.verificaLogin(_Login)){
+                System.out.println("Ja existe um utilizador com o login " + _Login);
+            }
+        } while (Utilizadores.verificaLogin(_Login));
 
 
         if (_TipoUtilizador.getID() == 1 || _TipoUtilizador.getID() == 2){
@@ -256,8 +260,14 @@ public class App {
             _Morada = this.sc.nextLine();
         }
 
-        System.out.println("Email: ");
-        _Email = this.sc.nextLine();
+        do {
+            System.out.println("Email: ");
+            _Email = this.sc.nextLine();
+
+            if(Utilizadores.verificaEmail(_Email)){
+                System.out.println("Ja existe um utilizador com o email " + _Email);
+            }
+        } while (Utilizadores.verificaEmail(_Email));
 
         do {
             System.out.println("Password: ");
@@ -858,6 +868,47 @@ public class App {
         ativarInativar(utilizador);
     }
 
+    public void consultarEstadoRevisaoGestor() {
+        int numeroSerie;
+                    System.out.println("Introduza o numero de serie da revisao que pretende consultar: ");
+                    numeroSerie = sc.nextInt();
+
+                    if(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie) == null) {
+                        System.out.println("Nao ha revisoes com o numero de serie " + numeroSerie);
+                        return;
+                    }
+
+                    switch(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie).getEstado()) {            
+                        case -1:
+                            System.out.println("Esta revisao foi recusada pelo gestor");
+                            break;
+            
+                        case 0:
+                            System.out.println("Esta revisao encontra-se iniciada (ja submetida pelo autor, a aguardar autorizacao do gestor)");
+                            break;
+            
+                        case 1:
+                            System.out.println("Esta revisao encontra-se aceite pelo gestor, esta a aguardar autorizacao do revisor");
+                            break;
+            
+                        case 2:
+                            System.out.println("Esta revisao ja foi aceite pelo revisor e encontra-se em execucao");
+                            break;
+            
+                        case 3:
+                            System.out.println("Esta revisao encontra-se finalizada");
+                            break;
+            
+                        case 4:
+                            System.out.println("Esta revisao encontra-se arquivada");
+                            break;
+            
+                        default:
+                            System.out.println("Algo correu mal!");
+                            break;
+                    }
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -901,6 +952,7 @@ public class App {
 
                 case 2:
                     gestorCriaUtilizador();
+                    this.MenuInicialGestor();
                     // criar utilizador
                     break;
                 case 3:
@@ -920,6 +972,7 @@ public class App {
                     if(Utilizadores.listarPedidosRemocaoPendentes() != "De momento nao ha pedidos de remocao!") {
                         AceitarRecusarPedidoRemocao();
                     }
+                    this.MenuInicialGestor();
                     // Pedidos de remoção
                     break;
 
@@ -961,12 +1014,14 @@ public class App {
                     break ;
                 
                 case 8:
-                    System.out.println("Consultar estado de uma revisao");
+                    consultarEstadoRevisaoGestor();
+                    this.MenuInicialGestor();
                     // Consultar estado de uma revisão
                     break ;
 
                 case 9:
-                    System.out.println(gereRevisoes.listarTodasRevisoes());   
+                    System.out.println(gereRevisoes.listarTodasRevisoes());
+                    this.MenuInicialGestor();   
                     // Listar todas as revisões
                     break ;
                     
@@ -1195,6 +1250,19 @@ public class App {
         }
     }
 
+    public void pesquisarRevisoesDesteAutor() {
+        String Titulo;
+        System.out.println("Introduza o titulo da obra da revisao que pretende encontrar: ");
+        Titulo = sc.nextLine();
+
+        if(gereRevisoes.pesquiarObraDesteAutorPorTitulo(Titulo, (Autor)this.UtilizadorAtual) == null) {
+            System.out.println("Nao existem obras suas com o titulo " + Titulo);
+            return;
+        }
+
+        System.out.println(gereRevisoes.pesquiarObraDesteAutorPorTitulo(Titulo, (Autor)this.UtilizadorAtual));
+    }
+
     public void MenuInicialAutor(){
         System.out.println("Bem-Vindo Autor " + this.UtilizadorAtual.getNome());
         do{
@@ -1207,7 +1275,7 @@ public class App {
             System.out.println("7  - Listar as minhas revisoes");
             System.out.println("8  - Pesquisar as minhas revisoes");
             System.out.println("9  - Listar as minhas obras");
-            System.out.println("10  - Pesquisar as minhas obras");
+            System.out.println("10 - Pesquisar as minhas obras");
             System.out.println("11 - Terminar Sessao");
 
             this.Opcao = sc.nextInt();
@@ -1250,23 +1318,14 @@ public class App {
                     break;
 
                 case 7:
-                    gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual);
+                    System.out.println(gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual));
                     this.MenuInicialAutor();
                     // Listar as minhas revisões
                     break;
 
                 case 8:
-                    String Titulo;
-                    int ISBN;
-                    System.out.println("Introduza o titulo da obra da revisao que pretende encontrar: ");
-                    Titulo = sc.nextLine();
-
-                    System.out.println(gereObras.pesquiarObraPorTitulo(Titulo));
-
-                    System.out.println("Introduza o codigo ISBN da obra da revisao que pretende encontrar: ");
-                    ISBN = sc.nextInt();
-
-                    System.out.println(gereRevisoes.pesquisarPorISBN(ISBN));
+                    pesquisarRevisoesDesteAutor();
+                    this.MenuInicialAutor();
                     // Pesquisar as minhas revisões
                     break;
 
@@ -1277,7 +1336,8 @@ public class App {
                     break;
 
                 case 10:
-                    gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual);
+                    System.out.println(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual));
+                    this.MenuInicialAutor();
                     // Pesquisar as minhas obras
                     break;
 
@@ -1343,6 +1403,9 @@ public class App {
             case 2: 
                 revisao.setEstado(0);
                 revisao.adicionarRevisorIndisponivel((Revisor)this.UtilizadorAtual);
+                String dataRealizacao;
+                dataRealizacao = sc.nextLine();
+                revisao.setDataRealizacao(dataRealizacao);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Revisao recusada!");
                 break;
@@ -1356,6 +1419,85 @@ public class App {
         System.out.println(gereRevisoes.pesquisarRevisaoPorTituloObra((Revisor)this.UtilizadorAtual, Titulo));
     }
 
+    public void editarRevisao() {
+        Revisao revisao;
+        System.out.println("As suas revisoes");
+        System.out.println(gereRevisoes.listarRevisoesConsoanteRevisor((Revisor)this.UtilizadorAtual));
+        
+        if(gereRevisoes.listarRevisoesConsoanteRevisor((Revisor)this.UtilizadorAtual).equals("De momento nao ha revisoes para criar!")) {
+            return;
+        }
+
+        int numeroSerie;
+        System.out.println("Introduza o numero de serie da revisao que pretende editar: ");
+        numeroSerie = sc.nextInt();
+
+        revisao = gereRevisoes.pesquisarPorNumeroSerie(numeroSerie);
+
+        if(revisao == null) {
+            System.out.println("Nao existem revisoes com o numero de serie " + numeroSerie);
+            return;
+        }
+
+        do {
+            System.out.println("A revisao a editar: ");
+            System.out.println(revisao);
+            System.out.println();
+            System.out.println("Selecione o campo que pretende editar: ");
+            System.out.println("1 - Adicionar anotacao");
+            System.out.println("2 - Adicionar observacao generica");
+            System.out.println("3 - Finalizar revisao");
+            System.out.println("4 - Cancelar");
+            this.Opcao = sc.nextInt();
+
+            if(this.Opcao < 1 || this.Opcao > 4) {
+                System.out.println("Por favor introduza uma opcao valida!");
+            }
+        } while (this.Opcao < 1 || this.Opcao > 4);
+
+        switch(this.Opcao) {
+            case 1:
+                String descricao;
+                int pagina;
+                int paragrafo;
+                String data;
+                System.out.println("Escreva uma descricao para a sua anotacao: ");
+                descricao = sc.nextLine();
+                
+                System.out.println("Indique a pagina em que se encontra a anotacao: ");
+                pagina = sc.nextInt();
+
+                System.out.println("Indique o paragrafo em que se encontra a anotacao: ");
+                paragrafo = sc.nextInt();
+
+                System.out.println("Indique a data da anotacao: ");
+                data = sc.nextLine();
+
+                Anotacao novaAnotacao = new Anotacao(descricao, pagina, paragrafo, data);
+                revisao.AdicionarAnotacao(novaAnotacao);
+                break;
+            
+            case 2:
+                String observacaoGenerica;
+                System.out.println("Escreva uma observacao generica: ");
+                observacaoGenerica = sc.nextLine();
+                revisao.AdicionarObservacaoGenerica(observacaoGenerica);
+                break;
+
+            case 3:
+                revisao.setEstado(3);
+                break;
+
+            case 4:
+                this.MenuInicialRevisor();
+                break;
+
+            default:
+                System.out.println("Algo correu mal!");
+                break;
+        }
+    }
+
     public void MenuInicialRevisor(){
         System.out.println("Bem-Vindo Revisor " + this.UtilizadorAtual.getNome());
         do {
@@ -1363,6 +1505,7 @@ public class App {
             System.out.println("2  - Editar dados pessoais");
             System.out.println("3  - Solicitar remocao de conta");
             System.out.println("4  - Gerir processos de revisao");
+            System.out.println("5  - Editar revisao");
             System.out.println("5  - Listar as minhas revisoes");
             System.out.println("6  - Pesquisar as minhas revisoes");
             System.out.println("7  - Terminar sessao");
@@ -1372,6 +1515,7 @@ public class App {
             switch (this.Opcao) {
                 case 1:
                     System.out.println(">> Notificacoes <<");
+                    this.MenuInicialRevisor();
                     // Notificações
                     break;
 
@@ -1393,21 +1537,27 @@ public class App {
                     break;
 
                 case 5:
+                    editarRevisao();
+                    this.MenuInicialRevisor();
+                    // Editar revisao
+                    break;
+
+                case 6:
                     System.out.println(gereRevisoes.listarRevisoesConsoanteRevisor((Revisor)this.UtilizadorAtual));
                     this.MenuInicialRevisor();
                     // Listar as minhas revisões
                     break;
 
-                case 6:
+                case 7:
                     revisorPesquisarRevisoes();
                     this.MenuInicialRevisor();
                     // Pesquisar as minhas revisões
 
-                case 7:
+                case 8:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
             }
-        } while (Opcao < 1 || Opcao > 7);
+        } while (Opcao < 1 || Opcao > 8);
     }
 
     public Utilizador getUtilizadorAtual(){
