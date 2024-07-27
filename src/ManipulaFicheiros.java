@@ -93,7 +93,33 @@ public class ManipulaFicheiros {
     return null;
     }
 
+    public GereInfoSistema leituraFicheiroInfoSistema() {
+
+        if(br != null) {
+            try {
+                return (GereInfoSistema) br.readObject();
+            } catch (IOException ioe) {
+                ioe.printStackTrace();
+            } catch (ClassNotFoundException cnfe) {
+                cnfe.printStackTrace();
+            }
+        }
+        return null;
+        }
+
     public boolean escreveFicheiro(BurroCarga aBilio) {
+        if (bw != null) {
+            try {
+            bw.writeObject(aBilio);
+            return true;
+            } catch (IOException ioe) {
+            ioe.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public boolean escreveFicheiro(GereInfoSistema aBilio) {
         if (bw != null) {
             try {
             bw.writeObject(aBilio);

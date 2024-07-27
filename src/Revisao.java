@@ -25,6 +25,7 @@ public class Revisao implements Serializable, Comparable <Revisao>{
     public static boolean getOrdenarPor() {
         return ordenarPor;
     }
+    
     public static void setOrdenarPor(boolean aOrdenarPor) {
         ordenarPor = aOrdenarPor;
     }
