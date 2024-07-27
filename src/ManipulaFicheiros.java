@@ -4,22 +4,15 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
-import java.util.Vector;
-import java.util.Enumeration;
 
 public class ManipulaFicheiros {
-    // acesso ficheiro
     File fileFicheiroLeitura;
     File fileFicheiroEscrita;
-    // stream de leitura
-    FileInputStream fr;    // substitui o FileReader fr;
-    ObjectInputStream br;  // substitui o BufferedReader br;
-    // stream de escrita
-    FileOutputStream fw;   // substitui o FileWriter fw;
-    ObjectOutputStream bw; // substitui o BufferedWriter bw;
+    FileInputStream fr;   
+    ObjectInputStream br;  
+    FileOutputStream fw; 
+    ObjectOutputStream bw; 
 
-
-    // abertura ficheiro - leitura + escrita
     public boolean abrirFicheiroLeitura(String aCaminho) {
     if (aCaminho!=null && aCaminho.length()> 0 ) {
         fileFicheiroLeitura = new File(aCaminho);
@@ -41,7 +34,6 @@ public class ManipulaFicheiros {
     if (aCaminho!=null && aCaminho.length()> 0 ) {
         fileFicheiroEscrita = new File(aCaminho);
 
-        //if(fileFicheiroEscrita.exists()) {
         try {
             fw = new FileOutputStream(fileFicheiroEscrita);
             bw = new ObjectOutputStream(fw);
@@ -49,13 +41,10 @@ public class ManipulaFicheiros {
         } catch(IOException ioe) {
             ioe.printStackTrace();
         }
-        //}
     } 
     return false;
     }
 
-
-    // fecho ficheiro - leitura + escrita
     public boolean fecharFicheiroLeitura(){
 
     try {
@@ -90,7 +79,6 @@ public class ManipulaFicheiros {
     return false;
     }
 
-    // leitura ficheiro
     public BurroCarga leituraFicheiro() {
 
     if(br != null) {
@@ -105,7 +93,6 @@ public class ManipulaFicheiros {
     return null;
     }
 
-    // escrita ficheiro 
     public boolean escreveFicheiro(BurroCarga aBilio) {
         if (bw != null) {
             try {

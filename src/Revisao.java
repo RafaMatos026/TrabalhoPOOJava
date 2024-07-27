@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Revisao {
+public class Revisao implements Serializable{
     private ArrayList<Anotacao> listaAnotacoes = new ArrayList<Anotacao>();
     private ArrayList<String> observacoesGenericas = new ArrayList<String>();
     private ArrayList<Revisor> listaRevisoresIndisponiveis = new ArrayList<Revisor>();

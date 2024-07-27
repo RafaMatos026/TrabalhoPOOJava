@@ -49,7 +49,7 @@ public class GereRevisoes implements Serializable{
         return "De momento nao existem pedidos de revisao!";
     }
 
-    public String listarPedidosRevisaoMenuRevisor() {
+    public String listarPedidosRevisaoMenuRevisor(Revisor aRevisor) {
         if(this.listaRevisoes != null && this.listaRevisoes.size() > 0) {
             Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
             String listaPedidos = "";
@@ -57,7 +57,7 @@ public class GereRevisoes implements Serializable{
             while(lista_revisoes.hasNext()) {
                 Revisao revisao = (Revisao) lista_revisoes.next();
                 
-                if(revisao.getEstado() == 1) {
+                if(revisao.getEstado() == 1 && revisao.getListaRevisores().contains(aRevisor)) {
                     listaPedidos += revisao + "\n";
                 }
             }
@@ -66,7 +66,7 @@ public class GereRevisoes implements Serializable{
                 return listaPedidos;
             }
         }
-        return "De momento nao existem pedidos de revisao!";
+        return null;
     }
 
     public Revisao pesquisarPorISBN(int aISBN) {
@@ -92,7 +92,7 @@ public class GereRevisoes implements Serializable{
             while(lista_revisoes.hasNext()) {
                 Revisao revisao = (Revisao) lista_revisoes.next();
                 
-                if(revisao.getListaRevisores().contains(aRevisor)) {
+                if(revisao.getListaRevisores().contains(aRevisor) && revisao.getEstado() == 2) {
                     listaPedidos += revisao + "\n";
                 }
             }
@@ -101,7 +101,7 @@ public class GereRevisoes implements Serializable{
                 return listaPedidos;
             }
         }
-        return "De momento nao ha revisoes para criar!";
+        return "De momento nao tem revisoes ativas!";
     }
 
     public String pesquisarRevisaoPorTituloObra(Revisor aRevisor, String aTitulo) {

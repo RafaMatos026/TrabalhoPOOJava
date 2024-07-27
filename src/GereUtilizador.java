@@ -4,14 +4,27 @@ import java.util.Collections;
 import java.util.Iterator;
 
 public class GereUtilizador implements Serializable{
-    public ArrayList<Utilizador> listaUtilizadores;
+    private ArrayList<Utilizador> listaUtilizadores;
+    private ArrayList<Revisor> listaTodosRevisores;
     
     GereUtilizador() {
         this.listaUtilizadores = new ArrayList<Utilizador>();
+        this.listaTodosRevisores = new ArrayList<Revisor>();
     }
     
     public boolean adicionar(Utilizador aUtilizador) {
+        if(aUtilizador instanceof Revisor) {
+            listaTodosRevisores.add((Revisor)aUtilizador);
+        }
         return listaUtilizadores.add(aUtilizador);
+    }
+
+    public ArrayList<Utilizador> getListaUtilizadores() {
+        return listaUtilizadores;
+    }
+
+    public ArrayList<Revisor> getListaTodosRevisores() {
+        return listaTodosRevisores;
     }
 
     public Utilizador AtualizarUtilizadorAtual(String aEmail, String aPassword) {
