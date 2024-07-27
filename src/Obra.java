@@ -1,4 +1,6 @@
-public class Obra {
+import java.io.Serializable;
+
+public class Obra implements Serializable{
     private Autor Autor;
     private String Titulo;
     private String EstiloLiterario;

@@ -299,6 +299,7 @@ public class App {
             Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado, _NIF, _Morada, _Telefone, _formacaoAcademica);
 
             this.Utilizadores.adicionar(NovoRevisor);
+            this.listaTodosRevisores.add(NovoRevisor);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
 
@@ -463,6 +464,8 @@ public class App {
 
                     this.UtilizadorAtual.setNome(_Nome);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -474,6 +477,8 @@ public class App {
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -485,6 +490,8 @@ public class App {
 
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -496,6 +503,8 @@ public class App {
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -514,6 +523,8 @@ public class App {
                         autor.setNIF(_NIF);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -532,6 +543,8 @@ public class App {
                         autor.setMorada(_Morada);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -550,6 +563,8 @@ public class App {
                         autor.setTelefone(_Telefone);
                     }
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -572,6 +587,8 @@ public class App {
                         Revisor revisor = (Revisor) this.UtilizadorAtual;
                         revisor.setFormacaoAcademica(_FormacaoAcademica);
                     }
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -626,6 +643,8 @@ public class App {
 
                     this.UtilizadorAtual.setNome(_Nome);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -637,6 +656,8 @@ public class App {
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -648,6 +669,8 @@ public class App {
                     
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
@@ -659,11 +682,13 @@ public class App {
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     this.EditarDados();
                 }
 
                 case 5 -> {
-                        this.MenuInicialGestor();
+                    this.MenuInicialGestor();
                 }
 
                 default -> {
@@ -692,6 +717,8 @@ public class App {
                 }
                 else if(aUtilizador.getEstado() == -1) {
                     aUtilizador.setEstado(1);
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                 }
                 System.out.println("Operacao realizada com sucesso!");
                 break;
@@ -702,6 +729,8 @@ public class App {
                 }
                 else if(aUtilizador.getEstado() == 1) {
                     aUtilizador.setEstado(-1);
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                 }
                 System.out.println("Operacao realizada com sucesso!");
                 break;
@@ -743,17 +772,24 @@ public class App {
     public void gestorAceitarRecusarPedidoRevisao() {
         Revisao revisao = null;
         int ISBN;
-        System.out.println(gereRevisoes.listarPedidosRevisaoMenuGestor());
 
         if(gereRevisoes.listarPedidosRevisaoMenuGestor() == "De momento nao existem pedidos de revisao!") {
             return;
         }
         
-        System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
-        ISBN = sc.nextInt();
+        System.out.println(gereRevisoes.listarPedidosRevisaoMenuGestor());
 
-        revisao = gereRevisoes.pesquisarPorISBN(ISBN);
+        
+        do {
+            System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
+            ISBN = sc.nextInt();
 
+            revisao = gereRevisoes.pesquisarPorISBN(ISBN);
+
+            if(revisao == null) {
+                System.out.println("Nao existe nenhuma revisao ativa com o codigo " + ISBN);
+            }
+        } while (revisao == null);
 
         do {
             System.out.println("1 - Aceitar");
@@ -767,8 +803,33 @@ public class App {
         
         switch(this.Opcao) {
             case 1:
+                if(listarRevisoresDisponiveis(revisao) == null) {
+                    System.out.println("De momento nao ha revisores disponiveis!");
+                    System.out.println("Por favor tente mais tarde!");
+                    return;
+                }
+                Utilizador utilizador;
+                String login;
+
+                System.out.println(listarRevisoresDisponiveis(revisao));
+                System.out.println();
+                System.out.println("Introduza o login do revisor que pretende atribuir a esta revisao: ");
+                login = sc.nextLine();
+
+                utilizador = Utilizadores.PesquisarUtilizadorPorLogin(login);
+
+                if(utilizador == null || !(utilizador.getTipoUtilizador().getID() == 3)) {
+                    System.out.println("Nao existe nenhum revisor com o login " + login);
+                    return;
+                }
+
+                revisao.setRevisorResponsavel((Revisor)utilizador);
                 revisao.setGestorResponsavel((Gestor)this.UtilizadorAtual);
                 revisao.setEstado(1);
+
+                burroCarga.setGereRevisoes(gereRevisoes);
+                escreverBurroCarga(burroCarga);
+
                 System.out.println(listarRevisoresDisponiveis(revisao));
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Foi enviado o pedido de revisao desta obra para o revisor!");
@@ -776,6 +837,8 @@ public class App {
                 
             case 2: 
                 revisao.setEstado(-1);
+                burroCarga.setGereRevisoes(gereRevisoes);
+                escreverBurroCarga(burroCarga);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Revisao recusada!");
                 break;
@@ -943,25 +1006,24 @@ public class App {
             System.out.println("3  - Ver pedidos de registo");
             System.out.println("4  - Ver pedidos de remocao de conta");
             System.out.println("5  - Ver pedidos de revisao");
-            System.out.println("6  - Atribuir processo de revisao");
-            System.out.println("7  - Arquivar um processo");
-            System.out.println("8  - Consultar estado de uma revisao");
-            System.out.println("9  - Listar todas as revisoes");
-            System.out.println("10 - Pesquisar revisoes por estado");
-            System.out.println("11 - Listar todas as obras");
-            System.out.println("12 - Pesquisar obras por titulo");
-            System.out.println("13 - Listar todos os utilizadores");
-            System.out.println("14 - Pesquisar utilizadores");
-            System.out.println("15 - Ordenar utilizadores por ordem alfabetica");
-            System.out.println("16 - Ordenar autores pelo numero total de obras");
-            System.out.println("17 - Ordenar revisoes");
-            System.out.println("18 - Ler dados de um ficheiro");
-            System.out.println("19 - Gravar dados num ficheiro");
-            System.out.println("20 - Consultar o log de acoes");
-            System.out.println("21 - Editar dados pessoais");
-            System.out.println("22 - Ativar/Inativar uma conta");
-            System.out.println("23 - Solicitar remocao de conta");
-            System.out.println("24 - Terminar Sessao");
+            System.out.println("6  - Arquivar um processo");
+            System.out.println("7  - Consultar estado de uma revisao");
+            System.out.println("8  - Listar todas as revisoes");
+            System.out.println("9 - Pesquisar revisoes por estado");
+            System.out.println("10 - Listar todas as obras");
+            System.out.println("11 - Pesquisar obras por titulo");
+            System.out.println("12 - Listar todos os utilizadores");
+            System.out.println("13 - Pesquisar utilizadores");
+            System.out.println("14 - Ordenar utilizadores por ordem alfabetica");
+            System.out.println("15 - Ordenar autores pelo numero total de obras");
+            System.out.println("16 - Ordenar revisoes");
+            System.out.println("17 - Ler dados de um ficheiro");
+            System.out.println("18 - Gravar dados num ficheiro");
+            System.out.println("29 - Consultar o log de acoes");
+            System.out.println("20 - Editar dados pessoais");
+            System.out.println("21 - Ativar/Inativar uma conta");
+            System.out.println("22 - Solicitar remocao de conta");
+            System.out.println("23 - Terminar Sessao");
             this.Opcao = sc.nextInt();
 
             switch (Opcao) {
@@ -1004,52 +1066,47 @@ public class App {
                     break;
 
                 case 6:
-                                        
-                    // Atribui processo de revisão
-                    break;
-
-                case 7:
                     System.out.println("Arquivar um processo");
                     // Arquivar um processo
                     break ;
                 
-                case 8:
+                case 7:
                     consultarEstadoRevisaoGestor();
                     this.MenuInicialGestor();
                     // Consultar estado de uma revisão
                     break ;
 
-                case 9:
+                case 8:
                     System.out.println(gereRevisoes.listarTodasRevisoes());
                     this.MenuInicialGestor();   
                     // Listar todas as revisões
                     break ;
                     
-                case 10:
+                case 9:
                     pesquisarRevisoesPorEstado();              
                     this.MenuInicialGestor();
                     // Pesquisar revisões por estado
                     break;
 
-                case 11:
+                case 10:
                     listarTodasObras();
                     this.MenuInicialGestor();
                     // Listar todas as obras
                     break;
 
-                case 12: 
+                case 11: 
                     pesquisarObrasPorTitulo();
                     this.MenuInicialGestor();
                     // Pesquisar obras por titulo
                     break;
 
-                case 13:
+                case 12:
                     System.out.println(Utilizadores.listarTodosUtilizadores());
                     this.MenuInicialGestor();
                     // Listar todos os utilizadores
                     break;
                 
-                case 14: 
+                case 13: 
                     System.out.println("Selecione uma opcao: ");
                     System.out.println("1 - Pesquisar utilizador por login");
                     System.out.println("2 - Pesquisar utilizador por tipo");
@@ -1069,7 +1126,7 @@ public class App {
                     // Pesquisar utilizadores (login / tipo)
                     break;
 
-                case 15:
+                case 14:
                     if(Utilizadores.ordenarUtilizadoresPorOrdemAlfabetica()) {
                         System.out.println(Utilizadores.listarTodosUtilizadores());
                     }
@@ -1080,47 +1137,47 @@ public class App {
                     this.MenuInicialGestor();
                     break;
 
-                case 16:
+                case 15:
                     // Ordenar autores pelo numero total de obras
                     break;
 
-                case 17:
+                case 16:
                     // Ordenar revisoes (duracao ou data)
                     break;
 
-                case 18:
+                case 17:
                     System.out.println("Ler dados de um ficheiro");
                     // Ler dados de um ficheiro
                     break;
 
-                case 19:
+                case 18:
                     System.out.println("Gravar dados num ficheiro");
                     // Gravar dados num ficheiro
                     break;
 
-                case 20:
+                case 19:
                     System.out.println("Consultar o log de acoes");
                     // Consultar o log de ações
                     break; 
                     
-                case 21:
+                case 20:
                     EditarDados();
                     // Editar dados pessoais
                     break;
 
-                case 22:
+                case 21:
                     gestorAtivarInativarConta();
                     this.MenuInicialGestor();
                     // Ativar/Inativar uma conta
                     break;
 
-                case 23:
+                case 22:
                     solicitarRemocaoConta();
                     this.MenuInicialGestor();
                     // Solicitar remoção de conta
                     break;
 
-                case 24:
+                case 23:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
                     break;
@@ -1128,7 +1185,7 @@ public class App {
                 default:
                     System.out.println("Opcao invalida");
             }
-        } while (Opcao < 1 || Opcao > 24);
+        } while (Opcao < 1 || Opcao > 23);
     }
 
     public void criarObra() {
@@ -1153,8 +1210,14 @@ public class App {
         System.out.println("Introduza o numero de paginas da sua obra: ");
         _NumeroPaginas = sc.nextInt();
 
-        System.out.println("Introduza o codigo ISBN da sua obra: ");
-        _ISBN = sc.nextInt();
+        do {
+            System.out.println("Introduza o codigo ISBN da sua obra: ");
+            _ISBN = sc.nextInt(); 
+
+            if(gereObras.verificaISBN(_ISBN)){
+                System.out.println("Ja existe uma obra com o codigo " + _ISBN);
+            }
+        } while (gereObras.verificaISBN(_ISBN));
 
         System.out.println("Introduza o numero de edicao da sua obra: ");
         _NumeroEdicao = sc.nextInt();
@@ -1404,6 +1467,10 @@ public class App {
                 revisao.setGestorResponsavel((Gestor)this.UtilizadorAtual);
                 revisao.setEstado(2);
                 revisao.adicionarRevisorIndisponivel((Revisor)this.UtilizadorAtual);
+                burroCarga.setGereObras(this.gereObras);
+                burroCarga.setGereRevisoes(this.gereRevisoes);
+                burroCarga.setGereUtilizador(this.Utilizadores);
+                escreverBurroCarga(burroCarga);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Foi enviado o pedido de revisao desta obra para o revisor!");
                 break;
@@ -1414,6 +1481,10 @@ public class App {
                 String dataRealizacao;
                 dataRealizacao = sc.nextLine();
                 revisao.setDataRealizacao(dataRealizacao);
+                burroCarga.setGereObras(this.gereObras);
+                burroCarga.setGereRevisoes(this.gereRevisoes);
+                burroCarga.setGereUtilizador(this.Utilizadores);
+                escreverBurroCarga(burroCarga);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Revisao recusada!");
                 break;
@@ -1512,11 +1583,11 @@ public class App {
             System.out.println("1  - Notificacoes");
             System.out.println("2  - Editar dados pessoais");
             System.out.println("3  - Solicitar remocao de conta");
-            System.out.println("4  - Gerir processos de revisao");
+            System.out.println("4  - Ver pedidos de revisao");
             System.out.println("5  - Editar revisao");
-            System.out.println("5  - Listar as minhas revisoes");
-            System.out.println("6  - Pesquisar as minhas revisoes");
-            System.out.println("7  - Terminar sessao");
+            System.out.println("6  - Listar as minhas revisoes");
+            System.out.println("7  - Pesquisar as minhas revisoes");
+            System.out.println("8  - Terminar sessao");
             
             this.Opcao = sc.nextInt();
 
@@ -1541,7 +1612,7 @@ public class App {
                 case 4: 
                     revisorAceitarRecusarPedidoRevisao();
                     this.MenuInicialRevisor();
-                    // Gerir processos de revisão
+                    // Ver pedidos de revisão
                     break;
 
                 case 5:

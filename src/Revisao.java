@@ -70,6 +70,10 @@ public class Revisao {
         this.gestorResponsavel = aGestorResponsavel;
     }
 
+    public void setRevisorResponsavel(Revisor aRevisor) {
+        this.revisorResponsavel = aRevisor;
+    }
+
     public boolean AdicionarRevisor(Revisor aRevisor){
         return listaRevisores.add(aRevisor);
     }
@@ -95,6 +99,6 @@ public class Revisao {
     } 
 
     public String toString() {
-        return "Titulo: " + this.obra.getTitulo() + ", ISBN: " + this.obra.getISBN() + ", Numero de serie: " + this.numeroSerie;
+        return "Titulo da obra em revisao: " + this.obra.getTitulo() + ", ISBN da obra em revisao: " + this.obra.getISBN() + ", Numero de serie: " + this.numeroSerie;
     }
 }

@@ -79,4 +79,20 @@ public class GereObras implements Serializable{
         }
         return null;
     }
+
+    public boolean verificaISBN(int aISBN) {
+        if (listaTodasObras != null && listaTodasObras.size() > 0) {
+            Iterator<Obra> lista_obras = listaTodasObras.iterator();
+
+            while (lista_obras.hasNext()) {
+                Obra obra = (Obra) lista_obras.next();
+                
+                if(obra.getISBN() == aISBN) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        return false;
+    }
 }
