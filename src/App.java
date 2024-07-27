@@ -19,56 +19,56 @@ public class App {
     int contaNumeroExecucoes = 0;
     String ultimoLogin = "";
 
-  private static BurroCarga lerBurroCarga() {
-    ManipulaFicheiros fileRead = new ManipulaFicheiros();
-    fileRead.abrirFicheiroLeitura("./dados_apl.dat");
-    BurroCarga auxBurroCarga = fileRead.leituraFicheiro();
-    fileRead.fecharFicheiroLeitura();
-    if(auxBurroCarga == null){
-        auxBurroCarga = new BurroCarga();
+    private static BurroCarga lerBurroCarga() {
+        ManipulaFicheiros fileRead = new ManipulaFicheiros();
+        fileRead.abrirFicheiroLeitura("./dados_apl.dat");
+        BurroCarga auxBurroCarga = fileRead.leituraFicheiro();
+        fileRead.fecharFicheiroLeitura();
+        if(auxBurroCarga == null){
+            auxBurroCarga = new BurroCarga();
+        }
+        return auxBurroCarga;
     }
-    return auxBurroCarga;
-  }
 
     private static void escreverBurroCarga(BurroCarga aBurroCarga) {
         try {
-        ManipulaFicheiros fileWrite = new ManipulaFicheiros();
-        fileWrite.abrirFicheiroEscrita("./dados_apl.dat");
-        fileWrite.escreveFicheiro(aBurroCarga);
-        fileWrite.fecharFicheiroEscrita();
+        ManipulaFicheiros escreverFicheiroBurroCarga = new ManipulaFicheiros();
+        escreverFicheiroBurroCarga.abrirFicheiroEscrita("./dados_apl.dat");
+        escreverFicheiroBurroCarga.escreveFicheiro(aBurroCarga);
+        escreverFicheiroBurroCarga.fecharFicheiroEscrita();
         } catch (Exception ioe) {
         ioe.printStackTrace();
         }
     }
 
-  private static void escreverFicheiroLog(String aNovoLog) {
-    ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto ();
-    ManipulaFicheirosTexto escreverFicheiroLog = new ManipulaFicheirosTexto ();
+    private static void escreverFicheiroLog(String aNovoLog) {
+        ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto ();
+        ManipulaFicheirosTexto escreverFicheiroLog = new ManipulaFicheirosTexto ();
 
-    lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
-    ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
-    lerFicheiroLog.fecharFicheiroLeitura();
+        lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
+        ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
+        lerFicheiroLog.fecharFicheiroLeitura();
 
-    escreverFicheiroLog.abrirFicheiroEscrita("./logs.txt", false);
-    escreverFicheiroLog.escreverFicheiro(aNovoLog, conteudoFicheiro);
-    escreverFicheiroLog.fecharFicheiroEscrita();
-  }
-
-
-  private static String lerFicheiroLog() {
-    ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto();
-    String conteudoFicheiroLog = "";
-
-    lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
-    ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
-    lerFicheiroLog.fecharFicheiroLeitura();
-    
-    Collections.reverse(conteudoFicheiro);
-    for (String linha : conteudoFicheiro) {
-        conteudoFicheiroLog += linha + "\n";
+        escreverFicheiroLog.abrirFicheiroEscrita("./logs.txt", false);
+        escreverFicheiroLog.escreverFicheiro(aNovoLog, conteudoFicheiro);
+        escreverFicheiroLog.fecharFicheiroEscrita();
     }
-    return conteudoFicheiroLog;
-  }
+
+
+    private static String lerFicheiroLog() {
+        ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto();
+        String conteudoFicheiroLog = "";
+
+        lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
+        ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
+        lerFicheiroLog.fecharFicheiroLeitura();
+        
+        Collections.reverse(conteudoFicheiro);
+        for (String linha : conteudoFicheiro) {
+            conteudoFicheiroLog += linha + "\n";
+        }
+        return conteudoFicheiroLog;
+    }
 
     public void Login(){
         String _Email;
