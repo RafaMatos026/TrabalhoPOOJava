@@ -1,7 +1,7 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Revisao implements Serializable{
+public class Revisao implements Serializable, Comparable <Revisao>{
     private ArrayList<Anotacao> listaAnotacoes = new ArrayList<Anotacao>();
     private ArrayList<String> observacoesGenericas = new ArrayList<String>();
     private ArrayList<Revisor> listaRevisoresIndisponiveis = new ArrayList<Revisor>();
@@ -11,12 +11,22 @@ public class Revisao implements Serializable{
     private Revisor revisorResponsavel;
     private Obra obra;
     private int numeroSerie = -1;
+    private int duracao = -1;
     private int estado = -1; // -1 -> revisao recusada pelo gestor | 0 -> à espera que o gestor aceite | 1 -> aceite pelo gestor e a espera que o revisor aceite | 2 -> aceite pelo revisor | 3 -> revisao finalizada | 4 -> revisao arquivada
+
+    private static boolean ordenarPor = false; // true - duracao | false - data
 
     public Revisao(Obra aObra, int aEstado, int aNumeroSerie) {
         this.obra = aObra;
         this.estado = aEstado;
         this.numeroSerie = aNumeroSerie;
+    }
+
+    public static boolean getOrdenarPor() {
+        return ordenarPor;
+    }
+    public static void setOrdenarPor(boolean aOrdenarPor) {
+        ordenarPor = aOrdenarPor;
     }
 
     public Obra getObra() {
@@ -75,6 +85,14 @@ public class Revisao implements Serializable{
         this.revisorResponsavel = aRevisor;
     }
 
+    public int getDuracao() {
+        return this.duracao;
+    }
+
+    public void setDuracao(int aDuracao) {
+        this.duracao = aDuracao;
+    }
+
     public boolean AdicionarRevisor(Revisor aRevisor){
         return listaRevisores.add(aRevisor);
     }
@@ -98,6 +116,21 @@ public class Revisao implements Serializable{
     public boolean adicionarRevisorIndisponivel(Revisor aRevisor) {
         return listaRevisoresIndisponiveis.add(aRevisor);
     } 
+
+    public int compareTo(Revisao aRevisao) {
+        if(ordenarPor) {
+            if(this.duracao > aRevisao.getDuracao()){
+                return 1;
+            }
+            if(this.duracao < aRevisao.getDuracao()){
+                return -1;
+            }
+            return 0;
+        } 
+        else {
+           return this.DataRealizacao.compareTo(aRevisao.getDataRealizacao());
+        }
+    }
 
     public String toString() {
         return "Titulo da obra em revisao: " + this.obra.getTitulo() + ", ISBN da obra em revisao: " + this.obra.getISBN() + ", Numero de serie: " + this.numeroSerie;

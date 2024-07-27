@@ -45,6 +45,6 @@ public class Revisor extends Utilizador {
     }
 
     public String toString() {
-        return "Nome: " + this.Nome + ", Email: " + this.Email;
+        return "Nome: " + this.Nome + ", Login: " + this.Login;
     }
 }

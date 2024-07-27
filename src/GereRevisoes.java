@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class GereRevisoes implements Serializable{
@@ -199,5 +200,14 @@ public class GereRevisoes implements Serializable{
             return listaRevisoesDesteAutor;
         }
         return null;
+    }
+
+    public boolean ordenarRevisoes(boolean aOrdenarPor) {
+        Revisao.setOrdenarPor(aOrdenarPor);
+        if(listaRevisoes != null && listaRevisoes.size() > 0) {
+            Collections.sort(listaRevisoes);
+            return true;
+        }
+        return false;
     }
 }

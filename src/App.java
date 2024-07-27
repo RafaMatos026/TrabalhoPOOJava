@@ -16,6 +16,8 @@ public class App {
     private ArrayList<Revisor> listaTodosRevisores = Utilizadores.getListaTodosRevisores();
     private int Opcao;
     private int auxNotificacoesGestor = 0;
+    int contaNumeroExecucoes = 0;
+    String ultimoLogin = "";
 
   private static BurroCarga lerBurroCarga() {
     ManipulaFicheiros fileRead = new ManipulaFicheiros();
@@ -75,8 +77,10 @@ public class App {
         this.sc.nextLine();
         System.out.println("Email:");
         _Email = sc.nextLine();
+        contaNumeroExecucoes++;
         System.out.println("Password:");
         _Password = sc.nextLine();
+        contaNumeroExecucoes++;
         
         if (AtualizarUtilizadorAtual(_Email, _Password)){
             if(UtilizadorAtual.getEstado() == -2) {
@@ -94,6 +98,7 @@ public class App {
             
             System.out.println("Login efetuado com sucesso!");
             escreverFicheiroLog(UtilizadorAtual.getLogin() + " fez login");
+            ultimoLogin = this.UtilizadorAtual.getLogin();
            
             switch(this.tipoUtilizadorAtual.getID()) {
                 case 1: 
@@ -115,6 +120,7 @@ public class App {
                 System.out.println("1 - Sim");
                 System.out.println("2 - Nao");
                 this.Opcao = sc.nextInt();
+                contaNumeroExecucoes++;
             }while (this.Opcao < 1 || this.Opcao > 2);
 
             switch (this.Opcao){
@@ -157,6 +163,7 @@ public class App {
             sc.nextLine();
             System.out.println("Introduza o login do utilizador que pretende aceitar/recusar: ");
             String userLogin = sc.nextLine();
+            contaNumeroExecucoes++;
             
             utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
 
@@ -174,6 +181,7 @@ public class App {
             System.out.println("1 - Aceitar pedido");
             System.out.println("2 - Recusar pedido");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 && this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -206,6 +214,7 @@ public class App {
             }
             System.out.println("Introduza o login do utilizador a que pretende aceitar/recusar: ");
             String userLogin = sc.nextLine();
+            contaNumeroExecucoes++;
             
             utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
 
@@ -221,6 +230,7 @@ public class App {
             System.out.println("1 - Aceitar pedido");
             System.out.println("2 - Recusar pedido");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 && this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -270,10 +280,12 @@ public class App {
         this.sc.nextLine();
         System.out.println("Nome: ");
         _Nome = this.sc.nextLine();
+        contaNumeroExecucoes++;
 
         do {
             System.out.println("Login: ");
             _Login = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             if(Utilizadores.verificaLogin(_Login)){
                 System.out.println("Ja existe um utilizador com o login " + _Login);
@@ -285,23 +297,29 @@ public class App {
             if(_TipoUtilizador.getID() == 1) {
                 System.out.println("Estilo literario: ");
                 _estiloLiterario = this.sc.nextLine();
+                contaNumeroExecucoes++;
             } else {
                 System.out.println("Formacao academica: ");
                 _formacaoAcademica = this.sc.nextLine();
+                contaNumeroExecucoes++;
             }
             System.out.println("NIF: ");
             _NIF = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             System.out.println("Telemovel: ");
             _Telefone = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             System.out.println("Morada: ");
             _Morada = this.sc.nextLine();
+            contaNumeroExecucoes++;
         }
 
         do {
             System.out.println("Email: ");
             _Email = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             if(Utilizadores.verificaEmail(_Email)){
                 System.out.println("Ja existe um utilizador com o email " + _Email);
@@ -311,9 +329,11 @@ public class App {
         do {
             System.out.println("Password: ");
             _Password = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             System.out.println("Confirmar Password: ");
             ConfPassword = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             if (!_Password.equals(ConfPassword)){
                 System.out.println("Password nao sao iguais!");
@@ -379,19 +399,24 @@ public class App {
             
             System.out.println("Nome: ");
             _Nome = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             System.out.println("Login: ");
             _Login = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             System.out.println("Email: ");
             _Email = this.sc.nextLine();
+            contaNumeroExecucoes++;
 
             do {
                 System.out.println("Password: ");
                 _Password = this.sc.nextLine();
+                contaNumeroExecucoes++;
 
                 System.out.println("Confirmar Password: ");
                 ConfPassword = this.sc.nextLine();
+                contaNumeroExecucoes++;
 
                 if (!_Password.equals(ConfPassword)){
                     System.out.println("Password nao sao iguais!");
@@ -413,6 +438,7 @@ public class App {
                 System.out.println("2 - Revisor");
                 System.out.println("3 - Gestor");
                 this.Opcao = sc.nextInt();
+                contaNumeroExecucoes++;
 
                 if (this.Opcao < 1 | this.Opcao > 3){
                     System.out.println("Opcao Invalida!");
@@ -487,6 +513,7 @@ public class App {
                 System.out.println("9 - Cancelar");
             
                 this.Opcao = sc.nextInt();
+                contaNumeroExecucoes++;
             }while (this.Opcao < 1 || this.Opcao > 9);
 
             switch (this.Opcao){
@@ -495,6 +522,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Novo nome: ");
                     _Nome = this.sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setNome(_Nome);
                     System.out.println("Operacao realizada com sucesso!");
@@ -509,6 +537,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Novo login: ");
                     _Login = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
@@ -523,6 +552,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Novo email: ");
                     _Email = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
@@ -537,6 +567,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Nova password: ");
                     _Password = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
@@ -551,6 +582,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Novo NIF: ");
                     _NIF = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     if(this.UtilizadorAtual instanceof Revisor){
                         Revisor revisor = (Revisor) this.UtilizadorAtual;
@@ -572,6 +604,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Nova morada: ");
                     _Morada = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     if(this.UtilizadorAtual instanceof Revisor){
                         Revisor revisor = (Revisor) this.UtilizadorAtual;
@@ -593,6 +626,7 @@ public class App {
                     this.sc.nextLine();
                     System.out.println("Novo contacto: ");
                     _Telefone = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     if(this.UtilizadorAtual instanceof Revisor){
                         Revisor revisor = (Revisor) this.UtilizadorAtual;
@@ -615,6 +649,7 @@ public class App {
                         this.sc.nextLine();
                         System.out.println("Novo estilo literario: ");
                         _EstiloLiterario = this.sc.nextLine();
+                        contaNumeroExecucoes++;
 
                         Autor autor = (Autor) this.UtilizadorAtual;
                         autor.setEstiloLiterario(_EstiloLiterario);
@@ -624,6 +659,7 @@ public class App {
                         this.sc.nextLine();
                         System.out.println("Nova formacao academica: ");
                         _FormacaoAcademica = this.sc.nextLine();
+                        contaNumeroExecucoes++;
 
                         Revisor revisor = (Revisor) this.UtilizadorAtual;
                         revisor.setFormacaoAcademica(_FormacaoAcademica);
@@ -683,6 +719,7 @@ public class App {
                     sc.nextLine();
                     System.out.println("Novo Nome: ");
                     _Nome = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setNome(_Nome);
                     System.out.println("Operacao realizada com sucesso!");
@@ -697,6 +734,7 @@ public class App {
                     sc.nextLine();
                     System.out.println("Novo login: ");
                     _Login = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
@@ -711,6 +749,7 @@ public class App {
                     sc.nextLine();
                     System.out.println("Novo email: ");
                     _Email = sc.nextLine();
+                    contaNumeroExecucoes++;
                     
                     this.UtilizadorAtual.setEmail(_Email);
                     System.out.println("Operacao realizada com sucesso!");
@@ -725,6 +764,7 @@ public class App {
                     sc.nextLine();
                     System.out.println("Nova password: ");
                     _Password = sc.nextLine();
+                    contaNumeroExecucoes++;
 
                     this.UtilizadorAtual.setPassword(_Password);
                     System.out.println("Operacao realizada com sucesso!");
@@ -750,6 +790,7 @@ public class App {
             System.out.println("1 - Ativar conta");
             System.out.println("2 - Inativar conta");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 && this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -793,6 +834,7 @@ public class App {
             System.out.println("2 - Revisor");
             System.out.println("3 - Gestor");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if (this.Opcao < 1 | this.Opcao > 3){
                 System.out.println("Opcao Invalida!");
@@ -830,6 +872,7 @@ public class App {
 
         System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
         ISBN = sc.nextInt();
+        contaNumeroExecucoes++;
 
         revisao = gereRevisoes.pesquisarPorISBN(ISBN);
 
@@ -842,6 +885,7 @@ public class App {
             System.out.println("1 - Aceitar");
             System.out.println("2 - Recusar");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 || this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -865,6 +909,7 @@ public class App {
                 System.out.println("Introduza o login do revisor que pretende atribuir a esta revisao: ");
                 sc.nextLine();
                 login = sc.nextLine();
+                contaNumeroExecucoes++;
 
                 utilizador = Utilizadores.PesquisarUtilizadorPorLogin(login);
 
@@ -923,6 +968,7 @@ public class App {
             System.out.println("4 - Finalizada");
             System.out.println("5 - Arquivada");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 || this.Opcao > 5) {
                 System.out.println("Opcao invalida, por favor introduza uma opcao valida");
@@ -950,6 +996,7 @@ public class App {
         String Titulo;
         System.out.println("Introduza o titulo da obra que pretende encontrar: ");
         Titulo = sc.nextLine();
+        contaNumeroExecucoes++;
 
         if(gereObras.pesquiarObraPorTitulo(Titulo) == null) {
             System.out.println("Nao ha nenhuma obra com o titulo " + Titulo);
@@ -963,6 +1010,7 @@ public class App {
         String login;
         System.out.println("Introduza o login do utilizador que pretende encontrar: ");
         login = sc.nextLine();
+        contaNumeroExecucoes++;
         if(Utilizadores.PesquisarUtilizadorPorLogin(login) == null) {
             System.out.println("Nao existe nenhum utilizador com o login " + login);
             return;
@@ -977,6 +1025,7 @@ public class App {
             System.out.println("2 - Revisor");
             System.out.println("3 - Gestor");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 || this.Opcao > 3) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -1000,6 +1049,7 @@ public class App {
             sc.nextLine();
             System.out.println("Introduza o login do utilizador que pretende ativar/inativar: ");
             String userLogin = sc.nextLine();
+            contaNumeroExecucoes++;
             
             utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
 
@@ -1016,6 +1066,7 @@ public class App {
         int numeroSerie;
                     System.out.println("Introduza o numero de serie da revisao que pretende consultar: ");
                     numeroSerie = sc.nextInt();
+                    contaNumeroExecucoes++;
 
                     if(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie) == null) {
                         System.out.println("Nao ha revisoes com o numero de serie " + numeroSerie);
@@ -1054,6 +1105,47 @@ public class App {
                     }
     }
 
+    public void ordenarRevisoes() {
+        if(gereRevisoes.listarTodasRevisoes().equals("De momento, nao existem revisoes ativas")) {
+            System.out.println("De momento, nao existem revisoes ativas");
+            return;
+        }
+        do {
+            System.out.println("Selecione uma opcao: ");
+            System.out.println("1 - Ordenar revisoes por duracao");
+            System.out.println("2 - Ordenar revisoes por data");
+            System.out.println("3 - Cancelar");
+            this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
+
+            if(this.Opcao < 1 || this.Opcao > 3) {
+                System.out.println("Por favor introduza uma opcao valida!");
+            }
+
+        } while (this.Opcao < 1 || this.Opcao > 3);
+
+        switch(this.Opcao ) {
+            case 1:
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou as revisoes por duracao");
+                gereRevisoes.ordenarRevisoes(true);
+                break;
+
+            case 2:
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou as revisoes por data");
+                gereRevisoes.ordenarRevisoes(false);
+                break;
+                
+            case 3:
+                this.MenuInicialGestor();
+                break;
+
+            default:
+                System.out.println("Ocorreu um erro!");
+                break;
+        }
+        System.out.println(gereRevisoes.listarTodasRevisoes());
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -1086,6 +1178,7 @@ public class App {
             System.out.println("22 - Solicitar remocao de conta");
             System.out.println("23 - Terminar Sessao");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             switch (Opcao) {
                 case 1:
@@ -1179,6 +1272,7 @@ public class App {
                     System.out.println("1 - Pesquisar utilizador por login");
                     System.out.println("2 - Pesquisar utilizador por tipo");
                     this.Opcao = sc.nextInt();
+                    contaNumeroExecucoes++;
 
                     switch(this.Opcao) {
                         case 1:
@@ -1209,15 +1303,25 @@ public class App {
                     break;
 
                 case 15:
+                    if(this.Utilizadores.listaAutores() == null) {
+                        System.out.println("Nao existem autores neste momento!");
+                        return;
+                    }
+                    Collections.sort(this.Utilizadores.listaAutores());
+                    System.out.println(this.Utilizadores.apresentaAutoresOrdenados(this.Utilizadores.listaAutores()));
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou os autores pelo numero total de obras");
+                    this.MenuInicialGestor();
                     // Ordenar autores pelo numero total de obras
                     break;
 
                 case 16:
+                    ordenarRevisoes();
                     // Ordenar revisoes (duracao ou data)
                     break;
 
                 case 17:
                     System.out.println("Ler dados de um ficheiro");
+                    System.out.println(lerBurroCarga());
                     // Ler dados de um ficheiro
                     break;
 
@@ -1278,19 +1382,24 @@ public class App {
         sc.nextLine();
         System.out.println("Introduza o titulo da sua obra: ");
         _Titulo = sc.nextLine();
+        contaNumeroExecucoes++;
         
         System.out.println("Introduza o estilo literario da sua obra: ");
         _EstiloLiterario = sc.nextLine();
+        contaNumeroExecucoes++;
 
         System.out.println("Introduza o tipo de publicacao da sua obra: ");
         _TipoPublicacao = sc.nextLine();
+        contaNumeroExecucoes++;
 
         System.out.println("Introduza o numero de paginas da sua obra: ");
         _NumeroPaginas = sc.nextInt();
+        contaNumeroExecucoes++;
 
         do {
             System.out.println("Introduza o codigo ISBN da sua obra: ");
             _ISBN = sc.nextInt(); 
+            contaNumeroExecucoes++;
 
             if(gereObras.verificaISBN(_ISBN)){
                 System.out.println("Ja existe uma obra com o codigo " + _ISBN);
@@ -1299,12 +1408,16 @@ public class App {
 
         System.out.println("Introduza o numero de edicao da sua obra: ");
         _NumeroEdicao = sc.nextInt();
+        contaNumeroExecucoes++;
 
         sc.nextLine();
         System.out.println("Introduza a data de submissao da sua obra: ");
         _DataSubmissao = sc.nextLine();
+        contaNumeroExecucoes++;
 
         Obra NovaObra = new Obra((Autor) this.UtilizadorAtual, _Titulo, _EstiloLiterario, _TipoPublicacao, _NumeroPaginas, _ISBN, _NumeroEdicao, _DataSubmissao, _DataSubmissao);
+        Autor autorAux = (Autor)this.UtilizadorAtual;
+        autorAux.setNumeroTotalObras();
         this.gereObras.adicionarObra(NovaObra);
         burroCarga.setGereObras(this.gereObras);
         escreverBurroCarga(burroCarga);
@@ -1340,6 +1453,7 @@ public class App {
         do {
             System.out.println("Introduza o codigo ISBN da obra que pretende submeter para revisao: ");
             ISBN = sc.nextInt();
+            contaNumeroExecucoes++;
 
             obra = gereObras.pesquiarObraPorISBN(ISBN);
 
@@ -1367,6 +1481,7 @@ public class App {
 
         System.out.println("Introduza o numero de serie da revisao que deseja consultar: ");
         numeroSerie = sc.nextInt();
+        contaNumeroExecucoes++;
 
         escreverFicheiroLog(UtilizadorAtual.getLogin() + "consultou o estado de uma revisao");
 
@@ -1405,6 +1520,7 @@ public class App {
         String Titulo;
         System.out.println("Introduza o titulo da obra da revisao que pretende encontrar: ");
         Titulo = sc.nextLine();
+        contaNumeroExecucoes++;
 
         if(gereRevisoes.pesquiarObraDesteAutorPorTitulo(Titulo, (Autor)this.UtilizadorAtual) == null) {
             System.out.println("Nao existem obras suas com o titulo " + Titulo);
@@ -1430,6 +1546,7 @@ public class App {
             System.out.println("11 - Terminar Sessao");
 
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             switch(this.Opcao)
             {
@@ -1535,6 +1652,7 @@ public class App {
        
         System.out.println("Introduza o codigo ISBN da obra que deseja aceitar/recusar: ");
         ISBN = sc.nextInt();
+        contaNumeroExecucoes++;
 
         revisao = gereRevisoes.pesquisarPorISBN(ISBN);
 
@@ -1547,6 +1665,7 @@ public class App {
             System.out.println("1 - Aceitar");
             System.out.println("2 - Recusar");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 || this.Opcao > 2) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -1572,6 +1691,7 @@ public class App {
                 revisao.RemoverRevisor((Revisor)this.UtilizadorAtual);
                 String dataRealizacao;
                 dataRealizacao = sc.nextLine();
+                contaNumeroExecucoes++;
                 revisao.setDataRealizacao(dataRealizacao);
                 burroCarga.setGereObras(this.gereObras);
                 burroCarga.setGereRevisoes(this.gereRevisoes);
@@ -1587,6 +1707,7 @@ public class App {
         String Titulo;
         System.out.println("Introduza o titulo da obra em revisao: ");
         Titulo = sc.nextLine();
+        contaNumeroExecucoes++;
         System.out.println(gereRevisoes.pesquisarRevisaoPorTituloObra((Revisor)this.UtilizadorAtual, Titulo));
     }
 
@@ -1602,6 +1723,7 @@ public class App {
         int numeroSerie;
         System.out.println("Introduza o numero de serie da revisao que pretende editar: ");
         numeroSerie = sc.nextInt();
+        contaNumeroExecucoes++;
 
         revisao = gereRevisoes.pesquisarPorNumeroSerie(numeroSerie);
 
@@ -1625,6 +1747,7 @@ public class App {
             System.out.println("3 - Finalizar revisao");
             System.out.println("4 - Cancelar");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             if(this.Opcao < 1 || this.Opcao > 4) {
                 System.out.println("Por favor introduza uma opcao valida!");
@@ -1640,15 +1763,19 @@ public class App {
                 String data;
                 System.out.println("Escreva uma descricao para a sua anotacao: ");
                 descricao = sc.nextLine();
+                contaNumeroExecucoes++;
                 
                 System.out.println("Indique a pagina em que se encontra a anotacao: ");
                 pagina = sc.nextInt();
+                contaNumeroExecucoes++;
 
                 System.out.println("Indique o paragrafo em que se encontra a anotacao: ");
                 paragrafo = sc.nextInt();
+                contaNumeroExecucoes++;
 
                 System.out.println("Indique a data da anotacao: ");
                 data = sc.nextLine();
+                contaNumeroExecucoes++;
 
                 Anotacao novaAnotacao = new Anotacao(descricao, pagina, paragrafo, data);
                 revisao.AdicionarAnotacao(novaAnotacao);
@@ -1659,10 +1786,18 @@ public class App {
                 String observacaoGenerica;
                 System.out.println("Escreva uma observacao generica: ");
                 observacaoGenerica = sc.nextLine();
+                contaNumeroExecucoes++;
                 revisao.AdicionarObservacaoGenerica(observacaoGenerica);
                 break;
 
             case 3:
+                int duracao;
+                System.out.println("Indique a duracao da revisao realizada (em minutos): ");
+                duracao = sc.nextInt();
+                contaNumeroExecucoes++;
+                revisao.setDuracao(duracao);
+                burroCarga.setGereRevisoes(gereRevisoes);
+                escreverBurroCarga(burroCarga);
                 escreverFicheiroLog(UtilizadorAtual.getLogin() + "finalizou a revisao");
                 revisao.setEstado(3);
                 System.out.println("Revisao finalizada com sucesso");
@@ -1691,6 +1826,7 @@ public class App {
             System.out.println("8  - Terminar sessao");
             
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             switch (this.Opcao) {
                 case 1:
@@ -1738,6 +1874,7 @@ public class App {
 
                 case 8:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
                     this.MenuInicial();
             }
         } while (Opcao < 1 || Opcao > 8);
@@ -1782,6 +1919,7 @@ public class App {
             System.out.println("2 - Registar Novo Utilizador");
             System.out.println("3 - Terminar");
             this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
 
             switch (Opcao){
                 case 1:

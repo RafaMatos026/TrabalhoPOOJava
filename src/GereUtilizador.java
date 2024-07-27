@@ -95,6 +95,38 @@ public class GereUtilizador implements Serializable{
         return null;
     }
 
+    public ArrayList<Autor> listaAutores() {
+        Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+        ArrayList<Autor> lista_autores = new ArrayList<Autor>();
+
+        while(lista_utilizadores.hasNext()) {
+            Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+            if(utilizador.getTipoUtilizador().getID() == 1) {
+                lista_autores.add((Autor)utilizador);
+            } 
+        }
+        if(!(lista_autores.isEmpty())) {
+            return lista_autores;
+        }
+        return null;
+    }
+
+    public String apresentaAutoresOrdenados(ArrayList<Autor> aListaAutoresOrdenada) {
+        Iterator<Autor> lista_autores = aListaAutoresOrdenada.iterator();
+        String resultado = "";
+
+        while(lista_autores.hasNext()) {
+            Autor autor = (Autor) lista_autores.next();
+
+            resultado += autor + "\n";
+        }
+        if(resultado != "") {
+            return resultado;
+        }
+        return null;
+    }
+
+
     public boolean isListaEmpty() {
         return this.listaUtilizadores.isEmpty();
     }
