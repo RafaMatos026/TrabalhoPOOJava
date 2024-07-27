@@ -182,8 +182,12 @@ public class App {
         } while (this.Opcao < 1 && this.Opcao > 2);
     
         if(this.Opcao == 2) {
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de registo");
             utilizador.setEstado(-2);
+            burroCarga.setGereUtilizador(Utilizadores);
+            escreverBurroCarga(burroCarga);
         }else{
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de registo");
             utilizador.setEstado(1);
             burroCarga.setGereUtilizador(Utilizadores);
             escreverBurroCarga(burroCarga);
@@ -225,6 +229,7 @@ public class App {
         } while (this.Opcao < 1 && this.Opcao > 2);
     
         if(this.Opcao == 1) {
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de remocao de conta");
             utilizador.setEstado(-4);
             this.Utilizadores.getListaUtilizadores().remove(utilizador);
             burroCarga.setGereUtilizador(this.Utilizadores);
@@ -232,13 +237,12 @@ public class App {
             listaNotificacoesGestor.add("O utilizador com o login " + utilizador.getLogin() + " foi removido do sistema!");
         }
         else {
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de remocao de conta");
             utilizador.setEstado(1);
             burroCarga.setGereUtilizador(this.Utilizadores);
             escreverBurroCarga(burroCarga);
         }
     }
-
-
 
     public void RegistoOutroUtilizador(int TipoUtilizador){
         String _Login;
@@ -759,6 +763,7 @@ public class App {
                     System.out.println("Esta conta já se encontra ativa!");
                 }
                 else if(aUtilizador.getEstado() == -1) {
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "ativou uma conta");
                     aUtilizador.setEstado(1);
                     burroCarga.setGereUtilizador(this.Utilizadores);
                     escreverBurroCarga(burroCarga);
@@ -771,6 +776,7 @@ public class App {
                     System.out.println("Esta conta já se encontra inativa!");
                 }
                 else if(aUtilizador.getEstado() == 1) {
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "inativou uma conta");
                     aUtilizador.setEstado(-1);
                     burroCarga.setGereUtilizador(this.Utilizadores);
                     escreverBurroCarga(burroCarga);
@@ -849,6 +855,8 @@ public class App {
                     System.out.println("Por favor tente mais tarde!");
                     return;
                 }
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de revisao");
+
                 Utilizador utilizador;
                 String login;
 
@@ -881,6 +889,7 @@ public class App {
                 break;
                 
             case 2: 
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de revisao");
                 revisao.setEstado(-1);
                 burroCarga.setGereRevisoes(gereRevisoes);
                 escreverBurroCarga(burroCarga);
@@ -1013,6 +1022,7 @@ public class App {
                         return;
                     }
 
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "consultou o estado de uma revisao");
                     switch(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie).getEstado()) {            
                         case -1:
                             System.out.println("Esta revisao foi recusada pelo gestor");
@@ -1087,6 +1097,7 @@ public class App {
 
                 case 2:
                     gestorCriaUtilizador();
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "criou um utilizador");
                     this.MenuInicialGestor();
                     // criar utilizador
                     break;
@@ -1130,30 +1141,35 @@ public class App {
 
                 case 8:
                     System.out.println(gereRevisoes.listarTodasRevisoes());
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todas as revisoes");
                     this.MenuInicialGestor();   
                     // Listar todas as revisões
                     break ;
                     
                 case 9:
-                    pesquisarRevisoesPorEstado();              
+                    pesquisarRevisoesPorEstado();      
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou revisoes por estado");        
                     this.MenuInicialGestor();
                     // Pesquisar revisões por estado
                     break;
 
                 case 10:
                     listarTodasObras();
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todas as obras");
                     this.MenuInicialGestor();
                     // Listar todas as obras
                     break;
 
                 case 11: 
                     pesquisarObrasPorTitulo();
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou as obras por titulo");
                     this.MenuInicialGestor();
                     // Pesquisar obras por titulo
                     break;
 
                 case 12:
                     System.out.println(Utilizadores.listarTodosUtilizadores());
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todos os utilizadores");
                     this.MenuInicialGestor();
                     // Listar todos os utilizadores
                     break;
@@ -1166,10 +1182,12 @@ public class App {
 
                     switch(this.Opcao) {
                         case 1:
+                            escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou um utilizador por login");
                             pesquisarUtilizadorPorLogin();
                             break;
 
                         case 2:
+                            escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou um utilizador por tipo");
                             pesquisarUtilizadorPorTipo();
                             break;
                     }
@@ -1180,6 +1198,7 @@ public class App {
 
                 case 14:
                     if(Utilizadores.ordenarUtilizadoresPorOrdemAlfabetica()) {
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou os utilizadores por ordem alfabetica");
                         System.out.println(Utilizadores.listarTodosUtilizadores());
                     }
                     else {
@@ -1204,11 +1223,17 @@ public class App {
 
                 case 18:
                     System.out.println("Gravar dados num ficheiro");
+                    burroCarga.setGereObras(this.gereObras);
+                    burroCarga.setGereRevisoes(this.gereRevisoes);
+                    burroCarga.setGereUtilizador(this.Utilizadores);
+                    escreverBurroCarga(burroCarga);
                     // Gravar dados num ficheiro
                     break;
 
                 case 19:
                     System.out.println("Consultar o log de acoes");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "consultou o log de acoes");
+                    System.out.println(lerFicheiroLog());
                     // Consultar o log de ações
                     break; 
                     
@@ -1231,6 +1256,7 @@ public class App {
 
                 case 23:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
                     this.MenuInicial();
                     break;
 
