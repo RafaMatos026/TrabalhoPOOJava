@@ -43,4 +43,8 @@ public class Revisor extends Utilizador {
     public void setFormacaoAcademica(String aFormacaoAcademica) {
         this.formacaoAcademica = aFormacaoAcademica;
     }
+
+    public String toString() {
+        return "Nome: " + this.Nome + ", Login: " + this.Email;
+    }
 }

@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
 
@@ -14,6 +12,7 @@ public class App {
     private Scanner sc = new Scanner(System.in);
     private ArrayList<TipoUtilizador> TiposUtilizadores = new ArrayList<TipoUtilizador>();
     private ArrayList<String> listaNotificacoesGestor = new ArrayList<String>();
+    private ArrayList<Revisor> listaTodosRevisores = new ArrayList<Revisor>();
     private int Opcao;
     private int auxNotificacoesGestor = 0;
 
@@ -134,7 +133,11 @@ public class App {
                 System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
             }
 
-        }while(utilizador == null);
+            if(utilizador.getEstado() != 0) {
+                System.out.println("O utilizador que introduziu ja se encontra aceite no sistema!");
+            }
+
+        }while(utilizador == null || utilizador.getEstado() != 0);
 
         
         do {
@@ -154,8 +157,6 @@ public class App {
             utilizador.setEstado(1);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + utilizador.getLogin() + " foi registado no sistema!");
         }
-
-        MenuInicialGestor();
     }
 
     public void AceitarRecusarPedidoRemocao() {
@@ -764,6 +765,7 @@ public class App {
             case 1:
                 revisao.setGestorResponsavel((Gestor)this.UtilizadorAtual);
                 revisao.setEstado(1);
+                System.out.println(listarRevisoresDisponiveis(revisao));
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Foi enviado o pedido de revisao desta obra para o revisor!");
                 break;
@@ -774,6 +776,21 @@ public class App {
                 System.out.println("Revisao recusada!");
                 break;
         }                         
+    }
+
+    public String listarRevisoresDisponiveis(Revisao aRevisao) {
+        if(listaTodosRevisores != null && listaTodosRevisores.size() > 0) {
+            Iterator<Revisor> listaRevisores = listaTodosRevisores.iterator();
+            String listaRevisoresDisponiveis = "";
+            while(listaRevisores.hasNext()) {
+                Revisor revisor = (Revisor) listaRevisores.next();
+                if(!(aRevisao.getListaRevisores().contains(revisor)) && !(aRevisao.getListaRevisoresIndisponiveis().contains(revisor))) {
+                    listaRevisoresDisponiveis += revisor + "\n";
+                }
+            }
+            return listaRevisoresDisponiveis;
+        }
+        return null;
     }
 
     public void pesquisarRevisoesPorEstado() {
@@ -983,28 +1000,7 @@ public class App {
                     break;
 
                 case 6:
-                   /*  Revisao revisaoAux;
-                    int numeroSerie;
-                    System.out.println(gereRevisoes.listarRevisoes());
-                    System.out.println("Introduza o numero de serie da revisao a que pretende atribuir o revisor: ");
-                    numeroSerie = sc.nextInt();
-
-                    revisaoAux = gereRevisoes.pesquisarPorNumeroSerie(numeroSerie);
-
-                    revisaoAux.getListaRevisoresIndisponiveis();
-
-                    gereRevisoes.getListaRevisoes();
-
-                    revisaoAux.listarRevisoresDisponiveis((Revisao)revisaoAux);
-                    
-
-
-                    System.out.println();
-
-                    System.out.println("Introduza o login do revisor que pretende atribuir: ");
-                     */
-
-                    
+                                        
                     // Atribui processo de revisão
                     break;
 
@@ -1200,7 +1196,12 @@ public class App {
             }
         } while (obra == null);
 
-        Revisao novaRevisao = new Revisao(obra, 0, ++novoNumeroSerie);
+        Revisao novaRevisao = new Revisao(obra, 0, ++novoNumeroSerie); 
+        if(listarRevisoresDisponiveis(novaRevisao) == null) {
+            System.out.println("De momento nao ha revisores disponiveis!");
+            System.out.println("Por favor tente mais tarde!");
+            return;
+        }
         gereRevisoes.adicionarRevisao(novaRevisao);
         burroCarga.setGereRevisoes(this.gereRevisoes);
         escreverBurroCarga(burroCarga);
@@ -1396,6 +1397,7 @@ public class App {
             case 1:
                 revisao.setGestorResponsavel((Gestor)this.UtilizadorAtual);
                 revisao.setEstado(2);
+                revisao.adicionarRevisorIndisponivel((Revisor)this.UtilizadorAtual);
                 System.out.println("Operacao realizada com sucesso!");
                 System.out.println("Foi enviado o pedido de revisao desta obra para o revisor!");
                 break;
@@ -1613,6 +1615,8 @@ public class App {
                     System.out.println("Adeus...");
                     try {
                         burroCarga.setGereObras(this.gereObras);
+                        burroCarga.setGereRevisoes(this.gereRevisoes);
+                        burroCarga.setGereUtilizador(this.Utilizadores);
                         escreverBurroCarga(burroCarga);
                         Thread.sleep(2000);
                         sc.close();

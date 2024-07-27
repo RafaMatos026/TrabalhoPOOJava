@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Revisao {
     private ArrayList<Anotacao> listaAnotacoes = new ArrayList<Anotacao>();
@@ -98,18 +97,4 @@ public class Revisao {
     public String toString() {
         return "Titulo: " + this.obra.getTitulo() + ", ISBN: " + this.obra.getISBN() + ", Numero de serie: " + this.numeroSerie;
     }
-
-    /* public String listarRevisoresDisponiveis(Revisao aRevisao, Revisao aListaTodos) {
-        Iterator<Revisor> listaRevisores = aListaTodos.iterator();
-        String listaRevisoresDisponiveis = "";
-
-        while(listaRevisores.hasNext()) {
-            Revisor revisor = (Revisor) listaRevisores.next();
-            if(!(listaRevisoresIndisponiveis.contains(revisor)) && !(aRevisao.getListaRevisores().contains(revisor))) {
-                listaRevisoresDisponiveis += revisor + "\n";
-            }
-            return listaRevisoresDisponiveis;
-        }
-        return "De momento não existem revisores disponiveis!";
-    } */
 }
