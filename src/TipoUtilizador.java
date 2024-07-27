@@ -1,4 +1,6 @@
-public class TipoUtilizador {
+import java.io.Serializable;
+
+public class TipoUtilizador implements Serializable{
     private final int ID;
     private final String Tipo;
     private final String Desc;

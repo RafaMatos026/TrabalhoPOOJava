@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class GereRevisoes {
+public class GereRevisoes implements Serializable{
     ArrayList<Revisao> listaRevisoes;
 
     GereRevisoes() {
@@ -120,7 +121,7 @@ public class GereRevisoes {
         return "Nao existe nenhuma obra com o titulo " + aTitulo + " em revisao";
     }
 
-    public String listarRevisoes() {
+    public String listarTodasRevisoes() {
         if(this.listaRevisoes != null && this.listaRevisoes.size() > 0) {
             Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
             String resultado = "";
@@ -128,7 +129,7 @@ public class GereRevisoes {
             while(lista_revisoes.hasNext()) {
                 Revisao revisao = (Revisao) lista_revisoes.next();
 
-                if(revisao.getEstado() == 1 || revisao.getEstado() == 2) {
+                if(revisao.getEstado() == 0 || revisao.getEstado() == 1 || revisao.getEstado() == 2) {
                     resultado += revisao + "\n";
                 }
             }
@@ -166,5 +167,21 @@ public class GereRevisoes {
             return listaRevisoesDesteAutor;
         }
         return "De momento nao tem nenhuma revisao ativa!";
+    }
+
+    public String pesquisarPorEstado(int aEstado) {
+        if (listaRevisoes != null && listaRevisoes.size() > 0) {
+            Iterator<Revisao> lista_revisoes = listaRevisoes.iterator();
+            String listaRevisoesDesteAutor = "";
+            while (lista_revisoes.hasNext()) {
+                Revisao revisao = (Revisao) lista_revisoes.next();
+                
+                if(revisao.getEstado() == aEstado) {
+                    listaRevisoesDesteAutor += revisao + "\n";
+                }
+            }
+            return listaRevisoesDesteAutor;
+        }
+        return null;
     }
 }

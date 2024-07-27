@@ -1,4 +1,4 @@
-public class Revisor extends Utilizador{
+public class Revisor extends Utilizador {
     private String Telefone;
     private String NIF;
     private String Morada;

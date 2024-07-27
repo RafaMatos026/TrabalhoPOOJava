@@ -1,4 +1,7 @@
-public class Utilizador {
+import java.io.Serializable;
+import java.lang.Comparable;
+
+public class Utilizador implements Serializable, Comparable<Utilizador>{
     protected String Login; // único
     protected String Email; // único
     protected String Nome;
@@ -63,6 +66,10 @@ public class Utilizador {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public int compareTo(Utilizador aUtilizadores) {
+        return this.Nome.compareTo(aUtilizadores.getNome());
     }
 
     public String toString() {

@@ -1,7 +1,9 @@
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
-public class GereUtilizador {
+public class GereUtilizador implements Serializable{
     public ArrayList<Utilizador> listaUtilizadores;
     
     GereUtilizador() {
@@ -84,7 +86,7 @@ public class GereUtilizador {
         return this.listaUtilizadores.isEmpty();
     }
 
-    public String listarTodosUtilizadores() {
+    public String listarUtilizadoresAtivosEInativos() {
         if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
             Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
             String listaUtilizadores = "";
@@ -99,5 +101,47 @@ public class GereUtilizador {
             return listaUtilizadores;
         }
         return null;
+    }
+
+    public String listarTodosUtilizadores() {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+            String listaUtilizadores = "";
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if (utilizador.getEstado() == 1 || utilizador.getEstado() == -3) {
+                    listaUtilizadores += utilizador + "\n";
+                }
+            }
+            return listaUtilizadores;
+        }
+        return null;
+    }
+
+    public String pesquisarUtilizadorPorTipo(int aTipoUtilizador) {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
+            String utilizadoresDesteTipo = "";
+
+            while (lista_utilizadores.hasNext()) {
+                Utilizador utilizador = (Utilizador) lista_utilizadores.next();
+                
+                if(utilizador.getTipoUtilizador().getID() == aTipoUtilizador) {
+                    utilizadoresDesteTipo += utilizador + "\n";
+                }
+            }
+            return utilizadoresDesteTipo;
+        }
+        return null;
+    }
+
+    public boolean ordenarUtilizadoresPorOrdemAlfabetica() {
+        if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
+            Collections.sort(listaUtilizadores);
+            return true;
+        }
+        return false;
     }
 }

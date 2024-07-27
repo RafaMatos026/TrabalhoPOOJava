@@ -1,8 +1,11 @@
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class App {
+    private BurroCarga burroCarga = new BurroCarga();
     private Utilizador UtilizadorAtual = null;
     private TipoUtilizador tipoUtilizadorAtual = null;
     private GereUtilizador Utilizadores = new GereUtilizador();
@@ -14,6 +17,27 @@ public class App {
     private int Opcao;
     private int auxNotificacoesGestor = 0;
 
+  private static BurroCarga lerBurroCarga() {
+    ManipulaFicheiros fileRead = new ManipulaFicheiros();
+    fileRead.abrirFicheiroLeitura("./dados_apl.dat");
+    BurroCarga auxBurroCarga = fileRead.leituraFicheiro();
+    fileRead.fecharFicheiroLeitura();
+    if(auxBurroCarga == null){
+        auxBurroCarga = new BurroCarga();
+    }
+    return auxBurroCarga;
+  }
+
+  private static void escreverBurroCarga(BurroCarga aBurroCarga) {
+    try {
+      ManipulaFicheiros fileWrite = new ManipulaFicheiros();
+      fileWrite.abrirFicheiroEscrita("./dados_apl.dat");
+      fileWrite.escreveFicheiro(aBurroCarga);
+      fileWrite.fecharFicheiroEscrita();
+    } catch (Exception ioe) {
+      ioe.printStackTrace();
+    }
+}
 
     public void Login(){
         String _Email;
@@ -170,6 +194,8 @@ public class App {
         if(this.Opcao == 1) {
             utilizador.setEstado(-4);
             this.Utilizadores.listaUtilizadores.remove(utilizador);
+            burroCarga.setGereUtilizador(this.Utilizadores);
+            escreverBurroCarga(burroCarga);
             listaNotificacoesGestor.add("O utilizador com o login " + utilizador.getLogin() + " foi removido do sistema!");
         }
         else {
@@ -267,6 +293,9 @@ public class App {
             this.Utilizadores.adicionar(NovoGestor);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
+
+        burroCarga.setGereUtilizador(this.Utilizadores);
+        escreverBurroCarga(burroCarga);
     }
 
     public String notificacoesGestor() {
@@ -322,6 +351,8 @@ public class App {
             Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado , _TipoUtilizador);
 
             this.Utilizadores.adicionar(NovoGestor);
+            burroCarga.setGereUtilizador(this.Utilizadores);
+            escreverBurroCarga(burroCarga);
 
             this.MenuInicial();
 
@@ -735,6 +766,98 @@ public class App {
         }                         
     }
 
+    public void pesquisarRevisoesPorEstado() {
+        do {
+            System.out.println("Em que estado se encontra a revisao que procura?");
+            System.out.println("1 - Iniciada, a espera da autorizacao do gestor");
+            System.out.println("2 - Aceite pelo gestor, a aguardar pela autorizacao do revisor");
+            System.out.println("3 - Em execucao");
+            System.out.println("4 - Finalizada");
+            System.out.println("5 - Arquivada");
+            this.Opcao = sc.nextInt();
+
+            if(this.Opcao < 1 || this.Opcao > 5) {
+                System.out.println("Opcao invalida, por favor introduza uma opcao valida");
+            }
+        } while (this.Opcao < 1 || this.Opcao > 5);
+
+        if(gereRevisoes.pesquisarPorEstado(this.Opcao)==null)
+        {
+            System.out.println("De momento nao tem nenhuma revisao com esse estado ativa!");
+            return;
+        }
+
+        System.out.println(gereRevisoes.pesquisarPorEstado(this.Opcao));
+    }
+
+    public void listarTodasObras() {
+        if(gereObras.listarTodasObras() == null) {
+            System.out.println("De momento nao ha nenhuma obra!");
+            return;
+        }
+        System.out.println(gereObras.listarTodasObras());
+    }
+
+    public void pesquisarObrasPorTitulo() {
+        String Titulo;
+        System.out.println("Introduza o titulo da obra que pretende encontrar: ");
+        Titulo = sc.nextLine();
+
+        if(gereObras.pesquiarObraPorTitulo(Titulo) == null) {
+            System.out.println("Nao ha nenhuma obra com o titulo " + Titulo);
+            return;
+        }
+
+        System.out.println(gereObras.pesquiarObraPorTitulo(Titulo));
+    }
+
+    public void pesquisarUtilizadorPorLogin() {
+        String login;
+        System.out.println("Introduza o login do utilizador que pretende encontrar: ");
+        login = sc.nextLine();
+        if(Utilizadores.PesquisarUtilizadorPorLogin(login) == null) {
+            System.out.println("Nao existe nenhum utilizador com o login " + login);
+            return;
+        }
+        System.out.println(Utilizadores.PesquisarUtilizadorPorLogin(login));
+    }
+
+    public void pesquisarUtilizadorPorTipo() {
+        System.out.println("Selecione o tipo de utilizador que pretende encontrar");
+        System.out.println("1 - Autor");
+        System.out.println("3 - Gestor");
+        System.out.println("2 - Revisor");
+        this.Opcao = sc.nextInt();
+        
+        
+        if(Utilizadores.pesquisarUtilizadorPorTipo(this.Opcao) == null) {
+            System.out.println("De momento nao existem utilizadores deste tipo!");
+            return;
+        }
+
+        System.out.println(Utilizadores.pesquisarUtilizadorPorTipo(this.Opcao));
+    }
+
+    public void gestorAtivarInativarConta() {
+        Utilizador utilizador = null;
+
+        do{
+            System.out.println(Utilizadores.listarUtilizadoresAtivosEInativos()); 
+            sc.nextLine();
+            System.out.println("Introduza o login do utilizador que pretende ativar/inativar: ");
+            String userLogin = sc.nextLine();
+            
+            utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
+
+            if(utilizador == null) {
+                System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
+            }
+
+        }while(utilizador == null);
+
+        ativarInativar(utilizador);
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -752,16 +875,21 @@ public class App {
             System.out.println("7  - Arquivar um processo");
             System.out.println("8  - Consultar estado de uma revisao");
             System.out.println("9  - Listar todas as revisoes");
-            System.out.println("10 - Pesquisar todas as revisoes");
+            System.out.println("10 - Pesquisar revisoes por estado");
             System.out.println("11 - Listar todas as obras");
-            System.out.println("12 - Pesquisar todas as obras");
-            System.out.println("13 - Ler dados de um ficheiro");
-            System.out.println("14 - Gravar dados num ficheiro");
-            System.out.println("15 - Consultar o log de acoes");
-            System.out.println("16 - Editar dados pessoais");
-            System.out.println("17 - Ativar/Inativar uma conta");
-            System.out.println("18 - Solicitar remocao de conta");
-            System.out.println("19 - Terminar Sessao");
+            System.out.println("12 - Pesquisar obras por titulo");
+            System.out.println("13 - Listar todos os utilizadores");
+            System.out.println("14 - Pesquisar utilizadores");
+            System.out.println("15 - Ordenar utilizadores por ordem alfabetica");
+            System.out.println("16 - Ordenar autores pelo numero total de obras");
+            System.out.println("17 - Ordenar revisoes");
+            System.out.println("18 - Ler dados de um ficheiro");
+            System.out.println("19 - Gravar dados num ficheiro");
+            System.out.println("20 - Consultar o log de acoes");
+            System.out.println("21 - Editar dados pessoais");
+            System.out.println("22 - Ativar/Inativar uma conta");
+            System.out.println("23 - Solicitar remocao de conta");
+            System.out.println("24 - Terminar Sessao");
             this.Opcao = sc.nextInt();
 
             switch (Opcao) {
@@ -838,75 +966,106 @@ public class App {
                     break ;
 
                 case 9:
-                    System.out.println("Listar todas as revisoes");
+                    System.out.println(gereRevisoes.listarTodasRevisoes());   
                     // Listar todas as revisões
                     break ;
                     
                 case 10:
-                    System.out.println("Pesquisar todas as revisoes");
-                    // Pesquisar todas as revisões
+                    pesquisarRevisoesPorEstado();              
+                    this.MenuInicialGestor();
+                    // Pesquisar revisões por estado
                     break;
 
                 case 11:
-                    System.out.println("Listar todas as obras");
+                    listarTodasObras();
+                    this.MenuInicialGestor();
                     // Listar todas as obras
                     break;
 
                 case 12: 
-                    System.out.println("Pesquisar todas as obras");
-                    // Pesquisar todas as obras
+                    pesquisarObrasPorTitulo();
+                    this.MenuInicialGestor();
+                    // Pesquisar obras por titulo
                     break;
 
                 case 13:
+                    System.out.println(Utilizadores.listarTodosUtilizadores());
+                    this.MenuInicialGestor();
+                    // Listar todos os utilizadores
+                    break;
+                
+                case 14: 
+                    System.out.println("Selecione uma opcao: ");
+                    System.out.println("1 - Pesquisar utilizador por login");
+                    System.out.println("2 - Pesquisar utilizador por tipo");
+                    this.Opcao = sc.nextInt();
+
+                    switch(this.Opcao) {
+                        case 1:
+                            pesquisarUtilizadorPorLogin();
+                            break;
+
+                        case 2:
+                            pesquisarUtilizadorPorTipo();
+                            break;
+                    }
+
+                    this.MenuInicialGestor();
+                    // Pesquisar utilizadores (login / tipo)
+                    break;
+
+                case 15:
+                    if(Utilizadores.ordenarUtilizadoresPorOrdemAlfabetica()) {
+                        System.out.println(Utilizadores.listarTodosUtilizadores());
+                    }
+                    else {
+                        System.out.println("Nao foi possivel ordenar os utilizadores!");
+                    }
+                    // Ordenar utilizadores por ordem alfabetica
+                    this.MenuInicialGestor();
+                    break;
+
+                case 16:
+                    // Ordenar autores pelo numero total de obras
+                    break;
+
+                case 17:
+                    // Ordenar revisoes (duracao ou data)
+                    break;
+
+                case 18:
                     System.out.println("Ler dados de um ficheiro");
                     // Ler dados de um ficheiro
                     break;
 
-                case 14:
+                case 19:
                     System.out.println("Gravar dados num ficheiro");
                     // Gravar dados num ficheiro
                     break;
 
-                case 15:
+                case 20:
                     System.out.println("Consultar o log de acoes");
                     // Consultar o log de ações
                     break; 
                     
-                case 16:
-                    System.out.println("Editar dados pessoais");
+                case 21:
                     EditarDados();
                     // Editar dados pessoais
                     break;
 
-                case 17:
-                    Utilizador utilizador = null;
-
-                    do{
-                        System.out.println(Utilizadores.listarTodosUtilizadores()); 
-                        sc.nextLine();
-                        System.out.println("Introduza o login do utilizador que pretende ativar/inativar: ");
-                        String userLogin = sc.nextLine();
-                        
-                        utilizador = Utilizadores.PesquisarUtilizadorPorLogin(userLogin);
-            
-                        if(utilizador == null) {
-                            System.out.println("O login que introduziu nao corresponde a nenhum utilizador!");
-                        }
-            
-                    }while(utilizador == null);
-
-                    ativarInativar(utilizador);
+                case 22:
+                    gestorAtivarInativarConta();
                     this.MenuInicialGestor();
                     // Ativar/Inativar uma conta
                     break;
 
-                case 18:
+                case 23:
                     solicitarRemocaoConta();
                     this.MenuInicialGestor();
                     // Solicitar remoção de conta
                     break;
 
-                case 19:
+                case 24:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     this.MenuInicial();
                     break;
@@ -914,7 +1073,7 @@ public class App {
                 default:
                     System.out.println("Opcao invalida");
             }
-        } while (Opcao < 1 || Opcao > 19);
+        } while (Opcao < 1 || Opcao > 24);
     }
 
     public void criarObra() {
@@ -951,6 +1110,9 @@ public class App {
 
         Obra NovaObra = new Obra((Autor) this.UtilizadorAtual, _Titulo, _EstiloLiterario, _TipoPublicacao, _NumeroPaginas, _ISBN, _NumeroEdicao, _DataSubmissao, _DataSubmissao);
         this.gereObras.adicionarObra(NovaObra);
+
+        burroCarga.setGereObras(this.gereObras);
+        escreverBurroCarga(burroCarga);
     }
 
     public void solicitarRemocaoConta() {
@@ -985,6 +1147,8 @@ public class App {
 
         Revisao novaRevisao = new Revisao(obra, 0, ++novoNumeroSerie);
         gereRevisoes.adicionarRevisao(novaRevisao);
+        burroCarga.setGereRevisoes(this.gereRevisoes);
+        escreverBurroCarga(burroCarga);
         System.out.println("Operacao realizada com sucesso");
         System.out.println("A sua obra foi submetida para revisao!");
     }
@@ -1087,11 +1251,22 @@ public class App {
 
                 case 7:
                     gereRevisoes.listarRevisoesDesteAutor((Autor)this.UtilizadorAtual);
+                    this.MenuInicialAutor();
                     // Listar as minhas revisões
                     break;
 
                 case 8:
-                    System.out.println("Pesquisar as minhas revisoes");
+                    String Titulo;
+                    int ISBN;
+                    System.out.println("Introduza o titulo da obra da revisao que pretende encontrar: ");
+                    Titulo = sc.nextLine();
+
+                    System.out.println(gereObras.pesquiarObraPorTitulo(Titulo));
+
+                    System.out.println("Introduza o codigo ISBN da obra da revisao que pretende encontrar: ");
+                    ISBN = sc.nextInt();
+
+                    System.out.println(gereRevisoes.pesquisarPorISBN(ISBN));
                     // Pesquisar as minhas revisões
                     break;
 
@@ -1259,6 +1434,11 @@ public class App {
     }
 
     public void MenuInicial(){
+        burroCarga = lerBurroCarga();
+        gereObras = burroCarga.getGereObras();
+        gereRevisoes = burroCarga.getGereRevisoes();
+        Utilizadores = burroCarga.getGereUtilizador();
+        
         if(this.Utilizadores.isListaEmpty()) {
             Registo();
         }
@@ -1282,6 +1462,8 @@ public class App {
                 case 3:
                     System.out.println("Adeus...");
                     try {
+                        burroCarga.setGereObras(this.gereObras);
+                        escreverBurroCarga(burroCarga);
                         Thread.sleep(2000);
                         sc.close();
                         System.exit(0);

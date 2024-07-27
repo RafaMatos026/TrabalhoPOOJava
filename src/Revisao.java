@@ -11,7 +11,7 @@ public class Revisao {
     private Revisor revisorResponsavel;
     private Obra obra;
     private int numeroSerie = -1;
-    private int estado = -1; // -2 -> revisao recusada pelo revisor | -1 -> revisao recusada pelo gestor | 0 -> à espera que o gestor aceite | 1 -> aceite pelo gestor e a espera que o revisor aceite | 2 -> aceite pelo revisor | 3 -> revisao finalizada | 4 -> revisao arquivada
+    private int estado = -1; // -1 -> revisao recusada pelo gestor | 0 -> à espera que o gestor aceite | 1 -> aceite pelo gestor e a espera que o revisor aceite | 2 -> aceite pelo revisor | 3 -> revisao finalizada | 4 -> revisao arquivada
 
     public Revisao(Obra aObra, int aEstado, int aNumeroSerie) {
         this.obra = aObra;
