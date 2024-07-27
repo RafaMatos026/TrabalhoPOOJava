@@ -155,6 +155,8 @@ public class App {
             utilizador.setEstado(-2);
         }else{
             utilizador.setEstado(1);
+            burroCarga.setGereUtilizador(Utilizadores);
+            escreverBurroCarga(burroCarga);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + utilizador.getLogin() + " foi registado no sistema!");
         }
     }
@@ -201,6 +203,8 @@ public class App {
         }
         else {
             utilizador.setEstado(1);
+            burroCarga.setGereUtilizador(this.Utilizadores);
+            escreverBurroCarga(burroCarga);
         }
     }
 
@@ -1169,6 +1173,8 @@ public class App {
     public void solicitarRemocaoConta() {
         System.out.println("Solicitar remocao de conta");
         this.UtilizadorAtual.setEstado(-3);
+        burroCarga.setGereUtilizador(this.Utilizadores);
+        escreverBurroCarga(burroCarga);
         listaNotificacoesGestor.add(0, "O utilizador com o login " + this.UtilizadorAtual.getLogin() + " realizou um pedido de remocao de conta");
         if(this.UtilizadorAtual.getEstado() == -3) {
             System.out.println("O seu pedido foi realizado com sucesso!");
