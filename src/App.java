@@ -224,12 +224,12 @@ public class App {
         } while (this.Opcao < 1 && this.Opcao > 2);
     
         if(this.Opcao == 2) {
-            escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de registo");
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + " recusou um pedido de registo");
             utilizador.setEstado(-2);
             burroCarga.setGereUtilizador(Utilizadores);
             escreverBurroCarga(burroCarga);
         }else{
-            escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de registo");
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + " aceitou um pedido de registo");
             utilizador.setEstado(1);
             burroCarga.setGereUtilizador(Utilizadores);
             escreverBurroCarga(burroCarga);
@@ -279,7 +279,7 @@ public class App {
         if(this.Opcao == 1) {
             System.out.println("Operacao realizada com sucesso");
             System.out.println("Conta removida");
-            escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de remocao de conta");
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + " aceitou um pedido de remocao de conta");
             utilizador.setEstado(-4);
             this.Utilizadores.getListaUtilizadores().remove(utilizador);
             burroCarga.setGereUtilizador(this.Utilizadores);
@@ -287,7 +287,7 @@ public class App {
             listaNotificacoesGestor.add("O utilizador com o login " + utilizador.getLogin() + " foi removido do sistema!");
         }
         else {
-            escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de remocao de conta");
+            escreverFicheiroLog(UtilizadorAtual.getLogin() + " recusou um pedido de remocao de conta");
             utilizador.setEstado(1);
             burroCarga.setGereUtilizador(this.Utilizadores);
             escreverBurroCarga(burroCarga);
@@ -912,7 +912,7 @@ public class App {
                     System.out.println("Esta conta já se encontra ativa!");
                 }
                 else if(aUtilizador.getEstado() == -1) {
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "ativou uma conta");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " ativou uma conta");
                     aUtilizador.setEstado(1);
                     burroCarga.setGereUtilizador(this.Utilizadores);
                     escreverBurroCarga(burroCarga);
@@ -925,7 +925,7 @@ public class App {
                     System.out.println("Esta conta já se encontra inativa!");
                 }
                 else if(aUtilizador.getEstado() == 1) {
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "inativou uma conta");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " inativou uma conta");
                     aUtilizador.setEstado(-1);
                     burroCarga.setGereUtilizador(this.Utilizadores);
                     escreverBurroCarga(burroCarga);
@@ -1013,7 +1013,7 @@ public class App {
                     System.out.println("Por favor tente mais tarde!");
                     return;
                 }
-                escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de revisao");
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + " aceitou um pedido de revisao");
 
                 Utilizador utilizador;
                 String login;
@@ -1050,7 +1050,7 @@ public class App {
                 break;
                 
             case 2: 
-                escreverFicheiroLog(UtilizadorAtual.getLogin() + "recusou um pedido de revisao");
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + " recusou um pedido de revisao");
                 revisao.setEstado(-1);
                 burroCarga.setGereRevisoes(gereRevisoes);
                 escreverBurroCarga(burroCarga);
@@ -1112,6 +1112,7 @@ public class App {
 
     public void pesquisarObrasPorTitulo() {
         String Titulo;
+        Titulo = sc.nextLine();
         System.out.println("Introduza o titulo da obra que pretende encontrar: ");
         Titulo = sc.nextLine();
         contaNumeroExecucoes++;
@@ -1128,6 +1129,7 @@ public class App {
 
     public void pesquisarUtilizadorPorLogin() {
         String login;
+        sc.nextLine();
         System.out.println("Introduza o login do utilizador que pretende encontrar: ");
         login = sc.nextLine();
         contaNumeroExecucoes++;
@@ -1201,7 +1203,7 @@ public class App {
                         return;
                     }
 
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "consultou o estado de uma revisao");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " consultou o estado de uma revisao");
                     switch(gereRevisoes.pesquisarPorNumeroSerie(numeroSerie).getEstado()) {            
                         case -1:
                             System.out.println("Esta revisao foi recusada pelo gestor");
@@ -1256,12 +1258,12 @@ public class App {
 
         switch(this.Opcao ) {
             case 1:
-                escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou as revisoes por duracao");
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + " ordenou as revisoes por duracao");
                 gereRevisoes.ordenarRevisoes(true);
                 break;
 
             case 2:
-                escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou as revisoes por data");
+                escreverFicheiroLog(UtilizadorAtual.getLogin() + " ordenou as revisoes por data");
                 gereRevisoes.ordenarRevisoes(false);
                 break;
                 
@@ -1313,14 +1315,15 @@ public class App {
                     case 1:
                         System.out.println("InfoSistema.dat");
                         System.out.println(gereInfoSistema);
-                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "leu os dados do ficheiro InfoSistema.dat");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + " leu os dados do ficheiro InfoSistema.dat");
                         break;
 
                     case 2:
                         gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
                         gereInfoSistema.setUltimoLogin(ultimoLogin);
                         escreverInfoSistema(gereInfoSistema);
-                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "gravou os dados no ficheiro InfoSistema.dat");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + " gravou os dados no ficheiro InfoSistema.dat");
+                        System.out.println("Dados gravados com sucesso");
                         break;
 
                     case 3:
@@ -1355,7 +1358,7 @@ public class App {
                     case 1:
                         System.out.println("dados_apl.dat");
                         System.out.println(burroCarga);
-                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "leu os dados do ficheiro dados_apl.dat");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + " leu os dados do ficheiro dados_apl.dat");
                         break;
 
                     case 2:
@@ -1364,7 +1367,7 @@ public class App {
                         burroCarga.setGereUtilizador(Utilizadores);
                         escreverBurroCarga(burroCarga);
                         System.out.println("Dados gravados com sucesso");
-                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "gravou os dados no ficheiro dados_apl.dat");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + " gravou os dados no ficheiro dados_apl.dat");
                         break;
 
                     case 3:
@@ -1426,13 +1429,12 @@ public class App {
             System.out.println("14 - Ordenar utilizadores por ordem alfabetica");
             System.out.println("15 - Ordenar autores pelo numero total de obras");
             System.out.println("16 - Ordenar revisoes");
-            System.out.println("17 - Ler dados de um ficheiro");
-            System.out.println("18 - Gravar dados num ficheiro");
-            System.out.println("29 - Consultar o log de acoes");
-            System.out.println("20 - Editar dados pessoais");
-            System.out.println("21 - Ativar/Inativar uma conta");
-            System.out.println("22 - Solicitar remocao de conta");
-            System.out.println("23 - Terminar Sessao");
+            System.out.println("17 - Ler/Gravar dados de ficheiro");
+            System.out.println("18 - Consultar o log de acoes");
+            System.out.println("19 - Editar dados pessoais");
+            System.out.println("20 - Ativar/Inativar uma conta");
+            System.out.println("21 - Solicitar remocao de conta");
+            System.out.println("22 - Terminar Sessao");
             this.Opcao = sc.nextInt();
             contaNumeroExecucoes++;
             gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
@@ -1441,14 +1443,14 @@ public class App {
             switch (Opcao) {
                 case 1:
                     System.out.println(this.notificacoesGestor());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "viu as notificacoes");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " viu as notificacoes");
                     this.MenuInicialGestor();
                     // Notificações
                     break;
 
                 case 2:
                     gestorCriaUtilizador();
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "criou um utilizador");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " criou um utilizador");
                     this.MenuInicialGestor();
                     // criar utilizador
                     break;
@@ -1499,56 +1501,62 @@ public class App {
 
                 case 8:
                     System.out.println(gereRevisoes.listarTodasRevisoes());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todas as revisoes");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " listou todas as revisoes");
                     this.MenuInicialGestor();   
                     // Listar todas as revisões
                     break ;
                     
                 case 9:
                     pesquisarRevisoesPorEstado();      
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou revisoes por estado");        
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " pesquisou revisoes por estado");        
                     this.MenuInicialGestor();
                     // Pesquisar revisões por estado
                     break;
 
                 case 10:
                     listarTodasObras();
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todas as obras");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " listou todas as obras");
                     this.MenuInicialGestor();
                     // Listar todas as obras
                     break;
 
                 case 11: 
                     pesquisarObrasPorTitulo();
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou as obras por titulo");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " pesquisou as obras por titulo");
                     this.MenuInicialGestor();
                     // Pesquisar obras por titulo
                     break;
 
                 case 12:
                     System.out.println(Utilizadores.listarTodosUtilizadores());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "listou todos os utilizadores");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " listou todos os utilizadores");
                     this.MenuInicialGestor();
                     // Listar todos os utilizadores
                     break;
                 
                 case 13: 
-                    System.out.println("Selecione uma opcao: ");
-                    System.out.println("1 - Pesquisar utilizador por login");
-                    System.out.println("2 - Pesquisar utilizador por tipo");
-                    this.Opcao = sc.nextInt();
+                    do {
+                        System.out.println("Selecione uma opcao: ");
+                        System.out.println("1 - Pesquisar utilizador por login");
+                        System.out.println("2 - Pesquisar utilizador por tipo");
+                        this.Opcao = sc.nextInt();
+
+                        if(this.Opcao < 1 || this.Opcao > 2) {
+                            System.out.println("Introduza uma opcao valida!");
+                        }
+                    } while (this.Opcao < 1 || this.Opcao > 2);
                     contaNumeroExecucoes++;
                     gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
                     escreverInfoSistema(gereInfoSistema);
 
                     switch(this.Opcao) {
                         case 1:
-                            escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou um utilizador por login");
+                            escreverFicheiroLog(UtilizadorAtual.getLogin() + " pesquisou um utilizador por login");
                             pesquisarUtilizadorPorLogin();
                             break;
 
                         case 2:
-                            escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou um utilizador por tipo");
+                            escreverFicheiroLog(UtilizadorAtual.getLogin() + " pesquisou um utilizador por tipo");
                             pesquisarUtilizadorPorTipo();
                             break;
                     }
@@ -1559,7 +1567,7 @@ public class App {
 
                 case 14:
                     if(Utilizadores.ordenarUtilizadoresPorOrdemAlfabetica()) {
-                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou os utilizadores por ordem alfabetica");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + " ordenou os utilizadores por ordem alfabetica");
                         System.out.println(Utilizadores.listarTodosUtilizadores());
                     }
                     else {
@@ -1576,7 +1584,7 @@ public class App {
                     }
                     Collections.sort(this.Utilizadores.listaAutores());
                     System.out.println(this.Utilizadores.apresentaAutoresOrdenados(this.Utilizadores.listaAutores()));
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "ordenou os autores pelo numero total de obras");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " ordenou os autores pelo numero total de obras");
                     this.MenuInicialGestor();
                     // Ordenar autores pelo numero total de obras
                     break;
@@ -1594,39 +1602,30 @@ public class App {
                     break;
 
                 case 18:
-                    System.out.println("Gravar dados num ficheiro");
-                    burroCarga.setGereObras(this.gereObras);
-                    burroCarga.setGereRevisoes(this.gereRevisoes);
-                    burroCarga.setGereUtilizador(this.Utilizadores);
-                    escreverBurroCarga(burroCarga);
-                    // Gravar dados num ficheiro
-                    break;
-
-                case 19:
-                    System.out.println("Consultar o log de acoes");
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "consultou o log de acoes");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " consultou o log de acoes");
                     System.out.println(lerFicheiroLog());
+                    this.MenuInicialGestor();
                     // Consultar o log de ações
                     break; 
                     
-                case 20:
+                case 19:
                     EditarDados();
                     // Editar dados pessoais
                     break;
 
-                case 21:
+                case 20:
                     gestorAtivarInativarConta();
                     this.MenuInicialGestor();
                     // Ativar/Inativar uma conta
                     break;
 
-                case 22:
+                case 21:
                     solicitarRemocaoConta();
                     this.MenuInicialGestor();
                     // Solicitar remoção de conta
                     break;
 
-                case 23:
+                case 22:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
                     escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
                     this.MenuInicial();
@@ -1635,7 +1634,7 @@ public class App {
                 default:
                     System.out.println("Opcao invalida");
             }
-        } while (Opcao < 1 || Opcao > 23);
+        } while (Opcao < 1 || Opcao > 22);
     }
 
     public void criarObra() {
@@ -1729,8 +1728,11 @@ public class App {
         Obra obra;
         int ISBN;
         int novoNumeroSerie = gereRevisoes.ultimoNumeroSerie();
-        System.out.println("As suas obras");
         System.out.println(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual));
+        if(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual).equals("Este autor nao tem obras criadas!")) {
+            return;
+        }
+        System.out.println("As suas obras");
 
         do {
             System.out.println("Introduza o codigo ISBN da obra que pretende submeter para revisao: ");
@@ -1804,6 +1806,7 @@ public class App {
 
     public void pesquisarRevisoesDesteAutor() {
         String Titulo;
+        sc.nextLine();
         System.out.println("Introduza o titulo da obra da revisao que pretende encontrar: ");
         Titulo = sc.nextLine();
         contaNumeroExecucoes++;
@@ -1898,7 +1901,15 @@ public class App {
                     break;
 
                 case 10:
-                    System.out.println(gereObras.listarObrasConsoanteAutor((Autor)this.UtilizadorAtual));
+                    String Titulo = "";
+                    sc.nextLine();
+                    System.out.println("Introduza o titulo da obra que deseja encontrar: ");
+                    Titulo = sc.nextLine();
+                    if(gereObras.pesquisarObrasDesteAutorPorTitulo((Autor)this.UtilizadorAtual, Titulo) == null) {
+                        System.out.println("Nao tem nenhuma obra com o titulo " + Titulo);
+                        this.MenuInicialAutor();
+                    }
+                    System.out.println(gereObras.pesquisarObrasDesteAutorPorTitulo((Autor)this.UtilizadorAtual, Titulo));
                     escreverFicheiroLog(UtilizadorAtual.getLogin() + "pesquisou as suas obras");
                     this.MenuInicialAutor();
                     // Pesquisar as minhas obras
@@ -2001,6 +2012,7 @@ public class App {
 
     public void revisorPesquisarRevisoes() {
         String Titulo;
+        sc.nextLine();
         System.out.println("Introduza o titulo da obra em revisao: ");
         Titulo = sc.nextLine();
         contaNumeroExecucoes++;
@@ -2094,6 +2106,7 @@ public class App {
             case 2:
                 escreverFicheiroLog(UtilizadorAtual.getLogin() + "adicionou uma observacao generica a revisao");
                 String observacaoGenerica;
+                sc.nextLine();
                 System.out.println("Escreva uma observacao generica: ");
                 observacaoGenerica = sc.nextLine();
                 contaNumeroExecucoes++;
@@ -2107,13 +2120,13 @@ public class App {
                 System.out.println("Indique a duracao da revisao realizada (em minutos): ");
                 duracao = sc.nextInt();
                 contaNumeroExecucoes++;
+                revisao.setEstado(3);
                 gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
                 escreverInfoSistema(gereInfoSistema);
                 revisao.setDuracao(duracao);
                 burroCarga.setGereRevisoes(gereRevisoes);
                 escreverBurroCarga(burroCarga);
                 escreverFicheiroLog(UtilizadorAtual.getLogin() + "finalizou a revisao");
-                revisao.setEstado(3);
                 System.out.println("Revisao finalizada com sucesso");
                 break;
 

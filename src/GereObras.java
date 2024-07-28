@@ -95,4 +95,21 @@ public class GereObras implements Serializable{
         }
         return false;
     }
+
+    public String pesquisarObrasDesteAutorPorTitulo(Autor aAutor, String aTitulo) {
+        if(this.listaTodasObras != null && this.listaTodasObras.size() > 0) {
+            Iterator<Obra> listaObras = listaTodasObras.iterator();
+            String obrasDesteAutor = "";
+
+            while(listaObras.hasNext()) {
+                Obra obra = (Obra) listaObras.next();
+
+                if(obra.getAutor().equals(aAutor) && obra.getTitulo().equals(aTitulo)) {
+                    obrasDesteAutor += obra + "\n";  
+                }              
+            }
+            return obrasDesteAutor;
+        }
+        return null;
+    }
 }
