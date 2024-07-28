@@ -68,11 +68,11 @@ public class App {
         ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto ();
         ManipulaFicheirosTexto escreverFicheiroLog = new ManipulaFicheirosTexto ();
 
-        lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
+        lerFicheiroLog.abrirFicheiroLeitura("./log.txt");
         ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
         lerFicheiroLog.fecharFicheiroLeitura();
 
-        escreverFicheiroLog.abrirFicheiroEscrita("./logs.txt", false);
+        escreverFicheiroLog.abrirFicheiroEscrita("./log.txt", false);
         escreverFicheiroLog.escreverFicheiro(aNovoLog, conteudoFicheiro);
         escreverFicheiroLog.fecharFicheiroEscrita();
     }
@@ -81,7 +81,7 @@ public class App {
         ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto();
         String conteudoFicheiroLog = "";
 
-        lerFicheiroLog.abrirFicheiroLeitura("./logs.txt");
+        lerFicheiroLog.abrirFicheiroLeitura("./log.txt");
         ArrayList<String> conteudoFicheiro = lerFicheiroLog.lerFicheiro();
         lerFicheiroLog.fecharFicheiroLeitura();
         
@@ -1637,7 +1637,7 @@ public class App {
 
                 case 22:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " fez logout");
                     this.MenuInicial();
                     break;
 
@@ -1927,7 +1927,7 @@ public class App {
 
                 case 11:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " fez logout");
                     MenuInicial();
                     break;
 
@@ -2213,7 +2213,7 @@ public class App {
 
                 case 8:
                     System.out.println("Adeus " + this.UtilizadorAtual.getNome());
-                    escreverFicheiroLog(UtilizadorAtual.getLogin() + "fez logout");
+                    escreverFicheiroLog(UtilizadorAtual.getLogin() + " fez logout");
                     this.MenuInicial();
             }
         } while (Opcao < 1 || Opcao > 8);
