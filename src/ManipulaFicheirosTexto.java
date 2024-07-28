@@ -106,6 +106,15 @@ public class ManipulaFicheirosTexto {
             e.printStackTrace();
         }   
     }
+
+    public void escreveFicheiroCredenciais(String aNovasCredenciais) {
+      try{
+          bw.write(aNovasCredenciais);
+          bw.newLine();
+      } catch (IOException e) {
+          e.printStackTrace();
+      }  
+    }
 }
 
 

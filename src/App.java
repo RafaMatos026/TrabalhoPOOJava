@@ -77,7 +77,6 @@ public class App {
         escreverFicheiroLog.fecharFicheiroEscrita();
     }
 
-
     private static String lerFicheiroLog() {
         ManipulaFicheirosTexto lerFicheiroLog = new ManipulaFicheirosTexto();
         String conteudoFicheiroLog = "";
@@ -93,13 +92,20 @@ public class App {
         return conteudoFicheiroLog;
     }
 
+    private static void escreverFicheiroCredenciaisAcesso(String aNovasCredenciais) {
+        ManipulaFicheirosTexto escreverFicheiroCredenciaisAcesso = new ManipulaFicheirosTexto ();
+        escreverFicheiroCredenciaisAcesso.abrirFicheiroEscrita("./credenciais_acesso.txt", true);
+        escreverFicheiroCredenciaisAcesso.escreveFicheiroCredenciais(aNovasCredenciais);
+        escreverFicheiroCredenciaisAcesso.fecharFicheiroEscrita();
+    }
+
     public void Login(){
-        String _Email;
+        String _Login;
         String _Password;
 
         this.sc.nextLine();
-        System.out.println("Email:");
-        _Email = sc.nextLine();
+        System.out.println("Login:");
+        _Login = sc.nextLine();
         contaNumeroExecucoes++;
         gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
         escreverInfoSistema(gereInfoSistema);
@@ -109,7 +115,7 @@ public class App {
         gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
         escreverInfoSistema(gereInfoSistema);
         
-        if (AtualizarUtilizadorAtual(_Email, _Password)){
+        if (AtualizarUtilizadorAtual(_Login, _Password)){
             if(UtilizadorAtual.getEstado() == -2) {
                 System.out.println("A sua conta foi recusada!");
                 this.MenuInicial();
@@ -173,8 +179,8 @@ public class App {
         }
     }
 
-    public boolean AtualizarUtilizadorAtual(String _Email, String _Password){
-        this.UtilizadorAtual = Utilizadores.AtualizarUtilizadorAtual(_Email, _Password);
+    public boolean AtualizarUtilizadorAtual(String _Login, String _Password){
+        this.UtilizadorAtual = Utilizadores.AtualizarUtilizadorAtual(_Login, _Password);
         if (this.UtilizadorAtual != null) {
             AtualizarTipoUtilizadorAtual(this.UtilizadorAtual);
             return true;
@@ -405,6 +411,7 @@ public class App {
             Autor NovoAutor = new Autor(_Login, _Email, _Nome, _Password,
                     _TipoUtilizador, _Estado,  _NIF, _Morada, _Telefone, _estiloLiterario);
 
+            escreverFicheiroCredenciaisAcesso("Login: " + NovoAutor.getLogin() + ", Password: " + NovoAutor.getPassword());        
             this.Utilizadores.adicionar(NovoAutor);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
@@ -412,6 +419,7 @@ public class App {
         if (_TipoUtilizador.getID() == 2){
             Revisor NovoRevisor = new Revisor(_Login, _Email, _Nome, _Password, _TipoUtilizador, _Estado, _NIF, _Morada, _Telefone, _formacaoAcademica);
 
+            escreverFicheiroCredenciaisAcesso("Login: " + NovoRevisor.getLogin() + ", Password: " + NovoRevisor.getPassword());
             this.Utilizadores.adicionar(NovoRevisor);
             this.listaTodosRevisores = Utilizadores.getListaTodosRevisores();
             listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
@@ -420,6 +428,7 @@ public class App {
         if (_TipoUtilizador.getID() == 3){
             Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado, _TipoUtilizador);
 
+            escreverFicheiroCredenciaisAcesso("Login: " + NovoGestor.getLogin() + ", Password: " + NovoGestor.getPassword());
             this.Utilizadores.adicionar(NovoGestor);
             listaNotificacoesGestor.add(0, "O utilizador com o login " + _Login +" realizou um pedido de registo de conta!");
         }
@@ -495,6 +504,7 @@ public class App {
 
             Gestor NovoGestor = new Gestor(_Login, _Email, _Nome, _Password, _Estado , _TipoUtilizador);
 
+            escreverFicheiroCredenciaisAcesso("Login: " + NovoGestor.getLogin() + ", Password: " + NovoGestor.getPassword());
             this.Utilizadores.adicionar(NovoGestor);
             burroCarga.setGereUtilizador(this.Utilizadores);
             escreverBurroCarga(burroCarga);

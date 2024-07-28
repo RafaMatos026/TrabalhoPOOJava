@@ -27,13 +27,13 @@ public class GereUtilizador implements Serializable{
         return listaTodosRevisores;
     }
 
-    public Utilizador AtualizarUtilizadorAtual(String aEmail, String aPassword) {
+    public Utilizador AtualizarUtilizadorAtual(String aLogin, String aPassword) {
         if (listaUtilizadores != null && listaUtilizadores.size() > 0) {
             Iterator<Utilizador> lista_utilizadores = listaUtilizadores.iterator();
             while (lista_utilizadores.hasNext()) {
                 Utilizador utilizador = (Utilizador) lista_utilizadores.next();
                 
-                if (utilizador.getEmail().equals(aEmail) && utilizador.getPassword().equals(aPassword)) {
+                if (utilizador.getLogin().equals(aLogin) && utilizador.getPassword().equals(aPassword)) {
                     return utilizador;
                 }
             }
