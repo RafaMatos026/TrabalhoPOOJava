@@ -1390,8 +1390,8 @@ public class App {
 
     public void arquivarRevisao(int aNumeroSerie) {
 
-        if(gereRevisoes.pesquisarPorNumeroSerie(aNumeroSerie) == null) {
-            System.out.println("Nao existem revisoes ativas com o numero de serie " + aNumeroSerie);
+        if(gereRevisoes.pesquisarPorNumeroSerie(aNumeroSerie) == null || gereRevisoes.pesquisarPorNumeroSerie(aNumeroSerie).getEstado() != 3) {
+            System.out.println("Nao existem revisoes finalizadas com o numero de serie " + aNumeroSerie);
             return;
         }
 
@@ -1975,7 +1975,7 @@ public class App {
                 burroCarga.setGereUtilizador(this.Utilizadores);
                 escreverBurroCarga(burroCarga);
                 System.out.println("Operacao realizada com sucesso!");
-                System.out.println("Foi enviado o pedido de revisao desta obra para o revisor!");
+                System.out.println("Esta revisao esta pronta para ser executada!");
                 break;
                 
             case 2: 
