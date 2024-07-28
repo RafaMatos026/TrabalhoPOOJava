@@ -277,6 +277,8 @@ public class App {
         } while (this.Opcao < 1 && this.Opcao > 2);
     
         if(this.Opcao == 1) {
+            System.out.println("Operacao realizada com sucesso");
+            System.out.println("Conta removida");
             escreverFicheiroLog(UtilizadorAtual.getLogin() + "aceitou um pedido de remocao de conta");
             utilizador.setEstado(-4);
             this.Utilizadores.getListaUtilizadores().remove(utilizador);
@@ -1386,6 +1388,20 @@ public class App {
         }
     }
 
+    public void arquivarRevisao(int aNumeroSerie) {
+
+        if(gereRevisoes.pesquisarPorNumeroSerie(aNumeroSerie) == null) {
+            System.out.println("Nao existem revisoes ativas com o numero de serie " + aNumeroSerie);
+            return;
+        }
+
+        gereRevisoes.pesquisarPorNumeroSerie(aNumeroSerie).setEstado(4);
+        burroCarga.setGereRevisoes(gereRevisoes);
+        escreverBurroCarga(burroCarga);
+        System.out.println("Operacao realizada com sucesso!");
+        System.out.println("A revisao foi arquivada!");
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -1464,7 +1480,14 @@ public class App {
                     break;
 
                 case 6:
-                    System.out.println("Arquivar um processo");
+                    int numeroSerie;
+                    System.out.println("Indique o numero de serie da revisao que deseja arquivar: ");
+                    numeroSerie = sc.nextInt();
+                    contaNumeroExecucoes++;
+                    gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+                    escreverInfoSistema(gereInfoSistema);
+                    arquivarRevisao(numeroSerie);
+                    this.MenuInicialGestor();
                     // Arquivar um processo
                     break ;
                 
