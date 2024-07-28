@@ -6,8 +6,8 @@ import java.io.ObjectOutputStream;
 import java.io.IOException;
 
 public class ManipulaFicheiros {
-    File fileFicheiroLeitura;
-    File fileFicheiroEscrita;
+    File FicheiroLeitura;
+    File FicheiroEscrita;
     FileInputStream fr;   
     ObjectInputStream br;  
     FileOutputStream fw; 
@@ -15,11 +15,11 @@ public class ManipulaFicheiros {
 
     public boolean abrirFicheiroLeitura(String aCaminho) {
     if (aCaminho!=null && aCaminho.length()> 0 ) {
-        fileFicheiroLeitura = new File(aCaminho);
+        FicheiroLeitura = new File(aCaminho);
 
-        if(fileFicheiroLeitura.exists()) {
+        if(FicheiroLeitura.exists()) {
         try {
-            fr = new FileInputStream(fileFicheiroLeitura);
+            fr = new FileInputStream(FicheiroLeitura);
             br = new ObjectInputStream(fr);
             return true;
         } catch(IOException ioe) {
@@ -32,10 +32,10 @@ public class ManipulaFicheiros {
 
     public boolean abrirFicheiroEscrita(String aCaminho) {
     if (aCaminho!=null && aCaminho.length()> 0 ) {
-        fileFicheiroEscrita = new File(aCaminho);
+        FicheiroEscrita = new File(aCaminho);
 
         try {
-            fw = new FileOutputStream(fileFicheiroEscrita);
+            fw = new FileOutputStream(FicheiroEscrita);
             bw = new ObjectOutputStream(fw);
             return true;
         } catch(IOException ioe) {
@@ -107,10 +107,10 @@ public class ManipulaFicheiros {
         return null;
         }
 
-    public boolean escreveFicheiro(BurroCarga aBilio) {
+    public boolean escreveFicheiro(BurroCarga aNovosDados) {
         if (bw != null) {
             try {
-            bw.writeObject(aBilio);
+            bw.writeObject(aNovosDados);
             return true;
             } catch (IOException ioe) {
             ioe.printStackTrace();
@@ -119,10 +119,10 @@ public class ManipulaFicheiros {
         return false;
     }
 
-    public boolean escreveFicheiro(GereInfoSistema aBilio) {
+    public boolean escreveFicheiro(GereInfoSistema aNovosDados) {
         if (bw != null) {
             try {
-            bw.writeObject(aBilio);
+            bw.writeObject(aNovosDados);
             return true;
             } catch (IOException ioe) {
             ioe.printStackTrace();

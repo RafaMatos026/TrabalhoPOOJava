@@ -8,20 +8,20 @@ import java.util.ArrayList;
 
 public class ManipulaFicheirosTexto {
 
-    File fileWrite;
-    File fileRead;
+    File ficheiroEscrita;
+    File ficheiroLeitura;
     FileReader fr;
     BufferedReader br;
     FileWriter fw;
     BufferedWriter bw;
 
-    public boolean abrirFicheiroLeitura(String aPath) {
-      if (aPath != null && aPath.length() > 0) {
-        fileWrite = new File(aPath);
+    public boolean abrirFicheiroLeitura(String aCaminho) {
+      if (aCaminho != null && aCaminho.length() > 0) {
+        ficheiroEscrita = new File(aCaminho);
 
-        if (fileWrite.exists()) {
+        if (ficheiroEscrita.exists()) {
           try {
-            fr = new FileReader(fileWrite);
+            fr = new FileReader(ficheiroEscrita);
             br = new BufferedReader(fr);
             return true;
           } catch (IOException ioe) {
@@ -32,11 +32,11 @@ public class ManipulaFicheirosTexto {
       return false;
     }
 
-    public boolean abrirFicheiroEscrita(String aPath, boolean aAppend) {
-      if (aPath != null && aPath.length() > 0) {
-        fileRead = new File(aPath);
+    public boolean abrirFicheiroEscrita(String aCaminho, boolean aAppend) {
+      if (aCaminho != null && aCaminho.length() > 0) {
+        ficheiroLeitura = new File(aCaminho);
         try {
-          fw = new FileWriter(fileRead, aAppend);
+          fw = new FileWriter(ficheiroLeitura, aAppend);
           bw = new BufferedWriter(fw);
           return true;
         } catch (IOException ioe) {
@@ -116,5 +116,3 @@ public class ManipulaFicheirosTexto {
       }  
     }
 }
-
-
