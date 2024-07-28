@@ -608,12 +608,18 @@ public class App {
 
                 case 2 -> {
                     String _Login = "";
-                    this.sc.nextLine();
-                    System.out.println("Novo login: ");
-                    _Login = sc.nextLine();
-                    contaNumeroExecucoes++;
-                    gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
-                    escreverInfoSistema(gereInfoSistema);
+                    do {
+                        this.sc.nextLine();
+                        System.out.println("Novo login: ");
+                        _Login = sc.nextLine();
+                        contaNumeroExecucoes++;
+                        gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+                        escreverInfoSistema(gereInfoSistema);
+                    
+                        if(Utilizadores.verificaLogin(_Login)){
+                            System.out.println("Ja existe um utilizador com o login " + _Login);
+                        }
+                    } while (Utilizadores.verificaLogin(_Login));
 
                     this.UtilizadorAtual.setLogin(_Login);
                     System.out.println("Operacao realizada com sucesso!");
@@ -1268,6 +1274,118 @@ public class App {
         System.out.println(gereRevisoes.listarTodasRevisoes());
     }
 
+    public void lerDadosDeUmFicheiroMenuGestor() {
+        do {
+            System.out.println("Escolha qual dos ficheiros deseja ler/gravar: ");
+            System.out.println("1 - InfoSistema.dat");
+            System.out.println("2 - dados_apl.dat");
+            System.out.println("3 - Cancelar");
+            this.Opcao = sc.nextInt();
+            contaNumeroExecucoes++;
+            gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+            escreverInfoSistema(gereInfoSistema);
+
+            if(this.Opcao < 1 || this.Opcao > 3) {
+                System.out.println("Introduza uma opcao valida");
+            }
+        } while (this.Opcao < 1 || this.Opcao > 3);
+
+        switch(this.Opcao) {
+            case 1:
+                do {
+                    System.out.println("Selecione uma opcao: ");
+                    System.out.println("1 - Ler ficheiro");
+                    System.out.println("2 - Gravar dados");
+                    System.out.println("3 - Cancelar");
+                    this.Opcao = sc.nextInt();
+                    contaNumeroExecucoes++;
+                    gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+                    escreverInfoSistema(gereInfoSistema);
+
+                    if(this.Opcao < 1 || this.Opcao > 3) {
+                        System.out.println("Introduza uma opcao valida");
+                    }
+                } while (this.Opcao < 1 || this.Opcao > 3);
+                
+                switch(this.Opcao) {
+                    case 1:
+                        System.out.println("InfoSistema.dat");
+                        System.out.println(gereInfoSistema);
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "leu os dados do ficheiro InfoSistema.dat");
+                        break;
+
+                    case 2:
+                        gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+                        gereInfoSistema.setUltimoLogin(ultimoLogin);
+                        escreverInfoSistema(gereInfoSistema);
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "gravou os dados no ficheiro InfoSistema.dat");
+                        break;
+
+                    case 3:
+                        this.MenuInicialGestor();
+                        break;
+
+                    default:
+                        System.out.println("Ocorreu um erro");
+                        break;
+                }
+            break;
+
+            case 2:
+                do {
+                    System.out.println("Selecione uma opcao: ");
+                    System.out.println("1 - Ler ficheiro");
+                    System.out.println("2 - Gravar dados");
+                    System.out.println("3 - Cancelar");
+                    this.Opcao = sc.nextInt();
+                    contaNumeroExecucoes++;
+                    gereInfoSistema.setNumeroExecucoes(contaNumeroExecucoes);
+                    escreverInfoSistema(gereInfoSistema);
+
+                    if(this.Opcao < 1 || this.Opcao > 3) {
+                        System.out.println("Introduza uma opcao valida");
+                    }
+
+                } while (this.Opcao < 1 || this.Opcao > 3);
+
+
+                switch(this.Opcao) {
+                    case 1:
+                        System.out.println("dados_apl.dat");
+                        System.out.println(burroCarga);
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "leu os dados do ficheiro dados_apl.dat");
+                        break;
+
+                    case 2:
+                        burroCarga.setGereObras(gereObras);
+                        burroCarga.setGereRevisoes(gereRevisoes);
+                        burroCarga.setGereUtilizador(Utilizadores);
+                        escreverBurroCarga(burroCarga);
+                        System.out.println("Dados gravados com sucesso");
+                        escreverFicheiroLog(UtilizadorAtual.getLogin() + "gravou os dados no ficheiro dados_apl.dat");
+                        break;
+
+                    case 3:
+                        this.MenuInicialGestor();
+                        break;
+
+                    default:
+                        System.out.println("Ocorreu um erro");
+                        break;
+                }
+
+            break;
+
+            case 3:
+                this.MenuInicialGestor();
+                break;
+
+            default:
+                System.out.println("Ocorreu um erro");
+                break;
+        }
+    }
+
     public void MenuInicialGestor(){
         System.out.println("Bem-Vindo Gestor " + this.UtilizadorAtual.getNome());
         do {
@@ -1447,8 +1565,8 @@ public class App {
                     break;
 
                 case 17:
-                    System.out.println("Ler dados de um ficheiro");
-                    System.out.println(gereInfoSistema);
+                    lerDadosDeUmFicheiroMenuGestor();
+                    this.MenuInicialGestor();
                     // Ler dados de um ficheiro
                     break;
 

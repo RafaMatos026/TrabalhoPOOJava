@@ -32,4 +32,8 @@ public class BurroCarga implements Serializable{
     public void setGereRevisoes(GereRevisoes aGereRevisoes) {
         this.gereRevisoes = aGereRevisoes;
     }
+
+    public String toString() {
+        return "Lista de utilizadores: \n" + gereUtilizador.listarTodosUtilizadores() + "\nLista de obras: \n" + gereObras.listarTodasObras() + "\nLista de revisoes: \n" + gereRevisoes.listarTodasRevisoes();
+    }
 }
