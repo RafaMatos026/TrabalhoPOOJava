@@ -2219,18 +2219,6 @@ public class App {
         } while (Opcao < 1 || Opcao > 8);
     }
 
-    public Utilizador getUtilizadorAtual(){
-        return this.UtilizadorAtual;
-    }
-
-    public int getOpcao() {
-        return this.Opcao;
-    }
-
-    public void setOpcao(int _Opcao) {
-        this.Opcao = _Opcao;
-    }
-
     public void InicializarTiposUtilizadores(){
         TipoUtilizador Autor = new TipoUtilizador(1, "Autor", "Os autores submetem obras para revisao, que devem ser revistas por um ou mais revisores, e realizam o\r\n" + //
                         "respectivo pagamento.");
